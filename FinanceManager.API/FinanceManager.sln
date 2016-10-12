@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceManager.API", "FinanceManager.API\FinanceManager.API.csproj", "{BFE5FB64-2935-4C89-A587-9C72D55C2C95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceManager.API.Tests", "FinanceManager.API.Tests\FinanceManager.API.Tests.csproj", "{607457BC-6E6B-4762-997E-971165AD8819}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceManager.DAL", "FinanceManager.DAL\FinanceManager.DAL.csproj", "{A522D85E-146E-4DC9-BE00-04DCE5E11B63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Financemanager.Database", "Financemanager.Database\Financemanager.Database.csproj", "{51593420-AE38-4796-AD18-FD78D1CF2754}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BFE5FB64-2935-4C89-A587-9C72D55C2C95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFE5FB64-2935-4C89-A587-9C72D55C2C95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFE5FB64-2935-4C89-A587-9C72D55C2C95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFE5FB64-2935-4C89-A587-9C72D55C2C95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{607457BC-6E6B-4762-997E-971165AD8819}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{607457BC-6E6B-4762-997E-971165AD8819}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{607457BC-6E6B-4762-997E-971165AD8819}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{607457BC-6E6B-4762-997E-971165AD8819}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A522D85E-146E-4DC9-BE00-04DCE5E11B63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A522D85E-146E-4DC9-BE00-04DCE5E11B63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A522D85E-146E-4DC9-BE00-04DCE5E11B63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A522D85E-146E-4DC9-BE00-04DCE5E11B63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51593420-AE38-4796-AD18-FD78D1CF2754}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51593420-AE38-4796-AD18-FD78D1CF2754}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51593420-AE38-4796-AD18-FD78D1CF2754}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51593420-AE38-4796-AD18-FD78D1CF2754}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
