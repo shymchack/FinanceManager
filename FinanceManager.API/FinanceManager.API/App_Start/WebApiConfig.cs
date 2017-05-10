@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FinanceManager.DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -19,6 +20,7 @@ namespace FinanceManager.API
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            UnityConfig.RegisterComponents();
         }
     }
 }

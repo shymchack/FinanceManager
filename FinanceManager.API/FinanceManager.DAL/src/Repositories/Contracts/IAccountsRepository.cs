@@ -6,5 +6,6 @@ namespace FinanceManager.DAL.Repositories
     public interface IAccountsRepository : IFinanceManagerRepository
     {
         List<AccountDto> GetAccounts();
+        int CreateAccount(string name);
     }
 }

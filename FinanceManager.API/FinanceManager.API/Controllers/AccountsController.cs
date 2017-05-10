@@ -1,18 +1,22 @@
-﻿using FinanceManager.DAL.Dtos;
+﻿using FinanceManager.API.Services;
 using FinanceManager.DAL.Repositories;
-using System;
-using System.Collections.Generic;
 using System.Web.Http;
 
 namespace FinanceManager.API.Controllers
 {
     public class AccountsController : ApiController
     {
-        public IAccountsRepository AccountsRepository { get; set; }
+        public IAccountsService AccountsService;
 
-        public IEnumerable<AccountDto> GetAccounts()
+        public AccountsController(IAccountsService accountsService)
         {
-            throw new NotImplementedException();
+            AccountsService = accountsService;
+        }
+
+        [HttpGet]
+        public void CreateAccount(string name)
+        {
+            int id = AccountsService.CreateAccount(name);
         }
     }
 }
