@@ -19,6 +19,7 @@ namespace FinanceManager.Database.Entities
     public class SingleIncome
     {
         public int ID { get; set; }
+        public int OperationSettingID { get; set; }
         /// <summary>
         /// Determines whether the income should be processed or not.
         /// </summary>
@@ -46,6 +47,7 @@ namespace FinanceManager.Database.Entities
     public class PeriodicIncome
     {
         public int ID { get; set; }
+        public int OperationSettingID { get; set; }
         public bool IsReal { get; set; }
         public bool IsActive { get; set; }
         public DateTime ValidityBeginDate { get; set; }
@@ -69,9 +71,30 @@ namespace FinanceManager.Database.Entities
         public IncomeCategory SubCategory { get; set; }
     }
 
+    public class OperationSetting
+    {
+        public OperationSetting()
+        {
+            SingleIncomes = new List<SingleIncome>();
+            PeriodicIncomes = new List<PeriodicIncome>();
+            SingleExpenses = new List<SingleExpense>();
+            PeriodicExpenses = new List<PeriodicExpense>();
+        }
+
+        public int ID { get; set; }
+        public PeriodUnit ReservePeriodUnit { get; set; }
+        public int ReservePeriodQuantity { get; set; }
+
+        public virtual List<SingleIncome> SingleIncomes { get; set; }
+        public virtual List<PeriodicIncome> PeriodicIncomes { get; set; }
+        public virtual List<SingleExpense> SingleExpenses { get; set; }
+        public virtual List<PeriodicExpense> PeriodicExpenses { get; set; }
+    }
+
     public class SingleExpense
     {
         public int ID { get; set; }
+        public int OperationSettingID { get; set; }
         /// <summary>
         /// Determines whether the Expense should be processed or not.
         /// </summary>
@@ -81,7 +104,7 @@ namespace FinanceManager.Database.Entities
         public DateTime Date { get; set; }
         public ExpenseCategory Category { get; set; }
         /// <summary>
-        /// The amoutn of incoming money. Should be positive
+        /// The amoutn of outgoing money. Should be positive
         /// </summary>
         public decimal Amount { get; set; }
         /// <summary>
@@ -99,6 +122,7 @@ namespace FinanceManager.Database.Entities
     public class PeriodicExpense
     {
         public int ID { get; set; }
+        public int OperationSettingID { get; set; }
         public bool IsReal { get; set; }
         public bool IsActive { get; set; }
         public DateTime ValidityBeginDate { get; set; }

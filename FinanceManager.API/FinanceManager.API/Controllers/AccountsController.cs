@@ -4,11 +4,11 @@ using System.Web.Http;
 
 namespace FinanceManager.API.Controllers
 {
-    public class AccountsController : ApiController
+    public class AccountsController : BaseController
     {
         public IAccountsService AccountsService;
 
-        public AccountsController(IAccountsService accountsService)
+        public AccountsController(IAccountsService accountsService): base()
         {
             AccountsService = accountsService;
         }
