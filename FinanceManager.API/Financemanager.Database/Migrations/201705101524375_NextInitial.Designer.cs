@@ -7,13 +7,13 @@ namespace Financemanager.Database.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class InitialMigration : IMigrationMetadata
+    public sealed partial class NextInitial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialMigration));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(NextInitial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201705081543582_InitialMigration"; }
+            get { return "201705101524375_NextInitial"; }
         }
         
         string IMigrationMetadata.Source

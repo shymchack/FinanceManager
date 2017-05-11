@@ -85,7 +85,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Repositories\AccountsRepository.cs" />
     <Compile Include="src\Repositories\Contracts\IAccountsRepository.cs" />
-    <Compile Include="src\Repositories\Contracts\IFinanceManagerRepository.cs" />
+    <Compile Include="src\Repositories\Contracts\IExpensesRepository.cs" />
+    <Compile Include="src\Repositories\ExpensesRepository.cs" />
+    <Compile Include="src\Repositories\FinanceManagerRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Financemanager.Database\Financemanager.Database.csproj">

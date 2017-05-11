@@ -20,9 +20,9 @@ namespace FinanceManager.API.Services
             AccountsRepository = accountsRepository;
         }
 
-        public int CreateAccount(string name)
+        public int CreateAccount(string name, int userID)
         {
-            return AccountsRepository.CreateAccount(name);
+            return AccountsRepository.CreateAccount(name, userID);
         }
     }
 }

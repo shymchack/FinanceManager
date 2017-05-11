@@ -49,9 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201705081543582_InitialMigration.cs" />
-    <Compile Include="Migrations\201705081543582_InitialMigration.Designer.cs">
-      <DependentUpon>201705081543582_InitialMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201705101514313_InitialMigration.cs" />
+    <Compile Include="Migrations\201705101514313_InitialMigration.Designer.cs">
+      <DependentUpon>201705101514313_InitialMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705101524375_NextInitial.cs" />
+    <Compile Include="Migrations\201705101524375_NextInitial.Designer.cs">
+      <DependentUpon>201705101524375_NextInitial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="src\Context\FinanceManagerContext.cs" />
@@ -63,8 +67,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201705081543582_InitialMigration.resx">
-      <DependentUpon>201705081543582_InitialMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201705101514313_InitialMigration.resx">
+      <DependentUpon>201705101514313_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705101524375_NextInitial.resx">
+      <DependentUpon>201705101524375_NextInitial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

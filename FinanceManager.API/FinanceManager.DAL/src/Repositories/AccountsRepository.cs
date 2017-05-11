@@ -7,31 +7,11 @@ using FinanceManager.Database.Entities;
 
 namespace FinanceManager.DAL.Repositories
 {
-    public class AccountsRepository : IAccountsRepository, IDisposable
+    public class AccountsRepository : FinanceManagerRepository, IAccountsRepository, IDisposable
     {
-        private FinanceManagerContext _context;
-        public FinanceManagerContext Context
-        {
-            get
-            {
-                return _context;
-            }
-
-            set
-            {
-                if (value != _context)
-                    _context = value;
-            }
-        }
-
-        public AccountsRepository()
+        public AccountsRepository() : base()
         {
 
-        }
-
-        public AccountsRepository(FinanceManagerContext context)
-        {
-            Context = context;
         }
 
         public List<AccountDto> GetAccounts()
@@ -40,11 +20,19 @@ namespace FinanceManager.DAL.Repositories
             return Context.Accounts.Select(a => new AccountDto() { CurrentAmount = a.CurrentAmount, InitialAmount = a.InitialAmount }).ToList();
         }
 
-        public int CreateAccount(string name)
+        public int CreateAccount(string name, int userID)
         {
             Account newAccount = Context.Accounts.Create();
             newAccount.CreationDate = DateTime.UtcNow;
             newAccount.Name = name;
+
+            User user = Context.Users.FirstOrDefault(u => u.ID == userID);
+            if (user != null)
+            {
+                UserAccount userAccount = new UserAccount();
+                userAccount.User = user;
+                newAccount.UsersAccounts.Add(userAccount);
+            }
             Context.Accounts.Add(newAccount);
             Context.SaveChanges();
             return newAccount.ID;

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace FinanceManager.DAL.Repositories
 {
-    public interface IAccountsRepository : IFinanceManagerRepository
+    public interface IAccountsRepository
     {
         List<AccountDto> GetAccounts();
-        int CreateAccount(string name);
+        int CreateAccount(string name, int userID);
     }
 }

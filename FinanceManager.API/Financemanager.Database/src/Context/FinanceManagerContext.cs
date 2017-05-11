@@ -10,7 +10,10 @@ namespace Financemanager.Database.Context
         public DbSet<User> Users { get; set; }
         public DbSet<SingleIncome> SingleIncomes { get; set; }
         public DbSet<PeriodicIncome> PeriodicIncomes { get; set; }
-        public DbSet<UsersAccounts> UsersAccounts { get; set; }
+        public DbSet<SingleExpense> SingleExpenses { get; set; }
+        public DbSet<PeriodicExpense> PeriodicExpenses { get; set; }
+        public DbSet<OperationSetting> OperationSettings { get; set; }
+        public DbSet<UserAccount> UsersAccounts { get; set; }
 
         public FinanceManagerContext() : base("name=FinanceManagerConnectionString")
         {

@@ -12,8 +12,8 @@ namespace FinanceManager.Database.Entities
         public decimal InitialAmount { get; set; } //TODO: Is it really necessary?
         public decimal CurrentAmount { get; set; }
         public DateTime CreationDate { get; set; }
-
-        public virtual List<User> Users { get; set; }
+        
+        public virtual List<UserAccount> UsersAccounts { get; set; }
     }
 
     public class SingleIncome
@@ -154,12 +154,14 @@ namespace FinanceManager.Database.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public virtual List<Account> Account { get; set; }
+        public virtual List<UserAccount> UsersAccounts { get; set; }
     }
 
-    public class UsersAccounts
+    public class UserAccount
     {
         public int ID { get; set; }
+        public int UserID { get; set; }
+        public int AccountID { get; set; }
         public bool IsActive { get; set; }
 
         public virtual Account Account { get; set; }

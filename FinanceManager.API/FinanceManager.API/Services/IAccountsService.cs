@@ -2,6 +2,6 @@
 {
     public interface IAccountsService
     {
-        int CreateAccount(string name);
+        int CreateAccount(string name, int userID);
     }
 }
