@@ -1,28 +1,22 @@
-﻿using FinanceManager.DAL.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using FinanceManager.DAL.Repositories.Contracts;
+using FinanceManager.DAL.UnitOfWork;
 
 namespace FinanceManager.API.Services
 {
     public class AccountsService : IAccountsService
     {
-        IAccountsRepository AccountsRepository { get; set; }
+        public UserAccountsUnitOfWork UserAccountsUnitOfWork { get; set; }
+
 
         public AccountsService()
         {
-
+            UserAccountsUnitOfWork = new UserAccountsUnitOfWork();
         }
 
-        public AccountsService(IAccountsRepository accountsRepository)
-        {
-            AccountsRepository = accountsRepository;
-        }
 
         public int CreateAccount(string name, int userID)
         {
-            return AccountsRepository.CreateAccount(name, userID);
+            return UserAccountsUnitOfWork.CreateAccount(name, userID);
         }
     }
 }

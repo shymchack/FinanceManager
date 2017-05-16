@@ -14,9 +14,9 @@ namespace FinanceManager.API.Controllers
         }
 
         [HttpGet]
-        public void CreateAccount(string name)
+        public void CreateAccount(string name, int userID)
         {
-            int id = AccountsService.CreateAccount(name);
+            int id = AccountsService.CreateAccount(name, userID);
         }
     }
 }
