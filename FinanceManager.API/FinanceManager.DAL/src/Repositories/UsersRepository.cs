@@ -1,6 +1,4 @@
-﻿using FinanceManager.DAL.Repositories;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +8,7 @@ using FinanceManager.DAL.Repositories.Contracts;
 
 namespace FinanceManager.DAL.Repositories
 {
-    public class UsersRepository : FinanceManagerRepository, IDisposable
+    public class UsersRepository : FinanceManagerRepository, IUsersRepository, IDisposable
     {        
         public UsersRepository(FinanceManagerContext context) : base(context)
         {
@@ -31,6 +29,7 @@ namespace FinanceManager.DAL.Repositories
         public void Dispose()
         {
             Context.Dispose();
+            //TODO: Research about disposing base class
         }
     }
 }

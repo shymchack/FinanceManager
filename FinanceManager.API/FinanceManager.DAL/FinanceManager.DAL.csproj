@@ -90,7 +90,7 @@
     <Compile Include="src\Repositories\ExpensesRepository.cs" />
     <Compile Include="src\Repositories\FinanceManagerRepository.cs" />
     <Compile Include="src\Repositories\UsersRepository.cs" />
-    <Compile Include="src\UnitOfWork\FinanceManagerUnitOfWork.cs" />
+    <Compile Include="src\UnitOfWork\IUserAccountsUnitOfWork.cs" />
     <Compile Include="src\UnitOfWork\UserAccountsUnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>

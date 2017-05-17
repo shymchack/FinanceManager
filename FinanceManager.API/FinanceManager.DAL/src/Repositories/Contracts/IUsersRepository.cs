@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Financemanager.Database.Context;
+using FinanceManager.Database.Entities;
 
 namespace FinanceManager.DAL.Repositories.Contracts
 {
     public interface IUsersRepository : IDisposable
     {
-        FinanceManagerContext Context { get; set; }
-
-        int CreateUser(string userName, string firstName, string lastName);
+        int AddUser(User user);
         bool DoesUserExist(string userName);
     }
 }

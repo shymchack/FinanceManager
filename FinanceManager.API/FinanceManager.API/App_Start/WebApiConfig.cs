@@ -20,7 +20,6 @@ namespace FinanceManager.API
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-            UnityConfig.RegisterComponents();
         }
     }
 }

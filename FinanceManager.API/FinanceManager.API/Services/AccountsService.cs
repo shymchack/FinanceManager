@@ -1,16 +1,15 @@
-﻿using FinanceManager.DAL.Repositories.Contracts;
-using FinanceManager.DAL.UnitOfWork;
+﻿using FinanceManager.DAL;
 
 namespace FinanceManager.API.Services
 {
     public class AccountsService : IAccountsService
     {
-        public UserAccountsUnitOfWork UserAccountsUnitOfWork { get; set; }
+        public IUserAccountsUnitOfWork UserAccountsUnitOfWork { get; set; }
 
 
-        public AccountsService()
+        public AccountsService(IUserAccountsUnitOfWork unitOfWork)
         {
-            UserAccountsUnitOfWork = new UserAccountsUnitOfWork();
+            UserAccountsUnitOfWork = unitOfWork;
         }
 
 

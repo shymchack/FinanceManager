@@ -2,6 +2,7 @@
 using Moq;
 using NUnit.Framework;
 using FinanceManager.DAL.Repositories.Contracts;
+using FinanceManager.DAL;
 
 namespace FinanceManager.API.Tests.Services
 {
@@ -13,16 +14,16 @@ namespace FinanceManager.API.Tests.Services
 
         public AccountsServiceTest()
         {
-            //AccountsRepositoryMock = new Mock<IAccountsRepository>();
-            //AccountsRepositoryMock.Setup(s => s.CreateAccount("name", 1)).Returns(1);
-            //AccountsService = new AccountsService();
+            var mock = new Mock<IUserAccountsUnitOfWork>();
+            mock.Setup(s => s.CreateAccount("name", 2)).Returns(1);
+            AccountsService = new AccountsService(mock.Object);
         }
 
         [Test]
         public void CreateAccountTest()
         {
-            //int newId = AccountsService.CreateAccount("name", 1);
-            //Assert.AreEqual(newId, 1);
+            int newId = AccountsService.CreateAccount("name", 2);
+            Assert.AreEqual(newId, 1);
         }
     }
 }

@@ -11,19 +11,53 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceManager.DAL.UnitOfWork
+namespace FinanceManager.DAL
 {
-    public class UserAccountsUnitOfWork : FinanceManagerUnitOfWork
+    public class UserAccountsUnitOfWork : IUserAccountsUnitOfWork
     {
-        private UsersRepository _usersRepository;
-        private AccountsRepository _accountsRepository;
+        private FinanceManagerContext _context;
+        private IUsersRepository _usersRepository;
+        private IAccountsRepository _accountsRepository;
+
+        public FinanceManagerContext Context
+        {
+            get
+            {
+                if (_context == null)
+                {
+                    _context = new FinanceManagerContext();
+                }
+                return _context;
+            }
+        }
+
+        public IUsersRepository UsersRepository
+        {
+            get
+            {
+                if (_usersRepository == null)
+                {
+                    _usersRepository = new UsersRepository(Context);
+                }
+                return _usersRepository;
+            }
+        }
+
+        public IAccountsRepository AccountsRepository
+        {
+            get
+            {
+                if (_accountsRepository == null)
+                {
+                    _accountsRepository = new AccountsRepository(Context);
+                }
+                return _accountsRepository;
+            }
+        }
+
 
         public UserAccountsUnitOfWork()
         {
-            Context = new FinanceManagerContext();
-
-            _usersRepository = new UsersRepository(Context);
-            _accountsRepository = new AccountsRepository(Context);
         }
 
         public int CreateUser(string userName, string firstName, string lastName)
@@ -48,6 +82,7 @@ namespace FinanceManager.DAL.UnitOfWork
 
         public int CreateAccount(string name, int userID)
         {
+            //TODO think about SQL connection test and error handling
             Account newAccount = Context.Accounts.Create();
             newAccount.CreationDate = DateTime.UtcNow;
             newAccount.Name = name;
@@ -62,11 +97,16 @@ namespace FinanceManager.DAL.UnitOfWork
             return _accountsRepository.AddAccount(newAccount);
         }
 
+
         #region IDisposable stuff
         private bool disposed = false;
-        SafeHandle handle = new SafeFileHandle(IntPtr.Zero, true);
-        
-        protected override void Dispose(bool disposing)
+        private SafeHandle handle = new SafeFileHandle(IntPtr.Zero, true);
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
         {
             if (disposed)
                 return;
@@ -74,6 +114,7 @@ namespace FinanceManager.DAL.UnitOfWork
             if (disposing)
             {
                 handle.Dispose();
+
                 if (_usersRepository != null)
                 {
                     _usersRepository.Dispose();
@@ -82,10 +123,13 @@ namespace FinanceManager.DAL.UnitOfWork
                 {
                     _accountsRepository.Dispose();
                 }
+                if (_context != null)
+                {
+                    _context.Dispose();
+                }
             }
 
             disposed = true;
-            base.Dispose(disposing);
         }
         #endregion
     }

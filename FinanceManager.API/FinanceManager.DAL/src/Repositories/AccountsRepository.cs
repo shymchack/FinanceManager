@@ -8,7 +8,7 @@ using Financemanager.Database.Context;
 
 namespace FinanceManager.DAL.Repositories
 {
-    public class AccountsRepository : FinanceManagerRepository, IDisposable
+    public class AccountsRepository : FinanceManagerRepository, IAccountsRepository, IDisposable
     {
         public AccountsRepository(FinanceManagerContext context): base(context)
         {
