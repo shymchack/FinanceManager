@@ -10,7 +10,7 @@ namespace FinanceManager.DAL.Repositories
 {
     public class UsersRepository : FinanceManagerRepository, IUsersRepository, IDisposable
     {        
-        public UsersRepository(FinanceManagerContext context) : base(context)
+        public UsersRepository(IFinanceManagerContext context) : base(context)
         {
         }
 

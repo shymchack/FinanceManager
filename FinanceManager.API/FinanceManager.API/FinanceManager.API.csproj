@@ -133,6 +133,10 @@
       <Project>{a522d85e-146e-4dc9-be00-04dce5e11b63}</Project>
       <Name>FinanceManager.DAL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Financemanager.Database\Financemanager.Database.csproj">
+      <Project>{51593420-AE38-4796-AD18-FD78D1CF2754}</Project>
+      <Name>Financemanager.Database</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

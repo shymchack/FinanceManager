@@ -15,49 +15,16 @@ namespace FinanceManager.DAL
 {
     public class UserAccountsUnitOfWork : IUserAccountsUnitOfWork
     {
-        private FinanceManagerContext _context;
         private IUsersRepository _usersRepository;
         private IAccountsRepository _accountsRepository;
+        private IFinanceManagerContext _context;
 
-        public FinanceManagerContext Context
+
+        public UserAccountsUnitOfWork(IFinanceManagerContext context, IUsersRepository usersRepository, IAccountsRepository accountsRepository)
         {
-            get
-            {
-                if (_context == null)
-                {
-                    _context = new FinanceManagerContext();
-                }
-                return _context;
-            }
-        }
-
-        public IUsersRepository UsersRepository
-        {
-            get
-            {
-                if (_usersRepository == null)
-                {
-                    _usersRepository = new UsersRepository(Context);
-                }
-                return _usersRepository;
-            }
-        }
-
-        public IAccountsRepository AccountsRepository
-        {
-            get
-            {
-                if (_accountsRepository == null)
-                {
-                    _accountsRepository = new AccountsRepository(Context);
-                }
-                return _accountsRepository;
-            }
-        }
-
-
-        public UserAccountsUnitOfWork()
-        {
+            _context = context;
+            _usersRepository = usersRepository;
+            _accountsRepository = accountsRepository;
         }
 
         public int CreateUser(string userName, string firstName, string lastName)
@@ -83,11 +50,11 @@ namespace FinanceManager.DAL
         public int CreateAccount(string name, int userID)
         {
             //TODO think about SQL connection test and error handling
-            Account newAccount = Context.Accounts.Create();
+            Account newAccount = _accountsRepository.CreateAccount();
             newAccount.CreationDate = DateTime.UtcNow;
             newAccount.Name = name;
 
-            User user = Context.Users.FirstOrDefault(u => u.ID == userID);
+            User user = _context.Users.FirstOrDefault(u => u.ID == userID);
             if (user != null)
             {
                 UserAccount userAccount = new UserAccount();

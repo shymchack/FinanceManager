@@ -12,7 +12,7 @@ namespace FinanceManager.DAL.src.Repositories
 {
     public class ExpensesRepository : FinanceManagerRepository, IExpensesRepository
     {
-        public ExpensesRepository(FinanceManagerContext context) : base(context)
+        public ExpensesRepository(IFinanceManagerContext context) : base(context)
         {
         }
 

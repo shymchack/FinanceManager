@@ -5,11 +5,11 @@ namespace FinanceManager.DAL.Repositories
 {
     public class FinanceManagerRepository
     {
-        private FinanceManagerContext _context;
+        private IFinanceManagerContext _context;
     
-        public FinanceManagerContext Context => _context;
+        public IFinanceManagerContext Context => _context;
 
-        public FinanceManagerRepository(FinanceManagerContext context)
+        public FinanceManagerRepository(IFinanceManagerContext context)
         {
             _context = context;
         }

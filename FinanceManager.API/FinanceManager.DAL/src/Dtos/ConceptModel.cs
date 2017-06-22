@@ -7,6 +7,7 @@ namespace FinanceManager.DAL.Dtos
     {
         public decimal CurrentAmount { get; set; }
         public decimal InitialAmount { get; set; } //TODO: Is it really necessary?
+        public string Name { get; set; }
 
         public virtual List<UserDto> Users { get; set; }
     }

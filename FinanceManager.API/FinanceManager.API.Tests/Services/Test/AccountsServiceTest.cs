@@ -3,6 +3,12 @@ using Moq;
 using NUnit.Framework;
 using FinanceManager.DAL.Repositories.Contracts;
 using FinanceManager.DAL;
+using FinanceManager.Database.Entities;
+using System.Linq;
+using Financemanager.Database.Context;
+using System.Collections.Generic;
+using FinanceManager.DAL.Repositories;
+using FinanceManager.DAL.Dtos;
 
 namespace FinanceManager.API.Tests.Services
 {
@@ -10,20 +16,22 @@ namespace FinanceManager.API.Tests.Services
     public class AccountsServiceTest
     {
         public IAccountsService AccountsService;
-        public Mock<IAccountsRepository> AccountsRepositoryMock { get; set; }
 
         public AccountsServiceTest()
         {
-            var mock = new Mock<IUserAccountsUnitOfWork>();
-            mock.Setup(s => s.CreateAccount("name", 2)).Returns(1);
-            AccountsService = new AccountsService(mock.Object);
+            IFinanceManagerContext context = new FakeFinanceManagerContext();
+            IAccountsRepository accRepo = new AccountsRepository(context);
+            IUsersRepository usersRepo = new UsersRepository(context);
+            UserAccountsUnitOfWork uowMock = new UserAccountsUnitOfWork(context, usersRepo, accRepo);
+            AccountsService = new AccountsService(uowMock);
         }
 
         [Test]
         public void CreateAccountTest()
         {
-            int newId = AccountsService.CreateAccount("name", 2);
-            Assert.AreEqual(newId, 1);
+            AccountsService.CreateAccount("name", 2);
+            AccountDto account = AccountsService.GetAccountByName("name");
+            Assert.AreEqual("name", account.Name);
         }
     }
 }

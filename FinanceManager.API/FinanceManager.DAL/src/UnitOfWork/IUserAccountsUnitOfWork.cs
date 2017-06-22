@@ -8,10 +8,6 @@ namespace FinanceManager.DAL
 {
     public interface IUserAccountsUnitOfWork : IDisposable
     {
-        FinanceManagerContext Context { get; }
-        IUsersRepository UsersRepository { get; }
-        IAccountsRepository AccountsRepository { get; }
-
         int CreateUser(string userName, string firstName, string lastName);
         bool DoesUserExist(string userName);
         List<AccountDto> GetAccounts();
