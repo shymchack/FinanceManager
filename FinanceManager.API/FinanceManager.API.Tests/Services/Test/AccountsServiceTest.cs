@@ -22,8 +22,8 @@ namespace FinanceManager.API.Tests.Services
             IFinanceManagerContext context = new FakeFinanceManagerContext();
             IAccountsRepository accRepo = new AccountsRepository(context);
             IUsersRepository usersRepo = new UsersRepository(context);
-            UserAccountsUnitOfWork uowMock = new UserAccountsUnitOfWork(context, usersRepo, accRepo);
-            AccountsService = new AccountsService(uowMock);
+            UserAccountsUnitOfWork userAccountsUOW = new UserAccountsUnitOfWork(context, usersRepo, accRepo);
+            AccountsService = new AccountsService(userAccountsUOW);
         }
 
         [Test]
