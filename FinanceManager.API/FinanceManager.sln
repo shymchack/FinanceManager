@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceManager.DAL", "Finan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Financemanager.Database", "Financemanager.Database\Financemanager.Database.csproj", "{51593420-AE38-4796-AD18-FD78D1CF2754}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceManager.BL", "FinanceManager.BL\FinanceManager.BL.csproj", "{DE346A55-7BC6-4CCE-9FA0-A841581BB6ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{51593420-AE38-4796-AD18-FD78D1CF2754}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51593420-AE38-4796-AD18-FD78D1CF2754}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51593420-AE38-4796-AD18-FD78D1CF2754}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE346A55-7BC6-4CCE-9FA0-A841581BB6ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE346A55-7BC6-4CCE-9FA0-A841581BB6ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE346A55-7BC6-4CCE-9FA0-A841581BB6ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE346A55-7BC6-4CCE-9FA0-A841581BB6ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

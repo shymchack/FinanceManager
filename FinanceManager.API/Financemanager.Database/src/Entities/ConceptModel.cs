@@ -48,17 +48,18 @@ namespace FinanceManager.Database.Entities
     {
         public int ID { get; set; }
         public int OperationSettingID { get; set; }
+        /// <summary>
+        /// Determines whether this is a real or hypothetic income.
+        /// </summary>
         public bool IsReal { get; set; }
         public bool IsActive { get; set; }
         public DateTime ValidityBeginDate { get; set; }
         public DateTime ValidityEndDate { get; set; }
+        public DateTime NextOperationExecutionDate { get; set; }
         public short RepetitionUnitQuantity { get; set; } //TODO: Rename
         public PeriodUnit RepetitionUnit { get; set; } //TODO: Rename
         public decimal InitialAmount { get; set; }
         public string Description { get; set; }
-        /// <summary>
-        /// Determines whether this is a real or hypothetic income.
-        /// </summary>
         
         public virtual Account Account { get; set; }
     }
@@ -123,17 +124,18 @@ namespace FinanceManager.Database.Entities
     {
         public int ID { get; set; }
         public int OperationSettingID { get; set; }
-        public bool IsReal { get; set; }
-        public bool IsActive { get; set; }
-        public DateTime ValidityBeginDate { get; set; }
-        public DateTime ValidityEndDate { get; set; }
-        public short RepetitionUnitQuantity { get; set; } //TODO: Rename
-        public PeriodUnit RepetitionUnit { get; set; } //TODO: Rename
-        public decimal InitialAmount { get; set; }
         public string Description { get; set; }
         /// <summary>
         /// Determines whether this is a real or hypothetic Expense.
         /// </summary>
+        public bool IsReal { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime ValidityBeginDate { get; set; }
+        public DateTime ValidityEndDate { get; set; }
+        public DateTime NextOperationExecutionDate { get; set; }
+        public short RepetitionUnitQuantity { get; set; } //TODO: Rename
+        public PeriodUnit RepetitionUnit { get; set; } //TODO: Rename
+        public decimal InitialAmount { get; set; }
 
         public virtual Account Account { get; set; }
     }

@@ -58,6 +58,10 @@
     <Compile Include="Migrations\201705101524375_NextInitial.Designer.cs">
       <DependentUpon>201705101524375_NextInitial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706230600372_AddColumn_NextOperationExecutionDate.cs" />
+    <Compile Include="Migrations\201706230600372_AddColumn_NextOperationExecutionDate.Designer.cs">
+      <DependentUpon>201706230600372_AddColumn_NextOperationExecutionDate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="src\Context\FinanceManagerContext.cs" />
     <Compile Include="src\Context\IFinanceManagerContext.cs" />
@@ -74,6 +78,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705101524375_NextInitial.resx">
       <DependentUpon>201705101524375_NextInitial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706230600372_AddColumn_NextOperationExecutionDate.resx">
+      <DependentUpon>201706230600372_AddColumn_NextOperationExecutionDate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

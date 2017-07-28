@@ -85,9 +85,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Repositories\AccountsRepository.cs" />
     <Compile Include="src\Repositories\Contracts\IAccountsRepository.cs" />
-    <Compile Include="src\Repositories\Contracts\IExpensesRepository.cs" />
+    <Compile Include="src\Repositories\Contracts\IAccountsOperationsRepository.cs" />
     <Compile Include="src\Repositories\Contracts\IUsersRepository.cs" />
-    <Compile Include="src\Repositories\ExpensesRepository.cs" />
+    <Compile Include="src\Repositories\AccountsOperationsRepository.cs" />
     <Compile Include="src\Repositories\FinanceManagerRepository.cs" />
     <Compile Include="src\Repositories\UsersRepository.cs" />
     <Compile Include="src\UnitOfWork\IUserAccountsUnitOfWork.cs" />

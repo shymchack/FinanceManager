@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace FinanceManager.DAL.src.Repositories.Contracts
 {
-    public interface IExpensesRepository
+    public interface IAccountsOperationsRepository
     {
         void CreateSingleExpense(SingleExpense singleExpense);
-    }
 }

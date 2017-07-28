@@ -17,6 +17,7 @@ namespace FinanceManager.DAL
     {
         private IUsersRepository _usersRepository;
         private IAccountsRepository _accountsRepository;
+
         private IFinanceManagerContext _context;
 
 

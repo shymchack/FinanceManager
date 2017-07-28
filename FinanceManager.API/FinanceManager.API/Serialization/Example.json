@@ -1,0 +1,84 @@
+accounts: [{
+	name: "Opłaty stałe jednorazowe",
+	currencyCode: "PLN",
+	expenses: [
+		{
+			name: "kablówka",
+			totalValue: 70,
+			executionDate: "2017-07-31 GMT",
+			alreadyPayed: 0
+		},
+		{
+			name: "telefony",
+			totalValue: 168,
+			executionDate: "2017-07-31 GMT",
+			alreadyPayed: 100
+		}],
+	incomes: [
+		{
+			name: "wypłata",
+			totalValue: 6000,
+			executionDate: "2017-07-31 GMT",
+			alreadyPayed: 6000
+		}
+	],
+	summary: {
+		currentBalance: {
+			value: 2000,
+			safeValue: 3500,
+			date: "2017-07-03 17:32:00.00 GMT"
+		},
+		periodicBalance: {
+			periodStartBalance: {
+				value: 2000,
+				safeValue: 3500,
+				date: "2017-07-01 00:00:00.00 GMT"
+			},
+			periodEndBalance: {
+				value: 1000,
+				safeValue: 1500,
+				date: "2017-07-31 23:59:00.00 GMT"
+			}
+		}
+	}
+},
+{
+	name: "Opłaty rozkładane w czasie",
+	currencyCode: "PLN",
+	expenses: [
+		{
+			name: "OC Samochód",
+			operationSchedule:
+			{
+				totalValue: 550,
+				startDate: "2017-07-01 00:00 GMT",
+				endDate: "2018-06-30 23:59 GMT"
+			},
+			alreadyPayed: 45.83,
+			nextInstallment: {
+				value: 45.83,
+				plannedExecutionDate: "2017-08-01 00:00 GMT",
+			}
+		}],
+	incomes: [
+	],
+	summary: {
+		currentBalance: {
+			value: 2000,
+			safeValue: 3500,
+			date: "2017-07-03 17:32:00.00 GMT"
+		},
+		periodicBalance: {[
+			{
+				value: 2000,
+				safeValue: 3500,
+				date: "2017-07-01 00:00:00.00 GMT"
+			},
+			{
+				value: 1000,
+				safeValue: 1500,
+				date: "2017-07-31 23:59:00.00 GMT"
+			}]
+		}
+	}
+}]
