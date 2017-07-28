@@ -14,11 +14,8 @@ namespace Financemanager.Database.Context
     {
         public IDbSet<Account> Accounts { get; set; }
         public IDbSet<User> Users { get; set; }
-        public IDbSet<SingleIncome> SingleIncomes { get; set; }
-        public IDbSet<PeriodicIncome> PeriodicIncomes { get; set; }
-        public IDbSet<SingleExpense> SingleExpenses { get; set; }
-        public IDbSet<PeriodicExpense> PeriodicExpenses { get; set; }
-        public IDbSet<OperationSetting> OperationSettings { get; set; }
+        public IDbSet<MoneyOperation> MoneyOperations { get; set; }
+        public IDbSet<MoneyOperationSetting> MoneyOperationSettings { get; set; }
         public IDbSet<UserAccount> UsersAccounts { get; set; }
 
         public FinanceManagerContext() : base("name=FinanceManagerConnectionString")

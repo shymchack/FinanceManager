@@ -14,16 +14,10 @@ namespace FinanceManager.API.Tests
 
         public IDbSet<Account> Accounts { get; set; }
 
-        public IDbSet<OperationSetting> OperationSettings { get; set; }
+        public IDbSet<MoneyOperationSetting> MoneyOperationSettings { get; set; }
 
-        public IDbSet<PeriodicExpense> PeriodicExpenses { get; set; }
-
-        public IDbSet<PeriodicIncome> PeriodicIncomes { get; set; }
-
-        public IDbSet<SingleExpense> SingleExpenses { get; set; }
-
-        public IDbSet<SingleIncome> SingleIncomes { get; set; }
-
+        public IDbSet<MoneyOperation> MoneyOperations { get; set; }
+        
         public IDbSet<User> Users { get; set; }
 
         public IDbSet<UserAccount> UsersAccounts { get; set; }
@@ -31,11 +25,8 @@ namespace FinanceManager.API.Tests
         public FakeFinanceManagerContext()
         {
             Accounts = new FakeDbSet<Account>();
-            OperationSettings = new FakeDbSet<OperationSetting>();
-            PeriodicExpenses = new FakeDbSet<PeriodicExpense>();
-            PeriodicIncomes = new FakeDbSet<PeriodicIncome>();
-            SingleExpenses = new FakeDbSet<SingleExpense>();
-            SingleIncomes = new FakeDbSet<SingleIncome>();
+            MoneyOperationSettings = new FakeDbSet<MoneyOperationSetting>();
+            MoneyOperations = new FakeDbSet<MoneyOperation>();
             Users = new FakeDbSet<User>();
             UsersAccounts = new FakeDbSet<UserAccount>();
         }

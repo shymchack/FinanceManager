@@ -9,6 +9,6 @@ namespace FinanceManager.DAL.src.Repositories.Contracts
 {
     public interface IAccountsOperationsRepository
     {
-        void CreateSingleExpense(SingleExpense singleExpense);
+        void CreateMoneyOperation(MoneyOperation moneyOperation);
     }
 }

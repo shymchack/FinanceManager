@@ -16,17 +16,21 @@ namespace FinanceManager.DAL.src.Repositories
         {
         }
 
-        public void CreateSingleExpense(SingleExpense singleExpense)
+        public void CreateMoneyOperation(MoneyOperation moneyOperation)
         {
-            Context.SingleExpenses.Add(singleExpense);
+            if (moneyOperation.InitialAmount == 0)
+            {
+                throw new Exception("Initial amount could not be less than 0.");
+            }
+            Context.MoneyOperations.Add(moneyOperation);
         }
 
         public void GetAllOperationsByAccountId(int accountId)
         {
-            var periodicExpenses = Context.PeriodicExpenses.Where(pe => pe.Account != null && pe.Account.ID == accountId && pe.IsActive);
-            var periodicIncomes = Context.PeriodicIncomes.Where(pi => pi.Account != null && pi.Account.ID == accountId && pi.IsActive);
-            var singleExpenses = Context.SingleExpenses.Where(se => se.Account != null && se.Account.ID == accountId && se.IsActive);
-            var singleIncomes = Context.SingleIncomes.Where(si => si.Account != null && si.Account.ID == accountId && si.IsActive);
+            var periodicExpenses = Context.MoneyOperations.Where(pe => pe.InitialAmount < 0 && pe.Account != null && pe.Account.ID == accountId && pe.IsActive);
+            var periodicIncomes = Context.MoneyOperations.Where(pi => pi.InitialAmount > 0 && pi.Account != null && pi.Account.ID == accountId && pi.IsActive);
+            var singleExpenses = Context.MoneyOperations.Where(se => se.InitialAmount < 0 && se.Account != null && se.Account.ID == accountId && se.IsActive);
+            var singleIncomes = Context.MoneyOperations.Where(si => si.InitialAmount > 0 && si.Account != null && si.Account.ID == accountId && si.IsActive);
         }
     }
 }
