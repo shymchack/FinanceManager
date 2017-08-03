@@ -1,10 +1,11 @@
 ﻿using FinanceManager.Database.Entities;
 using System;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 
 namespace Financemanager.Database.Context
 {
-    public interface IFinanceManagerContext : IDisposable
+    public interface IFinanceManagerContext : IObjectContextAdapter, IDisposable
     {
 
         IDbSet<Account> Accounts { get; set; }
@@ -18,5 +19,7 @@ namespace Financemanager.Database.Context
         IDbSet<UserAccount> UsersAccounts { get; set; }
 
         void SaveChanges();
+
+        DbEntityEntry Entry(object entity);
     }
 }

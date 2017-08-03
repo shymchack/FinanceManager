@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using FinanceManager.Database.Entities;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 
 namespace FinanceManager.API.Tests
 {
@@ -22,6 +24,14 @@ namespace FinanceManager.API.Tests
 
         public IDbSet<UserAccount> UsersAccounts { get; set; }
 
+        public ObjectContext ObjectContext
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public FakeFinanceManagerContext()
         {
             Accounts = new FakeDbSet<Account>();
@@ -36,5 +46,10 @@ namespace FinanceManager.API.Tests
 
         public void SaveChanges()
         { }
+
+        public DbEntityEntry Entry(object entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

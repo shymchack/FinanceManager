@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FinanceManager.Types.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace FinanceManager.Database.Entities
@@ -82,20 +83,5 @@ namespace FinanceManager.Database.Entities
 
         public virtual Account Account { get; set; }
         public virtual User User { get; set; }
-    }
-}
-
-namespace FinanceManager.Database.Entities
-{
-    public enum PeriodUnit
-    {
-        Default,
-        Second,
-        Minute,
-        Hour,
-        Day,
-        Week,
-        Month,
-        Year
     }
 }

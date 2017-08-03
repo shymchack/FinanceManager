@@ -36,5 +36,10 @@ namespace FinanceManager.DAL.Repositories
             Account account = Context.Accounts.Create();
             return account;
         }
+
+        public Account GetAccountByID(int accountID)
+        {
+            return Context.Accounts.FirstOrDefault(a => a.ID == accountID);
+        }
     }
 }

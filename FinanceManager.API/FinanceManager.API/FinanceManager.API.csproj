@@ -119,6 +119,9 @@
     <Compile Include="Serialization\Types\AccountSummary.cs" />
     <Compile Include="Services\AccountsService.cs" />
     <Compile Include="Services\IAccountsService.cs" />
+    <Compile Include="Services\IMoneyOperationsService.cs" />
+    <Compile Include="Serialization\Types\MoneyOperationViewModel.cs" />
+    <Compile Include="Services\MoneyOperationsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -140,6 +143,10 @@
     <ProjectReference Include="..\Financemanager.Database\Financemanager.Database.csproj">
       <Project>{51593420-AE38-4796-AD18-FD78D1CF2754}</Project>
       <Name>Financemanager.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FinanceManager.Types\FinanceManager.Types.csproj">
+      <Project>{918AA76B-3A54-4CBB-8C19-5F332FA7885A}</Project>
+      <Name>FinanceManager.Types</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

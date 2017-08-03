@@ -11,5 +11,6 @@ namespace FinanceManager.DAL.Repositories.Contracts
         List<AccountDto> GetAccounts();
         int AddAccount(Account account);
         Account CreateAccount();
+        Account GetAccountByID(int accountID);
     }
 }

@@ -90,6 +90,12 @@
       <DependentUpon>201707281508030_MoneyOperations_InsteadOf_ExpensesAndIncomes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FinanceManager.Types\FinanceManager.Types.csproj">
+      <Project>{918AA76B-3A54-4CBB-8C19-5F332FA7885A}</Project>
+      <Name>FinanceManager.Types</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

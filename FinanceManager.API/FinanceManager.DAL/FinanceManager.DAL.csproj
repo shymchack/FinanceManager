@@ -86,17 +86,25 @@
     <Compile Include="src\Repositories\AccountsRepository.cs" />
     <Compile Include="src\Repositories\Contracts\IAccountsRepository.cs" />
     <Compile Include="src\Repositories\Contracts\IAccountsOperationsRepository.cs" />
+    <Compile Include="src\Repositories\Contracts\IMoneyOperationsRepository.cs" />
     <Compile Include="src\Repositories\Contracts\IUsersRepository.cs" />
     <Compile Include="src\Repositories\AccountsOperationsRepository.cs" />
     <Compile Include="src\Repositories\FinanceManagerRepository.cs" />
+    <Compile Include="src\Repositories\MoneyOperationsRepository.cs" />
     <Compile Include="src\Repositories\UsersRepository.cs" />
+    <Compile Include="src\UnitOfWork\IMoneyOperationsUnitOfWork.cs" />
     <Compile Include="src\UnitOfWork\IUserAccountsUnitOfWork.cs" />
+    <Compile Include="src\UnitOfWork\MoneyOperationUnitOfWork.cs" />
     <Compile Include="src\UnitOfWork\UserAccountsUnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Financemanager.Database\Financemanager.Database.csproj">
       <Project>{51593420-ae38-4796-ad18-fd78d1cf2754}</Project>
       <Name>Financemanager.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FinanceManager.Types\FinanceManager.Types.csproj">
+      <Project>{918AA76B-3A54-4CBB-8C19-5F332FA7885A}</Project>
+      <Name>FinanceManager.Types</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

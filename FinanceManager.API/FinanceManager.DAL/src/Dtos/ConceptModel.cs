@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FinanceManager.Types.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace FinanceManager.DAL.Dtos
@@ -12,9 +13,9 @@ namespace FinanceManager.DAL.Dtos
         public virtual List<UserDto> Users { get; set; }
     }
 
-    public class SingleIncomeDto
+    public class MoneyOperationDto
     {
-        public DateTime IncomeDate { get; set; }
+        public int AccountID { get; set; }
         /// <summary>
         /// Determines whether the income should be processed or not.
         /// </summary>
@@ -24,32 +25,18 @@ namespace FinanceManager.DAL.Dtos
         /// </summary>
         public bool IsAlreadyProcessed { get; set; }
         /// <summary>
-        /// The amoutn of incoming money. Should be positive
-        /// </summary>
-        public decimal IncomeAmount { get; set; }
-        /// <summary>
-        /// Determines whether this is a real or hypothetic income.
+        /// Determines whether this is a real or hypothetic operation.
         /// </summary>
         public bool IsReal { get; set; }
-
-        public virtual AccountDto Account { get; set; }
-    }
-
-    public class PeriodicIncomeDto
-    {
         public DateTime ValidityBeginDate { get; set; }
         public DateTime ValidityEndDate { get; set; }
+        public DateTime NextOperationExecutionDate { get; set; }
         public short RepetitionUnitQuantity { get; set; } //TODO: Rename
         public PeriodUnit RepetitionUnit { get; set; } //TODO: Rename
         public decimal InitialAmount { get; set; }
-        /// <summary>
-        /// Determines whether this is a real or hypothetic income.
-        /// </summary>
-        public bool IsReal { get; set; }
-        public bool IsActive { get; set; }
-
-
-        public virtual AccountDto Account { get; set; }
+        public string Description { get; set; }
+        public string Name { get; set; }
+        public int OperationSettingID { get; set; }
     }
 
     public class UserDto
@@ -67,19 +54,5 @@ namespace FinanceManager.DAL.Dtos
 
         public virtual AccountDto Account { get; set; }
         public virtual UserDto User { get; set; }
-    }
-}
-
-namespace FinanceManager.DAL.Dtos
-{
-    public enum PeriodUnit
-    {
-        Second,
-        Minute,
-        Hour,
-        Day,
-        Week,
-        Month,
-        Year
     }
 }

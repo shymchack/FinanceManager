@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 
 namespace Financemanager.Database.Context
 {
-    public class FinanceManagerContext : DbContext
+    public class FinanceManagerContext : DbContext, IFinanceManagerContext
     {
         public IDbSet<Account> Accounts { get; set; }
         public IDbSet<User> Users { get; set; }
@@ -18,14 +18,20 @@ namespace Financemanager.Database.Context
         public IDbSet<MoneyOperationSetting> MoneyOperationSettings { get; set; }
         public IDbSet<UserAccount> UsersAccounts { get; set; }
 
+
         public FinanceManagerContext() : base("name=FinanceManagerConnectionString")
         {
-
+            
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        }
+
+        void IFinanceManagerContext.SaveChanges()
+        {
+            base.SaveChanges();
         }
     }
 }
