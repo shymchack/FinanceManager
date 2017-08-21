@@ -120,7 +120,6 @@
     <Compile Include="Services\AccountsService.cs" />
     <Compile Include="Services\IAccountsService.cs" />
     <Compile Include="Services\IMoneyOperationsService.cs" />
-    <Compile Include="Serialization\Types\MoneyOperationViewModel.cs" />
     <Compile Include="Services\MoneyOperationsService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -136,13 +135,13 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FinanceManager.BL\FinanceManager.BL.csproj">
+      <Project>{de346a55-7bc6-4cce-9fa0-a841581bb6ed}</Project>
+      <Name>FinanceManager.BL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FinanceManager.DAL\FinanceManager.DAL.csproj">
       <Project>{a522d85e-146e-4dc9-be00-04dce5e11b63}</Project>
       <Name>FinanceManager.DAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Financemanager.Database\Financemanager.Database.csproj">
-      <Project>{51593420-AE38-4796-AD18-FD78D1CF2754}</Project>
-      <Name>Financemanager.Database</Name>
     </ProjectReference>
     <ProjectReference Include="..\FinanceManager.Types\FinanceManager.Types.csproj">
       <Project>{918AA76B-3A54-4CBB-8C19-5F332FA7885A}</Project>

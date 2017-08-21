@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Financemanager.Database.Context;
+using FinanceManager.Database.Context;
 using FinanceManager.Database.Entities;
 using FinanceManager.DAL.Repositories.Contracts;
 

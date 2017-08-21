@@ -1,4 +1,4 @@
-﻿using Financemanager.Database.Context;
+﻿using FinanceManager.Database.Context;
 using FinanceManager.DAL.Dtos;
 using FinanceManager.DAL.Repositories.Contracts;
 using System;

@@ -1,7 +1,7 @@
 ﻿using FinanceManager.Types.Enums;
 using System;
 
-namespace FinanceManager.API.Serialization.Types
+namespace FinanceManager.BL.ViewModels
 {
     public class MoneyOperationViewData
     {

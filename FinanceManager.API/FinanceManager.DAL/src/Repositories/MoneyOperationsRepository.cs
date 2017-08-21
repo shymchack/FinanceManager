@@ -1,12 +1,11 @@
-﻿using FinanceManager.DAL.src.Repositories.Contracts;
+﻿using FinanceManager.DAL.Repositories.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FinanceManager.Database.Entities;
-using Financemanager.Database.Context;
-using FinanceManager.DAL.Repositories.Contracts;
+using FinanceManager.Database.Context;
 using System.Data.Entity;
 
 namespace FinanceManager.DAL.Repositories

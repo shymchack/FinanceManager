@@ -1,5 +1,4 @@
 ﻿using FinanceManager.API.Services;
-using FinanceManager.DAL.Repositories;
 using System.Web.Http;
 
 namespace FinanceManager.API.Controllers

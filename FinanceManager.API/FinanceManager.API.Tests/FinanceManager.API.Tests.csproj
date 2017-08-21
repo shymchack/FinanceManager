@@ -93,7 +93,7 @@
       <Name>FinanceManager.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Financemanager.Database\Financemanager.Database.csproj">
-      <Project>{51593420-AE38-4796-AD18-FD78D1CF2754}</Project>
+      <Project>{51593420-ae38-4796-ad18-fd78d1cf2754}</Project>
       <Name>Financemanager.Database</Name>
     </ProjectReference>
   </ItemGroup>

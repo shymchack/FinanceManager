@@ -1,4 +1,4 @@
-﻿using Financemanager.Database.Context;
+﻿using FinanceManager.Database.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ namespace FinanceManager.API.Tests
 {
     public class FakeFinanceManagerContext : IFinanceManagerContext
     {
-
+        //TODO: Make tests not dependent from FinanceManager.Database namespace
         public IDbSet<Account> Accounts { get; set; }
 
         public IDbSet<MoneyOperationSetting> MoneyOperationSettings { get; set; }

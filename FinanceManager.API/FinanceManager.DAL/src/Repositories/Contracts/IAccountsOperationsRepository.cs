@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceManager.DAL.src.Repositories.Contracts
+namespace FinanceManager.DAL.Repositories.Contracts
 {
     public interface IAccountsOperationsRepository
     {

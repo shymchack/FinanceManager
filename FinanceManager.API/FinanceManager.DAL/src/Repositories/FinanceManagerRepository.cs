@@ -1,4 +1,4 @@
-﻿using Financemanager.Database.Context;
+﻿using FinanceManager.Database.Context;
 using System;
 
 namespace FinanceManager.DAL.Repositories

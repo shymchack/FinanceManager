@@ -1,4 +1,4 @@
-namespace Financemanager.Database.Migrations
+namespace FinanceManager.Database.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;

@@ -4,7 +4,7 @@ using FinanceManager.DAL.Dtos;
 using System;
 using FinanceManager.Database.Entities;
 using FinanceManager.DAL.Repositories.Contracts;
-using Financemanager.Database.Context;
+using FinanceManager.Database.Context;
 
 namespace FinanceManager.DAL.Repositories
 {

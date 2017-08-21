@@ -1,6 +1,6 @@
 ﻿using FinanceManager.DAL.Dtos;
 using System.Collections.Generic;
-using Financemanager.Database.Context;
+using FinanceManager.Database.Context;
 using System;
 using FinanceManager.Database.Entities;
 

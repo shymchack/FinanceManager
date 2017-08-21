@@ -37,6 +37,18 @@ namespace FinanceManager.DAL.Dtos
         public string Description { get; set; }
         public string Name { get; set; }
         public int OperationSettingID { get; set; }
+        public DateTime LastOrFirstOperationExecutionDate
+        {
+            get
+            {
+                DateTime lastOrFirstOperationExecutionDate = NextOperationExecutionDate;
+                if (lastOrFirstOperationExecutionDate == default(DateTime))
+                {
+                    lastOrFirstOperationExecutionDate = ValidityBeginDate;
+                }
+                return lastOrFirstOperationExecutionDate;
+            }
+        }
     }
 
     public class UserDto

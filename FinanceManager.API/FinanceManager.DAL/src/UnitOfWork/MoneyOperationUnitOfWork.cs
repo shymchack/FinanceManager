@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using FinanceManager.DAL.Dtos;
 using FinanceManager.DAL.Repositories.Contracts;
-using Financemanager.Database.Context;
+using FinanceManager.Database.Context;
 using FinanceManager.Database.Entities;
 
-namespace FinanceManager.DAL.src.UnitOfWork
+namespace FinanceManager.DAL.UnitOfWork
 {
     public class MoneyOperationUnitOfWork : IMoneyOperationsUnitOfWork
     {
@@ -35,12 +35,12 @@ namespace FinanceManager.DAL.src.UnitOfWork
             }
             if (newMoneyOperation != null)
             {
-                ReaMoneyOperationDataFromDto(moneyOperationDto, newMoneyOperation);
+                ReadMoneyOperationDataFromDto(moneyOperationDto, newMoneyOperation);
                 _moneyOperationsRepository.AddMoneyOperation(newMoneyOperation);
             }
         }
 
-        private void ReaMoneyOperationDataFromDto(MoneyOperationDto sourceMoneyOperationDto, MoneyOperation targetMoneyOperation)
+        private void ReadMoneyOperationDataFromDto(MoneyOperationDto sourceMoneyOperationDto, MoneyOperation targetMoneyOperation)
         {
             targetMoneyOperation.Description = sourceMoneyOperationDto.Description;
             targetMoneyOperation.InitialAmount = sourceMoneyOperationDto.InitialAmount;

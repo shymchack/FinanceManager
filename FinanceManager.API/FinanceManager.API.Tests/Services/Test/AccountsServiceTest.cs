@@ -5,7 +5,7 @@ using FinanceManager.DAL.Repositories.Contracts;
 using FinanceManager.DAL;
 using FinanceManager.Database.Entities;
 using System.Linq;
-using Financemanager.Database.Context;
+using FinanceManager.Database.Context;
 using System.Collections.Generic;
 using FinanceManager.DAL.Repositories;
 using FinanceManager.DAL.Dtos;

@@ -1,5 +1,4 @@
 ﻿using FinanceManager.DAL.Dtos;
-using FinanceManager.Database.Entities;
 
 namespace FinanceManager.API.Services
 {

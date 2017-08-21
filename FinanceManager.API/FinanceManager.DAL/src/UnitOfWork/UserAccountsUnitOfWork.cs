@@ -1,6 +1,5 @@
-﻿using Financemanager.Database.Context;
+﻿using FinanceManager.Database.Context;
 using FinanceManager.DAL.Dtos;
-using FinanceManager.DAL.Repositories;
 using FinanceManager.DAL.Repositories.Contracts;
 using FinanceManager.Database.Entities;
 using Microsoft.Win32.SafeHandles;

@@ -3,7 +3,7 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 
-namespace Financemanager.Database.Context
+namespace FinanceManager.Database.Context
 {
     public interface IFinanceManagerContext : IObjectContextAdapter, IDisposable
     {

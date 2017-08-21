@@ -1,18 +1,18 @@
-namespace Financemanager.Database.Migrations
+namespace FinanceManager.Database.Migrations
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Financemanager.Database.Context.FinanceManagerContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<FinanceManager.Database.Context.FinanceManagerContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Financemanager.Database.Context.FinanceManagerContext context)
+        protected override void Seed(FinanceManager.Database.Context.FinanceManagerContext context)
         {
             //  This method will be called after migrating to the latest version.
 

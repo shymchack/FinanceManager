@@ -1,6 +1,5 @@
 ﻿using System;
 using FinanceManager.DAL;
-using FinanceManager.Database.Entities;
 using System.Linq;
 using FinanceManager.DAL.Dtos;
 
