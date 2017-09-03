@@ -94,7 +94,7 @@
     <Compile Include="src\Repositories\UsersRepository.cs" />
     <Compile Include="src\UnitOfWork\IMoneyOperationsUnitOfWork.cs" />
     <Compile Include="src\UnitOfWork\IUserAccountsUnitOfWork.cs" />
-    <Compile Include="src\UnitOfWork\MoneyOperationUnitOfWork.cs" />
+    <Compile Include="src\UnitOfWork\MoneyOperationsUnitOfWork.cs" />
     <Compile Include="src\UnitOfWork\UserAccountsUnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>

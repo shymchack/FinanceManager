@@ -9,6 +9,7 @@ namespace FinanceManager.DAL.UnitOfWork
 {
     public interface IMoneyOperationsUnitOfWork
     {
-        void AddMoneyOperation(MoneyOperationDto moneyOperation);
+        int AddMoneyOperation(MoneyOperationDto moneyOperation);
+        MoneyOperationDto GetMoneyOperationById(int id);
     }
 }

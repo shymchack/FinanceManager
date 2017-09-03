@@ -1,10 +1,11 @@
-﻿using FinanceManager.BL.ViewModels;
+﻿using FinanceManager.BD.UserInput;
 using FinanceManager.DAL.Dtos;
 
-namespace FinanceManager.BL.UserInput
+namespace FinanceManager.BD.UserInput
 {
     public interface IMoneyOperationLogic
     {
         MoneyOperationDto ConvertUserInputToDto(MoneyOperationViewData moneyOperation);
+        MoneyOperationViewData ConvertDtoToViewData(MoneyOperationDto moneyOperationDto);
     }
 }

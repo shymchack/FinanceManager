@@ -31,5 +31,10 @@ namespace FinanceManager.DAL.Repositories
                 Context.SaveChanges();
             }
         }
+
+        public MoneyOperation GetMoneyOperationById(int id)
+        {
+            return Context.MoneyOperations.FirstOrDefault(mo => mo.ID == id);
+        }
     }
 }

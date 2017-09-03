@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FinanceManager.Types.Enums;
 
-namespace FinanceManager.BL
+namespace FinanceManager.BD
 {
     //TODO: Refactor the name of this etc.
     public class RepetitionUnitCalculator

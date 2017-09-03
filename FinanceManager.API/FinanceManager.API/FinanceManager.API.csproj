@@ -135,9 +135,9 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FinanceManager.BL\FinanceManager.BL.csproj">
+    <ProjectReference Include="..\FinanceManager.BL\FinanceManager.BD.csproj">
       <Project>{de346a55-7bc6-4cce-9fa0-a841581bb6ed}</Project>
-      <Name>FinanceManager.BL</Name>
+      <Name>FinanceManager.BD</Name>
     </ProjectReference>
     <ProjectReference Include="..\FinanceManager.DAL\FinanceManager.DAL.csproj">
       <Project>{a522d85e-146e-4dc9-be00-04dce5e11b63}</Project>

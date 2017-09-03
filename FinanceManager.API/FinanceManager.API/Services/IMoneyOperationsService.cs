@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using FinanceManager.BL.ViewModels;
+using FinanceManager.BD.UserInput;
 
 namespace FinanceManager.API.Services
 {
     public interface IMoneyOperationsService
     {
-        void AddMoneyOperation(MoneyOperationViewData moneyOperation);
+        int AddMoneyOperation(MoneyOperationViewData moneyOperation);
+        MoneyOperationViewData GetMoneyOperationById(int id);
     }
 }

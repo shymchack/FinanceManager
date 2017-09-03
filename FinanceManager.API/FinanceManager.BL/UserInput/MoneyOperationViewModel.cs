@@ -1,11 +1,10 @@
 ﻿using FinanceManager.Types.Enums;
 using System;
 
-namespace FinanceManager.BL.ViewModels
+namespace FinanceManager.BD.UserInput
 {
     public class MoneyOperationViewData
     {
-        public int ID { get; set; }
         public int OperationSettingID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -17,5 +16,6 @@ namespace FinanceManager.BL.ViewModels
         public DateTime NextOperationExecutionDate { get; } //TODO: Decide when to set this prop (not sure if BL)
         public short RepetitionUnitQuantity { get; set; } //TODO: Rename
         public PeriodUnit RepetitionUnit { get; set; } //TODO: Rename
+        public int AccountID { get; set; }
     }
 }

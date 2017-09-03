@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceManager.DAL", "Finan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Financemanager.Database", "Financemanager.Database\Financemanager.Database.csproj", "{51593420-AE38-4796-AD18-FD78D1CF2754}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceManager.BL", "FinanceManager.BL\FinanceManager.BL.csproj", "{DE346A55-7BC6-4CCE-9FA0-A841581BB6ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceManager.BD", "FinanceManager.BL\FinanceManager.BD.csproj", "{DE346A55-7BC6-4CCE-9FA0-A841581BB6ED}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceManager.Types", "FinanceManager.Types\FinanceManager.Types.csproj", "{918AA76B-3A54-4CBB-8C19-5F332FA7885A}"
 EndProject

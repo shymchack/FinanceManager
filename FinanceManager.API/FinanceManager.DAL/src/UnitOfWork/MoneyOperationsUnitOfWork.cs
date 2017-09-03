@@ -10,7 +10,7 @@ using FinanceManager.Database.Entities;
 
 namespace FinanceManager.DAL.UnitOfWork
 {
-    public class MoneyOperationUnitOfWork : IMoneyOperationsUnitOfWork
+    public class MoneyOperationsUnitOfWork : IMoneyOperationsUnitOfWork
     {
         private IMoneyOperationsRepository _moneyOperationsRepository;
         private IAccountsRepository _accountsRepository;
@@ -18,14 +18,14 @@ namespace FinanceManager.DAL.UnitOfWork
         private IFinanceManagerContext _context;
 
 
-        public MoneyOperationUnitOfWork(IFinanceManagerContext context, IMoneyOperationsRepository moneyOperationRepository, IAccountsRepository accountsRepository)
+        public MoneyOperationsUnitOfWork(IFinanceManagerContext context, IMoneyOperationsRepository moneyOperationRepository, IAccountsRepository accountsRepository)
         {
             _context = context;
             _moneyOperationsRepository = moneyOperationRepository;
             _accountsRepository = accountsRepository;
         }
 
-        public void AddMoneyOperation(MoneyOperationDto moneyOperationDto)
+        public int AddMoneyOperation(MoneyOperationDto moneyOperationDto)
         {
             MoneyOperation newMoneyOperation = null;
             Account account = _accountsRepository.GetAccountByID(moneyOperationDto.AccountID);
@@ -38,10 +38,41 @@ namespace FinanceManager.DAL.UnitOfWork
                 ReadMoneyOperationDataFromDto(moneyOperationDto, newMoneyOperation);
                 _moneyOperationsRepository.AddMoneyOperation(newMoneyOperation);
             }
+
+            return newMoneyOperation != null ? newMoneyOperation.ID : -1; 
+        }
+
+        public MoneyOperationDto GetMoneyOperationById(int id)
+        {
+            MoneyOperation moneyOperation = _moneyOperationsRepository.GetMoneyOperationById(id);
+            MoneyOperationDto moneyOperationDto = ReadMoneyOperationDtoFromData(moneyOperation);
+            return moneyOperationDto;
+        }
+
+
+        //unify logic reading data backward and forward, extract the logic to separate classes
+        private MoneyOperationDto ReadMoneyOperationDtoFromData(MoneyOperation moneyOperation)
+        {
+            //TODO: automapper
+            var targetMoneyOperationDto = new MoneyOperationDto();
+            targetMoneyOperationDto.Description = moneyOperation.Description;
+            targetMoneyOperationDto.InitialAmount = moneyOperation.InitialAmount;
+            targetMoneyOperationDto.IsActive = moneyOperation.IsActive;
+            targetMoneyOperationDto.IsReal = moneyOperation.IsReal;
+            targetMoneyOperationDto.Name = moneyOperation.Name;
+            targetMoneyOperationDto.NextOperationExecutionDate = moneyOperation.NextOperationExecutionDate;
+            targetMoneyOperationDto.OperationSettingID = moneyOperation.OperationSettingID;
+            targetMoneyOperationDto.RepetitionUnit = moneyOperation.RepetitionUnit;
+            targetMoneyOperationDto.RepetitionUnitQuantity = moneyOperation.RepetitionUnitQuantity;
+            targetMoneyOperationDto.ValidityBeginDate = moneyOperation.ValidityBeginDate;
+            targetMoneyOperationDto.ValidityEndDate = moneyOperation.ValidityEndDate;
+
+            return targetMoneyOperationDto;
         }
 
         private void ReadMoneyOperationDataFromDto(MoneyOperationDto sourceMoneyOperationDto, MoneyOperation targetMoneyOperation)
         {
+            //TODO automapper
             targetMoneyOperation.Description = sourceMoneyOperationDto.Description;
             targetMoneyOperation.InitialAmount = sourceMoneyOperationDto.InitialAmount;
             targetMoneyOperation.IsActive = sourceMoneyOperationDto.IsActive;

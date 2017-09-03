@@ -38,7 +38,9 @@
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Moq, Version=4.7.10.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.7.10\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
@@ -82,11 +84,16 @@
     <Compile Include="FakeFinanceManagerContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Test\AccountsServiceTest.cs" />
+    <Compile Include="Services\Test\MoneyOperationServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FinanceManager.API\FinanceManager.API.csproj">
       <Project>{BFE5FB64-2935-4C89-A587-9C72D55C2C95}</Project>
       <Name>FinanceManager.API</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FinanceManager.BL\FinanceManager.BD.csproj">
+      <Project>{DE346A55-7BC6-4CCE-9FA0-A841581BB6ED}</Project>
+      <Name>FinanceManager.BD</Name>
     </ProjectReference>
     <ProjectReference Include="..\FinanceManager.DAL\FinanceManager.DAL.csproj">
       <Project>{A522D85E-146E-4DC9-BE00-04DCE5E11B63}</Project>
@@ -95,6 +102,10 @@
     <ProjectReference Include="..\Financemanager.Database\Financemanager.Database.csproj">
       <Project>{51593420-ae38-4796-ad18-fd78d1cf2754}</Project>
       <Name>Financemanager.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FinanceManager.Types\FinanceManager.Types.csproj">
+      <Project>{918AA76B-3A54-4CBB-8C19-5F332FA7885A}</Project>
+      <Name>FinanceManager.Types</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
