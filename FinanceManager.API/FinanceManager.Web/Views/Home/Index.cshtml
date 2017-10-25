@@ -1,31 +1,87 @@
-﻿@{
+﻿@model FinanceManager.Web.Models.MonthSummaryViewModel
+@using FinanceManager.BD
+@{
     ViewBag.Title = "Home Page";
 }
+<div>
+    <section class="row">
+        <div>
+            <div class="col-xs-12 text-center">
+                <div>
+                    <h1>@(Model.MonthName) Summary</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="row text-center">
+        <div class="col-xs-2">
+            <h2>Incomes</h2>
+            <span>@Model.MonthBeginningMonthIncomesAmount</span>
+            <span>@Model.MonthIncomesDifference</span>
+            <span>@Model.CurrentMonthIncomesAmount</span>
+        </div>
+        <div class="col-xs-2">
+            <h2>Expenses</h2>
+            <span>@Model.MonthBeginningMonthExpensesAmount</span>
+            <span>@Model.MonthExpensesDifference</span>
+            <span>@Model.CurrentMonthExpensesAmount</span>
+        </div>
+        <div class="col-xs-3">
+            <h2>Month Balance</h2>
+            <span>@Model.MonthBeginningMonthBalance</span>
+            <span>@Model.MonthBalanceDifference</span>
+            <span>@Model.CurrentMonthBalance</span>
+        </div>
+        <div class="col-xs-5">
+            <h2>Total Balance</h2>
+            <span>@Model.MonthBeginningTotalBalance</span>
+            <span>@Model.TotalBalanceDifference</span>
+            <span>@Model.CurrentTotalBalance</span>
+        </div>
+    </section>
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
+    <section class="row text-center">
+        <div class="col-xs-12" style="padding-top: 20px;">
+            <table style="width: 100%; border:thick;" class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th class="text-center">@Model.OperationsModel.NameLabel</th>
+                        <th class="text-center">@Model.OperationsModel.TotalAmonutLabel</th>
+                        <th class="text-center">@Model.OperationsModel.FinishDateLabel</th>
+                        <th class="text-center">@Model.OperationsModel.PaymentLeftLabel</th>
+                        <th class="text-center">@Model.OperationsModel.AlreadyPayedLabel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (FinanceManager.Web.Models.MonthOperationViewModel monthOperation in Model.OperationsModel.MonthOperations)
+                    {
+                        <tr>
+                            <td>@monthOperation.Name</td>
+                            <td>@monthOperation.TotalAmount</td>
+                            <td>@monthOperation.FinishDate</td>
+                            <td>@monthOperation.PaymentLeftAmount</td>
+                            <td>@monthOperation.AlreadyPayedAmount</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+    @using (Html.BeginForm("AddExpense", "HomeController", Model.NewMoneyOperation))
+    {
+        <section class="row">
+            @Html.LabelFor(m => m.NewMoneyOperation.Name)
+            @Html.TextBoxFor(m => m.NewMoneyOperation.Name)
+            @Html.LabelFor(m => m.NewMoneyOperation.Description)
+            @Html.TextBoxFor(m => m.NewMoneyOperation.Description)
+            @Html.LabelFor(m => m.NewMoneyOperation.InitialAmount)
+            @Html.TextBoxFor(m => m.NewMoneyOperation.InitialAmount)
+            @Html.LabelFor(m => m.NewMoneyOperation.RepetitionUnitQuantity)
+            @Html.TextBoxFor(m => m.NewMoneyOperation.RepetitionUnitQuantity)
+            @Html.LabelFor(m => m.NewMoneyOperation.IsReal)
+            @Html.CheckBoxFor(m => m.NewMoneyOperation.IsReal)
+            @Html.HiddenFor(m => m.NewMoneyOperation.AccountID)
+            <button type="submit">SUBMIT</button>
+        </section>
+    }
 </div>

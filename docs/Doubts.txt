@@ -1,0 +1,1 @@
+1. Allow to decide whether the user would like to propagate unpayed expenses to next month or leave it unpayed there or don't care about it.
