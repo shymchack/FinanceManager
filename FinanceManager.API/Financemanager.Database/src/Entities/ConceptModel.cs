@@ -21,6 +21,7 @@ namespace FinanceManager.Database.Entities
     {
         public int ID { get; set; }
         public int OperationSettingID { get; set; }
+        public int? AccountID { get; set; }
         /// <summary>
         /// Determines whether this is a real or hypothetic operation.
         /// </summary>
