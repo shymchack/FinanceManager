@@ -85,5 +85,18 @@ namespace FinanceManager.DAL.UnitOfWork
             targetMoneyOperation.ValidityBeginDate = sourceMoneyOperationDto.ValidityBeginDate;
             targetMoneyOperation.ValidityEndDate = sourceMoneyOperationDto.ValidityEndDate;
         }
+
+        public IEnumerable<MoneyOperationDto> GetMoneyOperationsByAccountID(int accountId, DateTime date)
+        {
+            IEnumerable<MoneyOperation> moneyOperations = _moneyOperationsRepository.GetMoneyOperationsByAccountID(accountId, date);
+            List<MoneyOperationDto> moneyOperationsDtos = new List<MoneyOperationDto>();
+            foreach (MoneyOperation moneyOperation in moneyOperations)
+            {
+                MoneyOperationDto dto = ReadMoneyOperationDtoFromData(moneyOperation);
+                moneyOperationsDtos.Add(dto);
+            }
+
+            return moneyOperationsDtos;
+        }
     }
 }

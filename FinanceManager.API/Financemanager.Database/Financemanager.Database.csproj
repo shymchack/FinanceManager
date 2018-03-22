@@ -66,6 +66,10 @@
     <Compile Include="Migrations\201707281508030_MoneyOperations_InsteadOf_ExpensesAndIncomes.Designer.cs">
       <DependentUpon>201707281508030_MoneyOperations_InsteadOf_ExpensesAndIncomes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803210513434_MoneyOperationTables.cs" />
+    <Compile Include="Migrations\201803210513434_MoneyOperationTables.Designer.cs">
+      <DependentUpon>201803210513434_MoneyOperationTables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="src\Context\FinanceManagerContext.cs" />
     <Compile Include="src\Context\IFinanceManagerContext.cs" />
@@ -88,6 +92,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707281508030_MoneyOperations_InsteadOf_ExpensesAndIncomes.resx">
       <DependentUpon>201707281508030_MoneyOperations_InsteadOf_ExpensesAndIncomes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803210513434_MoneyOperationTables.resx">
+      <DependentUpon>201803210513434_MoneyOperationTables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

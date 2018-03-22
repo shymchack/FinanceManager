@@ -19,6 +19,11 @@ namespace FinanceManager.Database.Entities
 
     public class MoneyOperation
     {
+        public MoneyOperation()
+        {
+            MoneyOperationChanges = new List<MoneyOperationChange>();
+        }
+
         public int ID { get; set; }
         public int OperationSettingID { get; set; }
         public int? AccountID { get; set; }
@@ -40,6 +45,8 @@ namespace FinanceManager.Database.Entities
         public string Description { get; set; }
         
         public virtual Account Account { get; set; }
+        public virtual MoneyOperationSetting OperationSetting { get; set; }
+        public virtual List<MoneyOperationChange> MoneyOperationChanges { get; set; }
     }
 
     public class MoneyOperationCategory
@@ -84,5 +91,15 @@ namespace FinanceManager.Database.Entities
 
         public virtual Account Account { get; set; }
         public virtual User User { get; set; }
+    }
+
+    public class MoneyOperationChange
+    {
+        public int ID { get; set; }
+        public DateTime ChangeDate { get; set; }
+        public int MoneyOperationID { get; set; }
+        public decimal ChangeAmount { get; set; }
+
+        public virtual MoneyOperation MoneyOperation { get; set; }
     }
 }

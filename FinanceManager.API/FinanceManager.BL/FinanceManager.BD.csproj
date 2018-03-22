@@ -45,6 +45,7 @@
     <Compile Include="UserInput\IMoneyOperationLogic.cs" />
     <Compile Include="UserInput\MoneyOperationLogic.cs" />
     <Compile Include="UserInput\MoneyOperationViewModel.cs" />
+    <Compile Include="ViewModels\MoneyOperationStatus.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FinanceManager.DAL\FinanceManager.DAL.csproj">
@@ -56,9 +57,7 @@
       <Name>FinanceManager.Types</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

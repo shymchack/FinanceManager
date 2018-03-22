@@ -10,6 +10,7 @@ using FinanceManager.Types.Enums;
 using FinanceManager.DAL;
 using Moq;
 using FinanceManager.DAL.Dtos;
+using FinanceManager.BD;
 
 namespace FinanceManager.API.Tests.Services
 {

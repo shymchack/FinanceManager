@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FinanceManager.Types.Enums;
 
 namespace FinanceManager.BD.UserInput
 {
@@ -51,6 +52,34 @@ namespace FinanceManager.BD.UserInput
             return moneyOperationViewData;
         }
 
+        public MoneyOperationStatus PrepareMoneyOperationStatus(MoneyOperationDto moneyOperationDto, DateTime date)
+        {
+            DateTime currentDate = date;
+            short currentPaymentNumber = 0;
+            short totalPaymentsNumber = 0;
+            //TODO: Write some helper that would check only to repetitionUnit precision, for example reject minutes and seconds if unit is hour
+            while(currentDate <= moneyOperationDto.ValidityEndDate)
+            {
+                if(currentDate < DateTime.UtcNow)
+                {
+                    currentPaymentNumber++;
+                }
+                totalPaymentsNumber++;
+                currentDate = RepetitionUnitCalculator.CalculateNextRepetitionDate(currentDate, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity);
+            }
+
+            //TimeSpan repetitionTimeSpan = RepetitionUnitCalculator.CalculateRepetitionTimeSpan(moneyOperationDto); // I don't know if this is necessary
+            MoneyOperationStatus status = new MoneyOperationStatus();
+            status.AccountID = moneyOperationDto.AccountID;
+            status.InitialAmount = moneyOperationDto.InitialAmount;
+            status.AlreadyPayedAmount = moneyOperationDto.MoneyOperationChanges.Sum(moc => moc.ChangeAmount);
+            status.Description = moneyOperationDto.Description;
+            status.Name = moneyOperationDto.Name;
+            status.FrozenAmount = currentPaymentNumber / totalPaymentsNumber * status.InitialAmount - status.AlreadyPayedAmount; // TODO: Make sure it's needed to subtract already payed amount
+
+            return status;
+        }
+        
         private DateTime CalculateNextOperationExecutionDate(MoneyOperationDto moneyOperationDto)
         {
             if (IsSingleOperation(moneyOperationDto))
@@ -77,13 +106,12 @@ namespace FinanceManager.BD.UserInput
                 throw new Exception("This is not a recurrent operation");
             }
 
-            RepetitionUnitCalculator repetitionUnitCalculator = new RepetitionUnitCalculator();
             DateTime nextExecutionDateCandidate = moneyOperationDto.LastOrFirstOperationExecutionDate;
 
             while(nextExecutionDateCandidate < DateTime.UtcNow)
             {
                 DateTime originalCandidate = nextExecutionDateCandidate;
-                nextExecutionDateCandidate = repetitionUnitCalculator.CalculateNextRepetitionDate(nextExecutionDateCandidate, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity);
+                nextExecutionDateCandidate = RepetitionUnitCalculator.CalculateNextRepetitionDate(nextExecutionDateCandidate, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity);
                 if (originalCandidate >= nextExecutionDateCandidate)
                 {
                     throw new Exception("Next operation execution date candidate has been overtaken by previous one.");

@@ -43,6 +43,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -125,6 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\Localhsot.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -143,6 +145,10 @@
     <ProjectReference Include="..\FinanceManager.DAL\FinanceManager.DAL.csproj">
       <Project>{a522d85e-146e-4dc9-be00-04dce5e11b63}</Project>
       <Name>FinanceManager.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Financemanager.Database\Financemanager.Database.csproj">
+      <Project>{51593420-AE38-4796-AD18-FD78D1CF2754}</Project>
+      <Name>Financemanager.Database</Name>
     </ProjectReference>
     <ProjectReference Include="..\FinanceManager.Types\FinanceManager.Types.csproj">
       <Project>{918AA76B-3A54-4CBB-8C19-5F332FA7885A}</Project>

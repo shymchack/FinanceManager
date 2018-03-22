@@ -1,4 +1,6 @@
-﻿using FinanceManager.BD.UserInput;
+﻿using FinanceManager.API.Services;
+using FinanceManager.BD;
+using FinanceManager.BD.UserInput;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +12,18 @@ namespace FinanceManager.API.Controllers
 {
     public class MoneyOperationsController : ApiController
     {
-        public MoneyOperationViewData GetMoneyOperationsByAccountId(int accountId)
+        IMoneyOperationsService _moneyOperationsService;
+
+        public MoneyOperationsController(IMoneyOperationsService moneyOperationsService)
         {
+            _moneyOperationsService = moneyOperationsService;
+        }
 
+        public IHttpActionResult GetMoneyOperationsByAccountId(int accountId)
+        {
+            var moneyOperations = _moneyOperationsService.GetMoneyOperationsByAccountID(accountId, DateTime.UtcNow);
 
-            return new MoneyOperationViewData();
+            return Ok(moneyOperations ?? new List<MoneyOperationStatus>());
         }
     }
 }

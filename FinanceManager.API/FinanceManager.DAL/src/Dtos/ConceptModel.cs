@@ -16,6 +16,10 @@ namespace FinanceManager.DAL.Dtos
 
     public class MoneyOperationDto
     {
+        public MoneyOperationDto()
+        {
+            MoneyOperationChanges = new List<MoneyOperationChangeDto>();
+        }
         public int AccountID { get; set; }
         /// <summary>
         /// Determines whether the income should be processed or not.
@@ -38,6 +42,7 @@ namespace FinanceManager.DAL.Dtos
         public string Description { get; set; }
         public string Name { get; set; }
         public int OperationSettingID { get; set; }
+        public List<MoneyOperationChangeDto> MoneyOperationChanges { get; set; }
         public DateTime LastOrFirstOperationExecutionDate
         {
             get
@@ -50,6 +55,11 @@ namespace FinanceManager.DAL.Dtos
                 return lastOrFirstOperationExecutionDate;
             }
         }
+    }
+
+    public class MoneyOperationChangeDto
+    {
+        public decimal ChangeAmount { get; set; }
     }
 
     public class UserDto

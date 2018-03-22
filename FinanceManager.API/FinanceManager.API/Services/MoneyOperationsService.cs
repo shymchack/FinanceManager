@@ -5,6 +5,8 @@ using System.Web;
 using FinanceManager.DAL.UnitOfWork;
 using FinanceManager.DAL.Dtos;
 using FinanceManager.BD.UserInput;
+using FinanceManager.API.Serialization;
+using FinanceManager.BD;
 
 namespace FinanceManager.API.Services
 {
@@ -33,6 +35,28 @@ namespace FinanceManager.API.Services
             MoneyOperationDto moneyOperationDto = _moneyOperationUOW.GetMoneyOperationById(id);
             MoneyOperationViewData viewData = _moneyOperationLogic.ConvertDtoToViewData(moneyOperationDto);
             return viewData;
+        }
+
+        public IEnumerable<MoneyOperationStatus> GetMoneyOperationsByAccountID(int accountId, DateTime date)
+        {
+            IEnumerable<MoneyOperationDto> moneyOperationDtos = _moneyOperationUOW.GetMoneyOperationsByAccountID(accountId, date);
+            List<MoneyOperationStatus> moneyOperationStatuses = new List<MoneyOperationStatus>();
+
+            foreach(MoneyOperationDto moneyOperationDto in moneyOperationDtos)
+            {
+                MoneyOperationStatus status = GetMoneyOperationStatusFromDto(moneyOperationDto, date);
+                moneyOperationStatuses.Add(status);
+            }
+
+            return moneyOperationStatuses;
+
+        }
+
+        private MoneyOperationStatus GetMoneyOperationStatusFromDto(MoneyOperationDto moneyOperationDto, DateTime date)
+        {
+            MoneyOperationStatus status = _moneyOperationLogic.PrepareMoneyOperationStatus(moneyOperationDto, date);
+
+            return status;
         }
     }
 }

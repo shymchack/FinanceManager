@@ -10,7 +10,7 @@ namespace FinanceManager.BD
     //TODO: Refactor the name of this etc.
     public class RepetitionUnitCalculator
     {
-        public DateTime CalculateNextRepetitionDate(DateTime targetDateTime, PeriodUnit repetitionUnit, short repetitionUnitQuantity)
+        public static DateTime CalculateNextRepetitionDate(DateTime targetDateTime, PeriodUnit repetitionUnit, short repetitionUnitQuantity)
         {
             switch (repetitionUnit)
             {
@@ -32,6 +32,32 @@ namespace FinanceManager.BD
                     return targetDateTime;
                 default:
                     return targetDateTime;
+
+            }
+        }
+
+        public static TimeSpan CalculateRepetitionTimeStamp(DateTime date, PeriodUnit repetitionUnit, short repetitionUnitQuantity)
+        {
+            switch (repetitionUnit)
+            {
+                case PeriodUnit.Day:
+                    return new TimeSpan(repetitionUnitQuantity, 0 ,0 ,0);
+                case PeriodUnit.Hour:
+                    return new TimeSpan(0, repetitionUnitQuantity, 0, 0);
+                case PeriodUnit.Minute:
+                    return new TimeSpan(0, 0, repetitionUnitQuantity, 0);
+                case PeriodUnit.Month:
+                    return date.AddMonths(repetitionUnitQuantity) - date;
+                case PeriodUnit.Second:
+                    return new TimeSpan(0, 0, 0, repetitionUnitQuantity);
+                case PeriodUnit.Week:
+                    return date.AddDays(repetitionUnitQuantity * 7) - date;
+                case PeriodUnit.Year:
+                    return date.AddYears(repetitionUnitQuantity) - date;
+                case PeriodUnit.Default:
+                    return new TimeSpan();
+                default:
+                    return new TimeSpan();
 
             }
         }

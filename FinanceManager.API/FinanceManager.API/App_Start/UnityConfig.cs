@@ -7,6 +7,9 @@ using System.Web.Http;
 using Unity.WebApi;
 using System;
 using FinanceManager.BD.UserInput;
+using FinanceManager.BD;
+using FinanceManager.DAL.UnitOfWork;
+using FinanceManager.Database.Context;
 
 namespace FinanceManager.API
 {
@@ -23,6 +26,11 @@ namespace FinanceManager.API
             container.RegisterType<IAccountsRepository, AccountsRepository>();
             container.RegisterType<IUserAccountsUnitOfWork, UserAccountsUnitOfWork>();
             container.RegisterType<IMoneyOperationLogic, MoneyOperationLogic>();
+            container.RegisterType<IMoneyOperationsService, MoneyOperationsService>();
+            container.RegisterType<IMoneyOperationsUnitOfWork, MoneyOperationsUnitOfWork>();
+            container.RegisterType<IMoneyOperationsRepository, MoneyOperationsRepository>();
+            container.RegisterType<IFinanceManagerContext, FinanceManagerContext>();
+            var oko = container.Resolve(typeof(IMoneyOperationsService));
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

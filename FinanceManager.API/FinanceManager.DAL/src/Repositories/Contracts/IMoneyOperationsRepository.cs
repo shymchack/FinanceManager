@@ -12,5 +12,6 @@ namespace FinanceManager.DAL.Repositories.Contracts
         MoneyOperation CreateMoneyOperation(Account account);
         void AddMoneyOperation(MoneyOperation moneyOperation);
         MoneyOperation GetMoneyOperationById(int id);
+        IEnumerable<MoneyOperation> GetMoneyOperationsByAccountID(int accountID, DateTime date);
     }
 }
