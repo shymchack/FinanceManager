@@ -1,5 +1,6 @@
 ﻿using FinanceManager.BD.UserInput;
 using FinanceManager.Web.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +19,20 @@ namespace FinanceManager.Web.Controllers
 
         public ActionResult Index()
         {
-            IEnumerable<object> moneyOperations = null;
+            IEnumerable<MoneyOperationStatusViewModel> moneyOperations = null;
 
             using(var httpClient = new HttpClient())
             {
-                httpClient.BaseAddress = new Uri("http://localhost:31455/MoneyOperations/");
-                var response = httpClient.GetAsync("GetMoneyOperationsByAccountId");
+                httpClient.BaseAddress = new Uri("http://localhost:35816/api/MoneyOperations/");
+                var response = httpClient.GetAsync($"GetMoneyOperationsByAccountId?accountId={1}");
                 response.Wait();
+                string result = response.Result.Content.ReadAsStringAsync().Result;
+                moneyOperations = JsonConvert.DeserializeObject<IEnumerable<MoneyOperationStatusViewModel>>(result);
+            }
+
+            if (moneyOperations != null)
+            {
+                //TODO: logic
             }
             //MonthSummaryViewModel model = new MonthSummaryViewModel();
 
