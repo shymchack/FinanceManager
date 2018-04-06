@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -21,9 +22,10 @@ namespace FinanceManager.Web.Controllers
         {
             IEnumerable<MoneyOperationStatusViewModel> moneyOperations = null;
 
-            using(var httpClient = new HttpClient())
+            using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = new Uri("http://localhost:35816/api/MoneyOperations/");
+                httpClient.DefaultRequestHeaders.Add("X-Authentication", "true");
                 var response = httpClient.GetAsync($"GetMoneyOperationsByAccountId?accountId={1}");
                 response.Wait();
                 string result = response.Result.Content.ReadAsStringAsync().Result;
