@@ -70,6 +70,10 @@
     <Compile Include="Migrations\201803210513434_MoneyOperationTables.Designer.cs">
       <DependentUpon>201803210513434_MoneyOperationTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804061355574_AddAuthenticationToken.cs" />
+    <Compile Include="Migrations\201804061355574_AddAuthenticationToken.Designer.cs">
+      <DependentUpon>201804061355574_AddAuthenticationToken.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="src\Context\FinanceManagerContext.cs" />
     <Compile Include="src\Context\IFinanceManagerContext.cs" />
@@ -95,6 +99,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803210513434_MoneyOperationTables.resx">
       <DependentUpon>201803210513434_MoneyOperationTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804061355574_AddAuthenticationToken.resx">
+      <DependentUpon>201804061355574_AddAuthenticationToken.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -61,25 +61,33 @@ namespace FinanceManager.Database.Entities
     {
         public MoneyOperationSetting()
         {
-            MoneyOperation = new List<MoneyOperation>();
+            MoneyOperations = new List<MoneyOperation>();
         }
 
         public int ID { get; set; }
         public PeriodUnit ReservePeriodUnit { get; set; }
         public int ReservePeriodQuantity { get; set; }
         
-        public virtual List<MoneyOperation> MoneyOperation { get; set; }
+        public virtual List<MoneyOperation> MoneyOperations { get; set; }
     }
 
     public class User
     {
+        public User()
+        {
+            UsersAccounts = new List<UserAccount>();
+            UsersTokens = new List<UserToken>();
+        }
+
         public int ID { get; set; }
         public bool IsActive { get; set; }
         public string UserName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string PassHash { get; set; }
 
         public virtual List<UserAccount> UsersAccounts { get; set; }
+        public virtual List<UserToken> UsersTokens { get; set; }
     }
 
     public class UserAccount
@@ -101,5 +109,28 @@ namespace FinanceManager.Database.Entities
         public decimal ChangeAmount { get; set; }
 
         public virtual MoneyOperation MoneyOperation { get; set; }
+    }
+
+    public class Token
+    {
+        public Token()
+        {
+            UsersTokens = new List<UserToken>();
+        }
+
+        public int ID { get; set; }
+        public string TokenData { get; set; }
+        public DateTime ExpirationDate { get; set; }
+        public List<UserToken> UsersTokens { get; set; }
+    }
+
+    public class UserToken
+    {
+        public int ID { get; set; }
+        public int UserID { get; set; }
+        public int TokenID { get; set; }
+
+        public virtual User User { get; set; }
+        public virtual Token Token { get; set; }
     }
 }
