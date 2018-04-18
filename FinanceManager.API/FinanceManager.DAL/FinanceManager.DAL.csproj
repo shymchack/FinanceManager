@@ -92,6 +92,7 @@
     <Compile Include="src\Repositories\FinanceManagerRepository.cs" />
     <Compile Include="src\Repositories\MoneyOperationsRepository.cs" />
     <Compile Include="src\Repositories\UsersRepository.cs" />
+    <Compile Include="src\UnitOfWork\IAuthenticationUnitOfWork.cs" />
     <Compile Include="src\UnitOfWork\IMoneyOperationsUnitOfWork.cs" />
     <Compile Include="src\UnitOfWork\IUserAccountsUnitOfWork.cs" />
     <Compile Include="src\UnitOfWork\MoneyOperationsUnitOfWork.cs" />

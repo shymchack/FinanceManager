@@ -25,7 +25,6 @@ namespace FinanceManager.Web.Controllers
             using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = new Uri("http://localhost:35816/api/MoneyOperations/");
-                httpClient.DefaultRequestHeaders.Add("X-Authentication", "true");
                 var response = httpClient.GetAsync($"GetMoneyOperationsByAccountId?accountId={1}");
                 response.Wait();
                 string result = response.Result.Content.ReadAsStringAsync().Result;

@@ -78,4 +78,10 @@ namespace FinanceManager.DAL.Dtos
         public virtual AccountDto Account { get; set; }
         public virtual UserDto User { get; set; }
     }
+
+    public class TokenDto
+    {
+        public string TokenData { get; set; }
+        public DateTime ExpirtaionDate { get; set; }
+    }
 }

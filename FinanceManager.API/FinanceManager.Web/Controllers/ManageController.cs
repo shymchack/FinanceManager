@@ -10,7 +10,6 @@ using FinanceManager.Web.Models;
 
 namespace FinanceManager.Web.Controllers
 {
-    [Authorize]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
