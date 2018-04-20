@@ -72,10 +72,11 @@ namespace FinanceManager.BD.UserInput
             MoneyOperationStatus status = new MoneyOperationStatus();
             status.AccountID = moneyOperationDto.AccountID;
             status.InitialAmount = moneyOperationDto.InitialAmount;
-            status.AlreadyPayedAmount = moneyOperationDto.MoneyOperationChanges.Sum(moc => moc.ChangeAmount);
+            status.AlreadyPayedAmount = moneyOperationDto.MoneyOperationChanges.Sum(moc => -moc.ChangeAmount);
             status.Description = moneyOperationDto.Description;
             status.Name = moneyOperationDto.Name;
             status.FrozenAmount = currentPaymentNumber / totalPaymentsNumber * status.InitialAmount - status.AlreadyPayedAmount; // TODO: Make sure it's needed to subtract already payed amount
+            status.FinishDate = moneyOperationDto.ValidityEndDate;
 
             return status;
         }

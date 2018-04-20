@@ -1,4 +1,5 @@
-﻿using FinanceManager.Types.Enums;
+﻿using System;
+using FinanceManager.Types.Enums;
 
 namespace FinanceManager.Web.Models
 {
@@ -13,5 +14,7 @@ namespace FinanceManager.Web.Models
         public PeriodUnit RepetitionUnit { get; set; } //TODO: Rename
         public int AccountID { get; set; }
         public decimal CurrentAmount { get { return InitialAmount - AlreadyPayedAmount; } }
+
+        public DateTime FinishDate { get; set; }
     }
 }
