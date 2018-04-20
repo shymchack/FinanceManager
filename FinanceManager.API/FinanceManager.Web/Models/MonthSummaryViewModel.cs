@@ -1,4 +1,4 @@
-﻿using FinanceManager.BD.UserInput;
+﻿using FinanceManager.BL.UserInput;
 using System;
 using System.Collections.Generic;
 using System.Linq;

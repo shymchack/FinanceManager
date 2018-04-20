@@ -5,12 +5,12 @@ using FinanceManager.DAL.Repositories;
 using FinanceManager.DAL.Repositories.Contracts;
 using FinanceManager.Database.Context;
 using FinanceManager.DAL.UnitOfWork;
-using FinanceManager.BD.UserInput;
+using FinanceManager.BL.UserInput;
 using FinanceManager.Types.Enums;
 using FinanceManager.DAL;
 using Moq;
 using FinanceManager.DAL.Dtos;
-using FinanceManager.BD;
+using FinanceManager.BL;
 
 namespace FinanceManager.API.Tests.Services
 {

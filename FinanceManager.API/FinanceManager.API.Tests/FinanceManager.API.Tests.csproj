@@ -91,9 +91,9 @@
       <Project>{BFE5FB64-2935-4C89-A587-9C72D55C2C95}</Project>
       <Name>FinanceManager.API</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FinanceManager.BL\FinanceManager.BD.csproj">
+    <ProjectReference Include="..\FinanceManager.BL\FinanceManager.BL.csproj">
       <Project>{DE346A55-7BC6-4CCE-9FA0-A841581BB6ED}</Project>
-      <Name>FinanceManager.BD</Name>
+      <Name>FinanceManager.BL</Name>
     </ProjectReference>
     <ProjectReference Include="..\FinanceManager.DAL\FinanceManager.DAL.csproj">
       <Project>{A522D85E-146E-4DC9-BE00-04DCE5E11B63}</Project>

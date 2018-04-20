@@ -1,7 +1,7 @@
 ﻿using System;
 using FinanceManager.Types.Enums;
 
-namespace FinanceManager.BD
+namespace FinanceManager.BL
 {
     public class MoneyOperationStatus
     {

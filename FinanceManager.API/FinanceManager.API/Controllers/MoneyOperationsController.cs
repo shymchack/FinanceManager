@@ -1,6 +1,6 @@
 ﻿using FinanceManager.API.Services;
-using FinanceManager.BD;
-using FinanceManager.BD.UserInput;
+using FinanceManager.BL;
+using FinanceManager.BL.UserInput;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,8 +1,8 @@
 ﻿using System;
-using FinanceManager.BD.UserInput;
+using FinanceManager.BL.UserInput;
 using FinanceManager.DAL.Dtos;
 
-namespace FinanceManager.BD
+namespace FinanceManager.BL
 {
     public interface IMoneyOperationLogic
     {

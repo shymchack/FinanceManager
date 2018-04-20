@@ -1,7 +1,7 @@
 ﻿using FinanceManager.Types.Enums;
 using System;
 
-namespace FinanceManager.BD.UserInput
+namespace FinanceManager.BL.UserInput
 {
     public class MoneyOperationViewData
     {

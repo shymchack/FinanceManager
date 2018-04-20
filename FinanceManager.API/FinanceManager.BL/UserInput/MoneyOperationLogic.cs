@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FinanceManager.Types.Enums;
 
-namespace FinanceManager.BD.UserInput
+namespace FinanceManager.BL.UserInput
 {
     public class MoneyOperationLogic : IMoneyOperationLogic
     {

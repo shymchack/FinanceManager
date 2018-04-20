@@ -1,4 +1,4 @@
-﻿using FinanceManager.BD.UserInput;
+﻿using FinanceManager.BL.UserInput;
 using FinanceManager.Web.Models;
 using FinanceManager.Web.Services;
 using Newtonsoft.Json;

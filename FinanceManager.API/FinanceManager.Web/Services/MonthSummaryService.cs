@@ -1,4 +1,4 @@
-﻿using FinanceManager.BD.UserInput;
+﻿using FinanceManager.BL.UserInput;
 using FinanceManager.Web.Models;
 using System;
 using System.Collections.Generic;

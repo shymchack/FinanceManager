@@ -4,9 +4,9 @@ using System.Linq;
 using System.Web;
 using FinanceManager.DAL.UnitOfWork;
 using FinanceManager.DAL.Dtos;
-using FinanceManager.BD.UserInput;
+using FinanceManager.BL.UserInput;
 using FinanceManager.API.Serialization;
-using FinanceManager.BD;
+using FinanceManager.BL;
 
 namespace FinanceManager.API.Services
 {
