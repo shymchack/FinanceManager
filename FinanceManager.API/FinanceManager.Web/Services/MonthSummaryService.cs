@@ -25,19 +25,21 @@ namespace FinanceManager.Web.Services
             model.CurrentTotalBalance = -20022;
             model.MonthBeginningTotalBalance = -21471 + 8015 - 10133;
 
-            MonthOperationViewModel op = new MonthOperationViewModel();
-            op.TotalAmount = 1600;
-            op.AlreadyPayedAmount = 0;
-            op.FinishDate = new DateTime(2018, 03, 31);
-            op.Name = "OC Volvo";
-            MonthOperationViewModel op2 = new MonthOperationViewModel();
-            op2.TotalAmount = 300;
-            op2.AlreadyPayedAmount = 0;
-            op2.FinishDate = new DateTime(2018, 09, 30);
-            op2.Name = "Rocznica";
+            List<MonthOperationViewModel> monthOperations = new List<MonthOperationViewModel>();
+
+            foreach (MoneyOperationStatusViewModel moneyOperation in moneyOperations)
+            {
+                MonthOperationViewModel op = new MonthOperationViewModel();
+                op.TotalAmount = 1600;
+                op.AlreadyPayedAmount = moneyOperation.AlreadyPayedAmount;
+                op.FinishDate = moneyOperation.FinishDate;
+                op.Name = moneyOperation.Name;
+
+                monthOperations.Add(op);
+            }
 
             model.OperationsModel = new MonthOperationsTableViewModel();
-            model.OperationsModel.MonthOperations = new List<MonthOperationViewModel>(new[] { op, op2 });
+            model.OperationsModel.MonthOperations = monthOperations;
 
             model.OperationsModel.AlreadyPayedLabel = "Already payed";
             model.OperationsModel.FinishDateLabel = "Finish date";
