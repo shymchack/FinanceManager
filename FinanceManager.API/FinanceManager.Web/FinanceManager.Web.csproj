@@ -208,7 +208,7 @@
     <Compile Include="Models\MoneyOperationViewModel.cs" />
     <Compile Include="Models\MonthOperationsTableViewModel.cs" />
     <Compile Include="Models\MonthOperationViewModel.cs" />
-    <Compile Include="Models\MonthSummaryViewModel.cs" />
+    <Compile Include="Models\PeriodSummaryViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\MonthSummaryService.cs" />
     <Compile Include="Startup.cs" />

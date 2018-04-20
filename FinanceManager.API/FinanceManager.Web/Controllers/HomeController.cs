@@ -32,7 +32,7 @@ namespace FinanceManager.Web.Controllers
                 moneyOperations = JsonConvert.DeserializeObject<IEnumerable<MoneyOperationStatusViewModel>>(result);
             }
 
-            var model = new MonthSummaryService().GetMonthSummaryViewModel(moneyOperations);
+            var model = new MonthSummaryService().GetPeriodSummaryViewModel(moneyOperations);
 
             return View(model);
         }

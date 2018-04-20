@@ -1,4 +1,4 @@
-﻿@model FinanceManager.Web.Models.MonthSummaryViewModel
+﻿@model FinanceManager.Web.Models.PeriodSummaryViewModel
 @using FinanceManager.BL
 @{
     ViewBag.Title = "Home Page";
@@ -8,7 +8,7 @@
         <div>
             <div class="col-xs-12 text-center">
                 <div>
-                    <h1>@(Model.MonthName) Summary</h1>
+                    <h1>@(Model.PeriodTitle) Summary</h1>
                 </div>
             </div>
         </div>
@@ -16,25 +16,25 @@
     <section class="row text-center">
         <div class="col-xs-2">
             <h2>Incomes</h2>
-            <span>@Model.MonthBeginningMonthIncomesAmount</span>
-            <span>@Model.MonthIncomesDifference</span>
-            <span>@Model.CurrentMonthIncomesAmount</span>
+            <span>@Model.PeriodBeginningPeriodIncomesAmount</span>
+            <span>@Model.PeriodIncomesDifference</span>
+            <span>@Model.CurrentPeriodIncomesAmount</span>
         </div>
         <div class="col-xs-2">
             <h2>Expenses</h2>
-            <span>@Model.MonthBeginningMonthExpensesAmount</span>
-            <span>@Model.MonthExpensesDifference</span>
-            <span>@Model.CurrentMonthExpensesAmount</span>
+            <span>@Model.PeriodBeginningPeriodExpensesAmount</span>
+            <span>@Model.PeriodExpensesDifference</span>
+            <span>@Model.CurrentPeriodExpensesAmount</span>
         </div>
         <div class="col-xs-3">
-            <h2>Month Balance</h2>
-            <span>@Model.MonthBeginningMonthBalance</span>
-            <span>@Model.MonthBalanceDifference</span>
-            <span>@Model.CurrentMonthBalance</span>
+            <h2>Period Balance</h2>
+            <span>@Model.PeriodBeginningPeriodBalance</span>
+            <span>@Model.PeriodBalanceDifference</span>
+            <span>@Model.CurrentPeriodBalance</span>
         </div>
         <div class="col-xs-5">
             <h2>Total Balance</h2>
-            <span>@Model.MonthBeginningTotalBalance</span>
+            <span>@Model.PeriodBeginningTotalBalance</span>
             <span>@Model.TotalBalanceDifference</span>
             <span>@Model.CurrentTotalBalance</span>
         </div>

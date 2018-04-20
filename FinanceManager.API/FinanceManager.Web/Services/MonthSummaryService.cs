@@ -9,21 +9,21 @@ namespace FinanceManager.Web.Services
 {
     public class MonthSummaryService
     {
-        public MonthSummaryViewModel GetMonthSummaryViewModel(IEnumerable<MoneyOperationStatusViewModel> moneyOperations)
+        public PeriodSummaryViewModel GetPeriodSummaryViewModel(IEnumerable<MoneyOperationStatusViewModel> moneyOperations)
         {
-            MonthSummaryViewModel model = new MonthSummaryViewModel();
+            PeriodSummaryViewModel model = new PeriodSummaryViewModel();
 
-            model = new MonthSummaryViewModel();
-            model.MonthName = "October 2018";
+            model = new PeriodSummaryViewModel();
+            model.PeriodTitle = "October 2018";
 
-            model.CurrentMonthExpensesAmount = 10133;
-            model.MonthBeginningMonthExpensesAmount = 8956;
+            model.CurrentPeriodExpensesAmount = 10133;
+            model.PeriodBeginningPeriodExpensesAmount = 8956;
 
-            model.CurrentMonthIncomesAmount = 8015;
-            model.MonthBeginningMonthIncomesAmount = 8015;
+            model.CurrentPeriodIncomesAmount = 8015;
+            model.PeriodBeginningPeriodIncomesAmount = 8015;
 
             model.CurrentTotalBalance = -20022;
-            model.MonthBeginningTotalBalance = -21471 + 8015 - 10133;
+            model.PeriodBeginningTotalBalance = -21471 + 8015 - 10133;
 
             List<MonthOperationViewModel> monthOperations = new List<MonthOperationViewModel>();
 
