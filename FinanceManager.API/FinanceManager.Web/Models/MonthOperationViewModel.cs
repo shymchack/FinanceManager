@@ -8,9 +8,8 @@ namespace FinanceManager.Web.Models
         public string Name { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal? AlreadyPayedAmount { get; set; }
+        public decimal CurrentPeriodPayedAmount { get; set; }
         public decimal? PaymentLeftAmount { get { return TotalAmount - AlreadyPayedAmount; } }
         public DateTime FinishDate { get; set; }
-
-
     }
 }

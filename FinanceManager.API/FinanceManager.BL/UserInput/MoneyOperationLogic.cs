@@ -73,6 +73,7 @@ namespace FinanceManager.BL.UserInput
             status.AccountID = moneyOperationDto.AccountID;
             status.InitialAmount = moneyOperationDto.InitialAmount;
             status.AlreadyPayedAmount = moneyOperationDto.MoneyOperationChanges.Sum(moc => -moc.ChangeAmount);
+            status.CurrentPeriodPayedAmount = ExtractCurrentPeriodPayedAmount(moneyOperationDto); //TODO think abuot making this independent of UtcNow
             status.Description = moneyOperationDto.Description;
             status.Name = moneyOperationDto.Name;
             status.FrozenAmount = currentPaymentNumber / totalPaymentsNumber * status.InitialAmount - status.AlreadyPayedAmount; // TODO: Make sure it's needed to subtract already payed amount
@@ -80,7 +81,23 @@ namespace FinanceManager.BL.UserInput
 
             return status;
         }
-        
+
+        private decimal ExtractCurrentPeriodPayedAmount(MoneyOperationDto moneyOperationDto)
+        {
+            var repetitionTimeStamp = RepetitionUnitCalculator.CalculateRepetitionTimeStamp(DateTime.UtcNow, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity);
+            var currentPeriodChanges = moneyOperationDto.MoneyOperationChanges.Where(moc => ChallengeDateRepetitionProperties(moc.ChangeDate, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity));
+            return currentPeriodChanges.Sum(moc => -moc.ChangeAmount);
+        }
+
+        private bool ChallengeDateRepetitionProperties(DateTime changeDate, PeriodUnit repetitionUnit, short repetitionUnitQuantity)
+        {
+            var currentPeriodBeginning = RepetitionUnitCalculator.ClearMinorDateTimePart(changeDate, repetitionUnit, repetitionUnitQuantity);
+            var timestampToIncrement = RepetitionUnitCalculator.CalculateRepetitionTimeStamp(changeDate, repetitionUnit, repetitionUnitQuantity);
+            var nextPeriodBegining = currentPeriodBeginning.Add(timestampToIncrement);
+
+            return nextPeriodBegining >= DateTime.UtcNow && currentPeriodBeginning <= DateTime.UtcNow;
+        }
+
         private DateTime CalculateNextOperationExecutionDate(MoneyOperationDto moneyOperationDto)
         {
             if (IsSingleOperation(moneyOperationDto))

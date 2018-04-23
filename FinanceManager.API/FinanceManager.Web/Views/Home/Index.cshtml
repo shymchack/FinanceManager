@@ -50,6 +50,7 @@
                         <th class="text-center">@Model.OperationsModel.FinishDateLabel</th>
                         <th class="text-center">@Model.OperationsModel.PaymentLeftLabel</th>
                         <th class="text-center">@Model.OperationsModel.AlreadyPayedLabel</th>
+                        <th class="text-center">@Model.OperationsModel.CurrentPeriodPayedLabel</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,6 +62,7 @@
                             <td>@monthOperation.FinishDate</td>
                             <td>@monthOperation.PaymentLeftAmount</td>
                             <td>@monthOperation.AlreadyPayedAmount</td>
+                            <td>@monthOperation.CurrentPeriodPayedAmount</td>
                         </tr>
                     }
                 </tbody>

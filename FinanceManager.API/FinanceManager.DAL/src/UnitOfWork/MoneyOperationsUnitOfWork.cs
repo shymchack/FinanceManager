@@ -66,7 +66,7 @@ namespace FinanceManager.DAL.UnitOfWork
             targetMoneyOperationDto.RepetitionUnitQuantity = moneyOperation.RepetitionUnitQuantity;
             targetMoneyOperationDto.ValidityBeginDate = moneyOperation.ValidityBeginDate;
             targetMoneyOperationDto.ValidityEndDate = moneyOperation.ValidityEndDate;
-            targetMoneyOperationDto.MoneyOperationChanges = moneyOperation.MoneyOperationChanges.Select(ch => new MoneyOperationChangeDto(){ ChangeAmount = ch.ChangeAmount} ).ToList();
+            targetMoneyOperationDto.MoneyOperationChanges = moneyOperation.MoneyOperationChanges.Select(ch => new MoneyOperationChangeDto(){ ChangeAmount = ch.ChangeAmount, ChangeDate = ch.ChangeDate} ).ToList();
 
             return targetMoneyOperationDto;
         }

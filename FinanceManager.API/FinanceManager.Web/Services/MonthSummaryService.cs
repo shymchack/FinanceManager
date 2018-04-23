@@ -24,6 +24,7 @@ namespace FinanceManager.Web.Services
 
             model.CurrentTotalBalance = -20022;
             model.PeriodBeginningTotalBalance = -21471 + 8015 - 10133;
+            model.NextPeriodBeginningTotalBalance = 20000;
 
             List<MonthOperationViewModel> monthOperations = new List<MonthOperationViewModel>();
 
@@ -32,9 +33,9 @@ namespace FinanceManager.Web.Services
                 MonthOperationViewModel op = new MonthOperationViewModel();
                 op.TotalAmount = 1600;
                 op.AlreadyPayedAmount = moneyOperation.AlreadyPayedAmount;
+                op.CurrentPeriodPayedAmount = moneyOperation.CurrentPeriodPayedAmount;
                 op.FinishDate = moneyOperation.FinishDate;
                 op.Name = moneyOperation.Name;
-
                 monthOperations.Add(op);
             }
 
@@ -46,6 +47,7 @@ namespace FinanceManager.Web.Services
             model.OperationsModel.NameLabel = "Name";
             model.OperationsModel.PaymentLeftLabel = "Payment left";
             model.OperationsModel.TotalAmonutLabel = "Total Amount";
+            model.OperationsModel.CurrentPeriodPayedLabel = "Current month payed";
 
             model.NewMoneyOperation = new MoneyOperationViewData();
             model.NewMoneyOperation.AccountID = 3;

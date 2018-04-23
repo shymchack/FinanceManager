@@ -31,5 +31,6 @@ namespace FinanceManager.Web.Models
         public MonthOperationsTableViewModel OperationsModel { get; set; }
 
         public MoneyOperationViewData NewMoneyOperation { get; set; }
+        public int NextPeriodBeginningTotalBalance { get; set; }
     }
 }

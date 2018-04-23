@@ -8,6 +8,7 @@ namespace FinanceManager.BL
         public decimal InitialAmount { get; set; }
         public decimal FrozenAmount { get; set; }
         public decimal AlreadyPayedAmount { get; set; }
+        public decimal CurrentPeriodPayedAmount { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public short RepetitionUnitQuantity { get; set; } //TODO: Rename

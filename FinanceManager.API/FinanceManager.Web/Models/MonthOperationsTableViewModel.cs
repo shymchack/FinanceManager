@@ -9,6 +9,7 @@ namespace FinanceManager.Web.Models
         public string AlreadyPayedLabel { get; set; }
         public string PaymentLeftLabel { get; set; }
         public string FinishDateLabel { get; set; }
+        public string CurrentPeriodPayedLabel { get; set; }
 
         public IEnumerable<MonthOperationViewModel> MonthOperations { get; set; }
     }
