@@ -12,6 +12,6 @@ namespace FinanceManager.DAL
         bool DoesUserExist(string userName);
         List<AccountDto> GetAccounts();
         int CreateAccount(string name, int userID);
-
+        IEnumerable<AccountDto> GetAccountsByUserId(int userId);
     }
 }

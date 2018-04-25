@@ -41,5 +41,10 @@ namespace FinanceManager.DAL.Repositories
         {
             return Context.Accounts.FirstOrDefault(a => a.ID == accountID);
         }
+
+        public IEnumerable<Account> GetAccountsByUserId(int userId)
+        {
+            return Context.Accounts.Where(a => a.UsersAccounts.Any(ua => ua.UserID == userId));
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using FinanceManager.DAL.Dtos;
+﻿using System.Collections.Generic;
+using FinanceManager.DAL.Dtos;
 
 namespace FinanceManager.API.Services
 {
@@ -6,5 +7,6 @@ namespace FinanceManager.API.Services
     {
         int CreateAccount(string name, int userID);
         AccountDto GetAccountByName(string v);
+        IEnumerable<AccountDto> GetAccountsByUserId(int userId);
     }
 }

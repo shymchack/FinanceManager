@@ -30,7 +30,7 @@ namespace FinanceManager.API
             container.RegisterType<IMoneyOperationsUnitOfWork, MoneyOperationsUnitOfWork>();
             container.RegisterType<IMoneyOperationsRepository, MoneyOperationsRepository>();
             container.RegisterType<IFinanceManagerContext, FinanceManagerContext>();
-            var oko = container.Resolve(typeof(IMoneyOperationsService));
+            container.RegisterType<IUsersRepository, UsersRepository>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

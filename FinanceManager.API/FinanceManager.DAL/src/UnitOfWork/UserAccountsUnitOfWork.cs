@@ -64,6 +64,29 @@ namespace FinanceManager.DAL
             return _accountsRepository.AddAccount(newAccount);
         }
 
+        public IEnumerable<AccountDto> GetAccountsByUserId(int userId)
+        {
+            IEnumerable<Account> accounts = _accountsRepository.GetAccountsByUserId(userId);
+            List<AccountDto> accountsDtos = new List<AccountDto>();
+            foreach(Account account in accounts)
+            {
+                accountsDtos.Add(ReadAccountDtoFromData(account));
+            }
+
+            return accountsDtos;
+        }
+
+        private AccountDto ReadAccountDtoFromData(Account account)
+        {
+            AccountDto dto = new AccountDto();
+            dto.CurrentAmount = account.CurrentAmount;
+            dto.ID = account.ID;
+            dto.InitialAmount = account.InitialAmount;
+            dto.Name = account.Name;
+
+            return dto;
+        }
+
 
         #region IDisposable stuff
         private bool disposed = false;

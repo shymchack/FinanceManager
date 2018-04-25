@@ -2,6 +2,7 @@
 using FinanceManager.DAL;
 using System.Linq;
 using FinanceManager.DAL.Dtos;
+using System.Collections.Generic;
 
 namespace FinanceManager.API.Services
 {
@@ -24,6 +25,11 @@ namespace FinanceManager.API.Services
         public AccountDto GetAccountByName(string name)
         {
             return UserAccountsUnitOfWork.GetAccounts().FirstOrDefault(a => a.Name == name);
+        }
+
+        public IEnumerable<AccountDto> GetAccountsByUserId(int userId)
+        {
+            return UserAccountsUnitOfWork.GetAccountsByUserId(userId);
         }
     }
 }

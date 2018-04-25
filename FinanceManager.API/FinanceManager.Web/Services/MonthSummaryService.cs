@@ -4,17 +4,35 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using FinanceManager.Web.Controllers;
 
 namespace FinanceManager.Web.Services
 {
     public class MonthSummaryService
     {
-        public PeriodSummaryViewModel GetPeriodSummaryViewModel(IEnumerable<MoneyOperationStatusViewModel> moneyOperations)
+        public PeriodSummaryViewModel GetPeriodSummaryViewModel(
+            IEnumerable<MoneyOperationStatusViewModel> moneyOperations, 
+            IEnumerable<AccountViewModel> accounts)
         {
             PeriodSummaryViewModel model = new PeriodSummaryViewModel();
 
             model = new PeriodSummaryViewModel();
             model.PeriodTitle = "October 2018";
+
+
+            List<MonthOperationViewModel> monthOperations = new List<MonthOperationViewModel>();
+
+            foreach (MoneyOperationStatusViewModel moneyOperation in moneyOperations)
+            {
+                MonthOperationViewModel op = new MonthOperationViewModel();
+                op.TotalAmount = moneyOperation.InitialAmount;
+                op.AlreadyPayedAmount = moneyOperation.AlreadyPayedAmount;
+                op.CurrentPeriodPayedAmount = moneyOperation.CurrentPeriodPayedAmount;
+                op.FinishDate = moneyOperation.FinishDate;
+                op.BeginningDate = moneyOperation.BeginningDate;
+                op.Name = moneyOperation.Name;
+                monthOperations.Add(op);
+            }
 
             model.CurrentPeriodExpensesAmount = 10133;
             model.PeriodBeginningPeriodExpensesAmount = 8956;
@@ -22,22 +40,9 @@ namespace FinanceManager.Web.Services
             model.CurrentPeriodIncomesAmount = 8015;
             model.PeriodBeginningPeriodIncomesAmount = 8015;
 
-            model.CurrentTotalBalance = -20022;
-            model.PeriodBeginningTotalBalance = -21471 + 8015 - 10133;
+            model.CurrentTotalBalance = (double)accounts.Sum(a => a.CurrentAmount);
+            model.PeriodBeginningTotalBalance = (double)accounts.Sum(a => a.CurrentAmount) + (double)monthOperations.Where(mo => mo.FinishDate >= DateTime.UtcNow && mo.BeginningDate <= DateTime.UtcNow).Sum(mo => mo.CurrentPeriodPayedAmount); //TODO: UtcNow date should be taken from server!
             model.NextPeriodBeginningTotalBalance = 20000;
-
-            List<MonthOperationViewModel> monthOperations = new List<MonthOperationViewModel>();
-
-            foreach (MoneyOperationStatusViewModel moneyOperation in moneyOperations)
-            {
-                MonthOperationViewModel op = new MonthOperationViewModel();
-                op.TotalAmount = 1600;
-                op.AlreadyPayedAmount = moneyOperation.AlreadyPayedAmount;
-                op.CurrentPeriodPayedAmount = moneyOperation.CurrentPeriodPayedAmount;
-                op.FinishDate = moneyOperation.FinishDate;
-                op.Name = moneyOperation.Name;
-                monthOperations.Add(op);
-            }
 
             model.OperationsModel = new MonthOperationsTableViewModel();
             model.OperationsModel.MonthOperations = monthOperations;

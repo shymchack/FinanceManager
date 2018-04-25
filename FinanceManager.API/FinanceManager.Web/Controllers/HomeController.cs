@@ -22,6 +22,7 @@ namespace FinanceManager.Web.Controllers
         public ActionResult Index()
         {
             IEnumerable<MoneyOperationStatusViewModel> moneyOperations = null;
+            IEnumerable<AccountViewModel> accounts = null;
 
             using (var httpClient = new HttpClient())
             {
@@ -32,7 +33,16 @@ namespace FinanceManager.Web.Controllers
                 moneyOperations = JsonConvert.DeserializeObject<IEnumerable<MoneyOperationStatusViewModel>>(result);
             }
 
-            var model = new MonthSummaryService().GetPeriodSummaryViewModel(moneyOperations);
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.BaseAddress = new Uri("http://localhost:35816/api/Accounts/");
+                var response = httpClient.GetAsync($"GetAccountsByUserId?userId={1}");
+                response.Wait();
+                string result = response.Result.Content.ReadAsStringAsync().Result;
+                accounts = JsonConvert.DeserializeObject<IEnumerable<AccountViewModel>>(result);
+            }
+
+            var model = new MonthSummaryService().GetPeriodSummaryViewModel(moneyOperations, accounts);
 
             return View(model);
         }

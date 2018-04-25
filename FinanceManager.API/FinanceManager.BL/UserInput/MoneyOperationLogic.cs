@@ -78,6 +78,7 @@ namespace FinanceManager.BL.UserInput
             status.Name = moneyOperationDto.Name;
             status.FrozenAmount = currentPaymentNumber / totalPaymentsNumber * status.InitialAmount - status.AlreadyPayedAmount; // TODO: Make sure it's needed to subtract already payed amount
             status.FinishDate = moneyOperationDto.ValidityEndDate;
+            status.BeginningDate = moneyOperationDto.ValidityBeginDate;
 
             return status;
         }
