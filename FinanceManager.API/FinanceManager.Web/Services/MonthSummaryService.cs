@@ -10,6 +10,7 @@ namespace FinanceManager.Web.Services
 {
     public class MonthSummaryService
     {
+        //TODO move this logic to API.
         public PeriodSummaryViewModel GetPeriodSummaryViewModel(
             IEnumerable<MoneyOperationStatusViewModel> moneyOperations, 
             IEnumerable<AccountViewModel> accounts)
