@@ -11,5 +11,6 @@ namespace FinanceManager.Web.Models
         public decimal CurrentPeriodPayedAmount { get; set; }
         public decimal? PaymentLeftAmount { get { return TotalAmount - AlreadyPayedAmount; } }
         public DateTime FinishDate { get; set; }
+        public DateTime BeginningDate { get; internal set; }
     }
 }

@@ -17,5 +17,6 @@ namespace FinanceManager.Web.Models
         public decimal CurrentAmount { get { return InitialAmount - AlreadyPayedAmount; } }
 
         public DateTime FinishDate { get; set; }
+        public DateTime BeginningDate { get; set; }
     }
 }

@@ -17,5 +17,6 @@ namespace FinanceManager.BL
         public decimal CurrentAmount { get { return InitialAmount - AlreadyPayedAmount; } }
 
         public DateTime FinishDate { get; internal set; }
+        public DateTime BeginningDate { get; internal set; }
     }
 }
