@@ -3,7 +3,7 @@ using System;
 
 namespace FinanceManager.BL.UserInput
 {
-    public class MoneyOperationViewData
+    public class MoneyOperationModel
     {
         public int OperationSettingID { get; set; }
         public string Name { get; set; }

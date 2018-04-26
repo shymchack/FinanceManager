@@ -4,7 +4,7 @@ using System.Web.Http;
 
 namespace FinanceManager.API.Controllers
 {
-    public class MoneyOperationsController : ApiController
+    public class MoneyOperationsController : BaseController
     {
         IMoneyOperationsService _moneyOperationsService;
 

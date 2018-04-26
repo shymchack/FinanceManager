@@ -30,7 +30,7 @@ namespace FinanceManager.API.Tests.Services
         {
             int fakeID = new Random().Next();
 
-            MoneyOperationViewData data = new MoneyOperationViewData();
+            MoneyOperationModel data = new MoneyOperationModel();
             data.AccountID = new Random().Next();
             data.Description = "Some test description";
             data.InitialAmount = new Random().Next();

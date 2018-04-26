@@ -25,7 +25,7 @@ namespace FinanceManager.API.Services
             _moneyOperationLogic = moneyOperationLogic;
         }
 
-        public int AddMoneyOperation(MoneyOperationViewData moneyOperation)
+        public int AddMoneyOperation(MoneyOperationModel moneyOperation)
         {
             MoneyOperationDto moneyOperationDto = _moneyOperationLogic.ConvertUserInputToDto(moneyOperation);
             int newMoneyOperationId = _moneyOperationUOW.AddMoneyOperation(moneyOperationDto);
@@ -34,10 +34,10 @@ namespace FinanceManager.API.Services
             return newMoneyOperationId;
         }
 
-        public MoneyOperationViewData GetMoneyOperationById(int id)
+        public MoneyOperationModel GetMoneyOperationById(int id)
         {
             MoneyOperationDto moneyOperationDto = _moneyOperationUOW.GetMoneyOperationById(id);
-            MoneyOperationViewData viewData = _moneyOperationLogic.ConvertDtoToViewData(moneyOperationDto);
+            MoneyOperationModel viewData = _moneyOperationLogic.ConvertDtoToViewData(moneyOperationDto);
             return viewData;
         }
 
@@ -54,57 +54,6 @@ namespace FinanceManager.API.Services
 
             return moneyOperationStatuses;
 
-        }
-
-        public PeriodSummaryViewModel GetPeriodSummary(DateTime dateFromPeriod, int userId, PeriodUnit periodUnit = PeriodUnit.Month)
-        {
-            //TODO implement periodUnit
-            IEnumerable<AccountDto> accounts = _userAccountsUnitOfWork.GetAccountsByUserId(userId);
-            IEnumerable<MoneyOperationStatus> moneyOperations = GetMoneyOperationsByAccountsIds(accounts.Select(a => a.ID), dateFromPeriod);
-            PeriodSummaryViewModel model = new PeriodSummaryViewModel();
-
-            model = new PeriodSummaryViewModel();
-            model.PeriodTitle = "October 2018";
-
-
-            List<MonthOperationViewModel> monthOperations = new List<MonthOperationViewModel>();
-
-            foreach (MoneyOperationStatus moneyOperation in moneyOperations)
-            {
-                MonthOperationViewModel op = new MonthOperationViewModel();
-                op.TotalAmount = moneyOperation.InitialAmount;
-                op.AlreadyPayedAmount = moneyOperation.AlreadyPayedAmount;
-                op.CurrentPeriodPayedAmount = moneyOperation.CurrentPeriodPayedAmount;
-                op.FinishDate = moneyOperation.FinishDate;
-                op.BeginningDate = moneyOperation.BeginningDate;
-                op.Name = moneyOperation.Name;
-                monthOperations.Add(op);
-            }
-
-            model.CurrentPeriodExpensesAmount = 10133;
-            model.PeriodBeginningPeriodExpensesAmount = 8956;
-
-            model.CurrentPeriodIncomesAmount = 8015;
-            model.PeriodBeginningPeriodIncomesAmount = 8015;
-
-            model.CurrentTotalBalance = (double)accounts.Sum(a => a.CurrentAmount);
-            model.PeriodBeginningTotalBalance = (double)accounts.Sum(a => a.CurrentAmount) + (double)monthOperations.Where(mo => mo.FinishDate >= DateTime.UtcNow && mo.BeginningDate <= DateTime.UtcNow).Sum(mo => mo.CurrentPeriodPayedAmount); //TODO: UtcNow date should be taken from server!
-            model.NextPeriodBeginningTotalBalance = 20000;
-
-            model.OperationsModel = new MonthOperationsTableViewModel();
-            model.OperationsModel.MonthOperations = monthOperations;
-
-            model.OperationsModel.AlreadyPayedLabel = "Already payed";
-            model.OperationsModel.FinishDateLabel = "Finish date";
-            model.OperationsModel.NameLabel = "Name";
-            model.OperationsModel.PaymentLeftLabel = "Payment left";
-            model.OperationsModel.TotalAmonutLabel = "Total Amount";
-            model.OperationsModel.CurrentPeriodPayedLabel = "Current month payed";
-
-            model.NewMoneyOperation = new MoneyOperationViewData();
-            model.NewMoneyOperation.AccountID = 3;
-
-            return model;
         }
 
         private MoneyOperationStatus GetMoneyOperationStatusFromDto(MoneyOperationDto moneyOperationDto, DateTime date)

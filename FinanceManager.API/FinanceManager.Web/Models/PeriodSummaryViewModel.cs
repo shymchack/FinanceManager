@@ -11,7 +11,7 @@ namespace FinanceManager.Web.Models
         public PeriodSummaryViewModel()
         {
             OperationsModel = new MoneyOperationsViewModel();
-            NewMoneyOperation = new MoneyOperationViewData();
+            NewMoneyOperation = new MoneyOperationModel();
         }
         public string PeriodTitle { get; set; }
 
@@ -35,7 +35,7 @@ namespace FinanceManager.Web.Models
 
         public MoneyOperationsViewModel OperationsModel { get; set; }
 
-        public MoneyOperationViewData NewMoneyOperation { get; set; }
+        public MoneyOperationModel NewMoneyOperation { get; set; }
         public int NextPeriodBeginningTotalBalance { get; set; }
     }
 }

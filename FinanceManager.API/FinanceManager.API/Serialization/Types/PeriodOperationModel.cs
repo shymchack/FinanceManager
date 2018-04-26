@@ -3,7 +3,7 @@
 namespace FinanceManager.API.Serialization.Types
 {
 
-    public class MonthOperationViewModel
+    public class PeriodOperationModel
     {
         public string Name { get; set; }
         public decimal TotalAmount { get; set; }

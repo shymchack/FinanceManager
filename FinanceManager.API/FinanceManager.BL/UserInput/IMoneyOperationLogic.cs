@@ -6,8 +6,8 @@ namespace FinanceManager.BL
 {
     public interface IMoneyOperationLogic
     {
-        MoneyOperationDto ConvertUserInputToDto(MoneyOperationViewData moneyOperation);
-        MoneyOperationViewData ConvertDtoToViewData(MoneyOperationDto moneyOperationDto);
+        MoneyOperationDto ConvertUserInputToDto(MoneyOperationModel moneyOperation);
+        MoneyOperationModel ConvertDtoToViewData(MoneyOperationDto moneyOperationDto);
         MoneyOperationStatus PrepareMoneyOperationStatus(MoneyOperationDto moneyOperationDto, DateTime date);
     }
 }

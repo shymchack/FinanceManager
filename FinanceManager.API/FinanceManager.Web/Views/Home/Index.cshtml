@@ -54,15 +54,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (FinanceManager.Web.Models.MonthOperationViewModel monthOperation in Model.OperationsModel.MonthOperations)
+                    @foreach (FinanceManager.Web.Models.MoneyOperaionViewModel periodOperation in Model.OperationsModel.PeriodOperations)
                     {
                         <tr>
-                            <td>@monthOperation.Name</td>
-                            <td>@monthOperation.TotalAmount</td>
-                            <td>@monthOperation.FinishDate</td>
-                            <td>@monthOperation.PaymentLeftAmount</td>
-                            <td>@monthOperation.AlreadyPayedAmount</td>
-                            <td>@monthOperation.CurrentPeriodPayedAmount</td>
+                            <td>@periodOperation.Name</td>
+                            <td>@periodOperation.TotalAmount</td>
+                            <td>@periodOperation.FinishDate</td>
+                            <td>@periodOperation.PaymentLeftAmount</td>
+                            <td>@periodOperation.AlreadyPayedAmount</td>
+                            <td>@periodOperation.CurrentPeriodPayedAmount</td>
                         </tr>
                     }
                 </tbody>

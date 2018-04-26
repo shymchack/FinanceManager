@@ -2,8 +2,13 @@
 
 namespace FinanceManager.API.Serialization.Types
 {
-    public class MonthOperationsTableViewModel
+    public class PeriodOperationsModel
     {
+        public PeriodOperationsModel()
+        {
+            PeriodOperations = new List<PeriodOperationModel>();
+        }
+
         public string NameLabel { get; set; }
         public string TotalAmonutLabel { get; set; }
         public string AlreadyPayedLabel { get; set; }
@@ -11,6 +16,6 @@ namespace FinanceManager.API.Serialization.Types
         public string FinishDateLabel { get; set; }
         public string CurrentPeriodPayedLabel { get; set; }
 
-        public IEnumerable<MonthOperationViewModel> MonthOperations { get; set; }
+        public IEnumerable<PeriodOperationModel> PeriodOperations { get; set; }
     }
 }

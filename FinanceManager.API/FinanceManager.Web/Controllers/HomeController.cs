@@ -19,8 +19,8 @@ namespace FinanceManager.Web.Controllers
 
             using (var httpClient = new HttpClient())
             {
-                httpClient.BaseAddress = new Uri("http://localhost:35816/api/MoneyOperations/");
-                var response = httpClient.GetAsync($"GetMoneyOperationsByUserId?userId={1}");
+                httpClient.BaseAddress = new Uri("http://localhost:35816/api/PeriodSummary/");
+                var response = httpClient.GetAsync($"GetPeriodSummary?userId={1}");
                 response.Wait();
                 string result = response.Result.Content.ReadAsStringAsync().Result;
                 periodSummary = JsonConvert.DeserializeObject<PeriodSummaryViewModel>(result);

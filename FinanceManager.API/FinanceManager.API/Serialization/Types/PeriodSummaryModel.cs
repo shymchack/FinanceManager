@@ -6,7 +6,7 @@ using System.Web;
 
 namespace FinanceManager.API.Serialization.Types
 {
-    public class PeriodSummaryViewModel
+    public class PeriodSummaryModel
     {
         public string PeriodTitle { get; set; }
 
@@ -28,9 +28,9 @@ namespace FinanceManager.API.Serialization.Types
         public double CurrentPeriodIncomesAmount { get; set; }
         public double PeriodIncomesDifference { get { return CurrentPeriodIncomesAmount - PeriodBeginningPeriodIncomesAmount; } }
 
-        public MonthOperationsTableViewModel OperationsModel { get; set; }
+        public PeriodOperationsModel OperationsModel { get; set; }
 
-        public MoneyOperationViewData NewMoneyOperation { get; set; }
+        public MoneyOperationModel NewMoneyOperation { get; set; }
         public int NextPeriodBeginningTotalBalance { get; set; }
     }
 }

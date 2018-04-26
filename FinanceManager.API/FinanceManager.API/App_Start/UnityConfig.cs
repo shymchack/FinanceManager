@@ -31,6 +31,7 @@ namespace FinanceManager.API
             container.RegisterType<IMoneyOperationsRepository, MoneyOperationsRepository>();
             container.RegisterType<IFinanceManagerContext, FinanceManagerContext>();
             container.RegisterType<IUsersRepository, UsersRepository>();
+            container.RegisterType<IPeriodSummaryService, PeriodSummaryService>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

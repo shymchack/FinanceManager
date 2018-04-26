@@ -10,7 +10,7 @@ namespace FinanceManager.BL.UserInput
 {
     public class MoneyOperationLogic : IMoneyOperationLogic
     {
-        public MoneyOperationDto ConvertUserInputToDto(MoneyOperationViewData moneyOperation)
+        public MoneyOperationDto ConvertUserInputToDto(MoneyOperationModel moneyOperation)
         {
             //TODO validate data conversion - most probably not all needed fields are included (or too much of them)
             if (IsValid(moneyOperation))
@@ -34,10 +34,10 @@ namespace FinanceManager.BL.UserInput
             return null;
         }
 
-        public MoneyOperationViewData ConvertDtoToViewData(MoneyOperationDto moneyOperationDto)
+        public MoneyOperationModel ConvertDtoToViewData(MoneyOperationDto moneyOperationDto)
         {
             //TODO validate data conversion - most probably not all needed fields are included (or too much of them)
-            MoneyOperationViewData moneyOperationViewData = new MoneyOperationViewData();
+            MoneyOperationModel moneyOperationViewData = new MoneyOperationModel();
             moneyOperationViewData.Description = moneyOperationDto.Description;
             moneyOperationViewData.InitialAmount = moneyOperationDto.InitialAmount;
             moneyOperationViewData.IsActive = moneyOperationDto.IsActive;
@@ -145,7 +145,7 @@ namespace FinanceManager.BL.UserInput
             return moneyOperationDto.ValidityBeginDate == moneyOperationDto.ValidityEndDate;
         }
 
-        private bool IsValid(MoneyOperationViewData moneyOperation)
+        private bool IsValid(MoneyOperationModel moneyOperation)
         {
             return (moneyOperation.ValidityEndDate >= moneyOperation.ValidityBeginDate);
         }

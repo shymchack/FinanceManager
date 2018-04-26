@@ -3,6 +3,7 @@ using FinanceManager.DAL;
 using System.Linq;
 using FinanceManager.DAL.Dtos;
 using System.Collections.Generic;
+using FinanceManager.DAL.UnitOfWork;
 
 namespace FinanceManager.API.Services
 {

@@ -4,7 +4,7 @@ using FinanceManager.DAL.Repositories.Contracts;
 using System;
 using System.Collections.Generic;
 
-namespace FinanceManager.DAL
+namespace FinanceManager.DAL.UnitOfWork
 {
     public interface IUserAccountsUnitOfWork : IDisposable
     {

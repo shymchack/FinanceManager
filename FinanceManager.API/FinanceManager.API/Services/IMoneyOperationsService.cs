@@ -10,8 +10,8 @@ namespace FinanceManager.API.Services
 {
     public interface IMoneyOperationsService
     {
-        int AddMoneyOperation(MoneyOperationViewData moneyOperation);
-        MoneyOperationViewData GetMoneyOperationById(int id);
+        int AddMoneyOperation(MoneyOperationModel moneyOperation);
+        MoneyOperationModel GetMoneyOperationById(int id);
         IEnumerable<MoneyOperationStatus> GetMoneyOperationsByAccountsIds(IEnumerable<int> accountId, DateTime date);
     }
 }

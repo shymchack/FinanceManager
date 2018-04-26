@@ -1,0 +1,78 @@
+﻿using FinanceManager.API.Serialization.Types;
+using FinanceManager.BL;
+using FinanceManager.BL.UserInput;
+using FinanceManager.DAL;
+using FinanceManager.DAL.Dtos;
+using FinanceManager.DAL.UnitOfWork;
+using FinanceManager.Types.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace FinanceManager.API.Services
+{
+    public class PeriodSummaryService : IPeriodSummaryService
+    {
+        IMoneyOperationsService _moneyOperationsService;
+        IUserAccountsUnitOfWork _userAccountsUnitOfWork;
+
+        //TODO maybe should use only Services, no UOWs
+        public PeriodSummaryService(IMoneyOperationsService moneyOperationsService, IUserAccountsUnitOfWork userAccountsUnitOfWork)
+        {
+            _moneyOperationsService = moneyOperationsService;
+            _userAccountsUnitOfWork = userAccountsUnitOfWork;
+        }
+
+        public PeriodSummaryModel GetPeriodSummary(DateTime dateFromPeriod, int userId, PeriodUnit periodUnit = PeriodUnit.Month)
+        {
+            IEnumerable<AccountDto> accounts = _userAccountsUnitOfWork.GetAccountsByUserId(userId);
+            IEnumerable<MoneyOperationStatus> moneyOperations = _moneyOperationsService.GetMoneyOperationsByAccountsIds(accounts.Select(a => a.ID), dateFromPeriod);
+
+            //TODO implement periodUnit
+            PeriodSummaryModel model = new PeriodSummaryModel();
+
+            model = new PeriodSummaryModel();
+            model.PeriodTitle = "October 2018";
+
+
+            List<PeriodOperationModel> monthOperations = new List<PeriodOperationModel>();
+
+            foreach (MoneyOperationStatus moneyOperation in moneyOperations)
+            {
+                PeriodOperationModel op = new PeriodOperationModel();
+                op.TotalAmount = moneyOperation.InitialAmount;
+                op.AlreadyPayedAmount = moneyOperation.AlreadyPayedAmount;
+                op.CurrentPeriodPayedAmount = moneyOperation.CurrentPeriodPayedAmount;
+                op.FinishDate = moneyOperation.FinishDate;
+                op.BeginningDate = moneyOperation.BeginningDate;
+                op.Name = moneyOperation.Name;
+                monthOperations.Add(op);
+            }
+
+            model.CurrentPeriodExpensesAmount = 10133;
+            model.PeriodBeginningPeriodExpensesAmount = 8956;
+
+            model.CurrentPeriodIncomesAmount = 8015;
+            model.PeriodBeginningPeriodIncomesAmount = 8015;
+
+            model.CurrentTotalBalance = (double)accounts.Sum(a => a.CurrentAmount);
+            model.PeriodBeginningTotalBalance = (double)accounts.Sum(a => a.CurrentAmount) + (double)monthOperations.Where(mo => mo.FinishDate >= DateTime.UtcNow && mo.BeginningDate <= DateTime.UtcNow).Sum(mo => mo.CurrentPeriodPayedAmount); //TODO: UtcNow date should be taken from server!
+            model.NextPeriodBeginningTotalBalance = 20000;
+
+            model.OperationsModel = new PeriodOperationsModel();
+            model.OperationsModel.PeriodOperations = monthOperations;
+
+            model.OperationsModel.AlreadyPayedLabel = "Already payed";
+            model.OperationsModel.FinishDateLabel = "Finish date";
+            model.OperationsModel.NameLabel = "Name";
+            model.OperationsModel.PaymentLeftLabel = "Payment left";
+            model.OperationsModel.TotalAmonutLabel = "Total Amount";
+            model.OperationsModel.CurrentPeriodPayedLabel = "Current month payed";
+
+            model.NewMoneyOperation = new MoneyOperationModel();
+            model.NewMoneyOperation.AccountID = 3;
+
+            return model;
+        }
+    }
+}
