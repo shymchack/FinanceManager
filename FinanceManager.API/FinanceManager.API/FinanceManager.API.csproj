@@ -119,6 +119,11 @@
     <Compile Include="Serialization\Types\AccountBalance.cs" />
     <Compile Include="Serialization\Types\AccountOperation.cs" />
     <Compile Include="Serialization\Types\AccountSummary.cs" />
+    <Compile Include="Serialization\Types\MoneyOperationStatusViewModel.cs" />
+    <Compile Include="Serialization\Types\MoneyOperationViewModel.cs" />
+    <Compile Include="Serialization\Types\MonthOperationsTableViewModel.cs" />
+    <Compile Include="Serialization\Types\MonthOperationViewModel.cs" />
+    <Compile Include="Serialization\Types\PeriodSummaryViewModel.cs" />
     <Compile Include="Services\AccountsService.cs" />
     <Compile Include="Services\IAccountsService.cs" />
     <Compile Include="Services\IMoneyOperationsService.cs" />

@@ -11,6 +11,6 @@ namespace FinanceManager.DAL.UnitOfWork
     {
         int AddMoneyOperation(MoneyOperationDto moneyOperation);
         MoneyOperationDto GetMoneyOperationById(int id);
-        IEnumerable<MoneyOperationDto> GetMoneyOperationsByAccountID(int accountId, DateTime date);
+        IEnumerable<MoneyOperationDto> GetMoneyOperationsByAccountsIDs(IEnumerable<int> accountsIds, DateTime date);
     }
 }

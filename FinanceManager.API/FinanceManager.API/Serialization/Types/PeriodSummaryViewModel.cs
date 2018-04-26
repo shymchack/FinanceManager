@@ -4,15 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace FinanceManager.Web.Models
+namespace FinanceManager.API.Serialization.Types
 {
     public class PeriodSummaryViewModel
     {
-        public PeriodSummaryViewModel()
-        {
-            OperationsModel = new MoneyOperationsViewModel();
-            NewMoneyOperation = new MoneyOperationViewData();
-        }
         public string PeriodTitle { get; set; }
 
         public double CurrentTotalBalance { get; set; }
@@ -33,7 +28,7 @@ namespace FinanceManager.Web.Models
         public double CurrentPeriodIncomesAmount { get; set; }
         public double PeriodIncomesDifference { get { return CurrentPeriodIncomesAmount - PeriodBeginningPeriodIncomesAmount; } }
 
-        public MoneyOperationsViewModel OperationsModel { get; set; }
+        public MonthOperationsTableViewModel OperationsModel { get; set; }
 
         public MoneyOperationViewData NewMoneyOperation { get; set; }
         public int NextPeriodBeginningTotalBalance { get; set; }

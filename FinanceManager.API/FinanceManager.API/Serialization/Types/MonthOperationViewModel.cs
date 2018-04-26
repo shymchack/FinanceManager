@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace FinanceManager.Web.Models
+namespace FinanceManager.API.Serialization.Types
 {
 
-    public class MoneyOperaionViewModel
+    public class MonthOperationViewModel
     {
         public string Name { get; set; }
         public decimal TotalAmount { get; set; }

@@ -1,13 +1,7 @@
-﻿using FinanceManager.BL.UserInput;
-using FinanceManager.Web.Models;
-using FinanceManager.Web.Services;
+﻿using FinanceManager.Web.Models;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Web;
 using System.Web.Mvc;
 
 namespace FinanceManager.Web.Controllers
@@ -21,30 +15,18 @@ namespace FinanceManager.Web.Controllers
 
         public ActionResult Index()
         {
-            IEnumerable<MoneyOperationStatusViewModel> moneyOperations = null;
-            IEnumerable<AccountViewModel> accounts = null;
+            PeriodSummaryViewModel periodSummary = null;
 
             using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = new Uri("http://localhost:35816/api/MoneyOperations/");
-                var response = httpClient.GetAsync($"GetMoneyOperationsByAccountId?accountId={1}");
+                var response = httpClient.GetAsync($"GetMoneyOperationsByUserId?userId={1}");
                 response.Wait();
                 string result = response.Result.Content.ReadAsStringAsync().Result;
-                moneyOperations = JsonConvert.DeserializeObject<IEnumerable<MoneyOperationStatusViewModel>>(result);
+                periodSummary = JsonConvert.DeserializeObject<PeriodSummaryViewModel>(result);
             }
 
-            using (var httpClient = new HttpClient())
-            {
-                httpClient.BaseAddress = new Uri("http://localhost:35816/api/Accounts/");
-                var response = httpClient.GetAsync($"GetAccountsByUserId?userId={1}");
-                response.Wait();
-                string result = response.Result.Content.ReadAsStringAsync().Result;
-                accounts = JsonConvert.DeserializeObject<IEnumerable<AccountViewModel>>(result);
-            }
-
-            var model = new MonthSummaryService().GetPeriodSummaryViewModel(moneyOperations, accounts);
-
-            return View(model);
+            return View(periodSummary ?? new PeriodSummaryViewModel());
         }
 
         public ActionResult About()

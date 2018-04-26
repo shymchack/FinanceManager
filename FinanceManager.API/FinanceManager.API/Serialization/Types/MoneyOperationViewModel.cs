@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace FinanceManager.Web.Models
+namespace FinanceManager.API.Serialization.Types
 {
     public class MoneyOperationViewModel
     {

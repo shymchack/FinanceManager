@@ -12,6 +12,6 @@ namespace FinanceManager.API.Services
     {
         int AddMoneyOperation(MoneyOperationViewData moneyOperation);
         MoneyOperationViewData GetMoneyOperationById(int id);
-        IEnumerable<MoneyOperationStatus> GetMoneyOperationsByAccountID(int accountId, DateTime date);
+        IEnumerable<MoneyOperationStatus> GetMoneyOperationsByAccountsIds(IEnumerable<int> accountId, DateTime date);
     }
 }
