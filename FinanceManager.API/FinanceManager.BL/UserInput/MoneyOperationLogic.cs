@@ -73,15 +73,19 @@ namespace FinanceManager.BL.UserInput
             IEnumerable<MoneyOperationChangeDto> periodMoneyOperationChanges = ExtractCurrentPeriodOperations(moneyOperationDto);
             status.AccountID = moneyOperationDto.AccountID;
             status.InitialAmount = moneyOperationDto.InitialAmount;
-            status.AlreadyPayedAmount = moneyOperationDto.MoneyOperationChanges.Sum(moc => -moc.ChangeAmount);
-            status.CurrentPeriodPayedAmount = periodMoneyOperationChanges.Sum(moc => -moc.ChangeAmount);
             status.Description = moneyOperationDto.Description;
             status.Name = moneyOperationDto.Name;
-            status.TotalBudgetedAmount = currentPaymentNumber / totalPaymentsNumber * status.InitialAmount - status.AlreadyPayedAmount; // TODO: Make sure it's needed to subtract already payed amount
             status.FinishDate = moneyOperationDto.ValidityEndDate;
             status.BeginningDate = moneyOperationDto.ValidityBeginDate;
-            //TODO at first implement the "money operation freeze feature" - remember to rename FrozenAmount to prevent misunderstaindings.
+            status.AlreadyPayedAmount = moneyOperationDto.MoneyOperationChanges.Sum(moc => -moc.ChangeAmount);
+            status.CurrentPeriodPayedAmount = periodMoneyOperationChanges.Sum(moc => -moc.ChangeAmount);
+            status.TotalBudgetedAmount = currentPaymentNumber / totalPaymentsNumber * status.InitialAmount - status.AlreadyPayedAmount; // TODO: Make sure it's needed to subtract already payed amount
             status.PeriodsLeftToPay = totalPaymentsNumber - currentPaymentNumber;
+            status.CurrentPeriodBeginningBudgetedAmount = status.TotalBudgetedAmount / status.PeriodsLeftToPay;
+            status.CurrentPeriodBudgetedAmount = status.CurrentPeriodBeginningBudgetedAmount - status.CurrentPeriodPayedAmount;
+            status.CurrentPeriodEndBudgetedAmount = status.TotalBudgetedAmount / (status.PeriodsLeftToPay + 1); //TODO verify the count of periods, also in beginning amount
+            
+             //TODO at first implement the "money operation freeze feature" - remember to rename FrozenAmount to prevent misunderstaindings.
             //status.CurrPeriodIncomes = moneyOperationChanges.Where(mo => mo.ChangeAmount > 0).Sum(moc => moc.ChangeAmount);
 
             return status;
