@@ -48,6 +48,10 @@ namespace FinanceManager.API.Services
             model.OperationsModel.PaymentLeftLabel = "Payment left";
             model.OperationsModel.TotalAmonutLabel = "Total Amount";
             model.OperationsModel.CurrentPeriodPayedLabel = "Current month payed";
+            model.OperationsModel.CurrentPeriodBeginningBudgetedAmountLabel = "Cur per Beg Bud";
+            model.OperationsModel.CurrentPeriodBudgetedAmountLabel = "Cur per Bud";
+            model.OperationsModel.CurrentPeriodEndBudgetedAmountLabel = "Cur per End Bud";
+            model.OperationsModel.TotalBudgetedAmountLabel = "Tot Bud";
 
             model.NewMoneyOperation = new MoneyOperationModel();
             model.NewMoneyOperation.AccountID = 3;

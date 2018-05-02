@@ -51,6 +51,10 @@
                         <th class="text-center">@Model.OperationsModel.PaymentLeftLabel</th>
                         <th class="text-center">@Model.OperationsModel.AlreadyPayedLabel</th>
                         <th class="text-center">@Model.OperationsModel.CurrentPeriodPayedLabel</th>
+                        <th class="text-center">@Model.OperationsModel.CurrentPeriodBeginningBudgetedAmountLabel</th>
+                        <th class="text-center">@Model.OperationsModel.CurrentPeriodBudgetedAmountLabel</th>
+                        <th class="text-center">@Model.OperationsModel.CurrentPeriodEndBudgetedAmountLabel</th>
+                        <th class="text-center">@Model.OperationsModel.TotalBudgetedAmountLabel</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,6 +67,10 @@
                             <td>@periodOperation.CurrentAmount</td>
                             <td>@periodOperation.AlreadyPayedAmount</td>
                             <td>@periodOperation.CurrentPeriodPayedAmount</td>
+                            <td>@periodOperation.CurrentPeriodBeginningBudgetedAmount</td>
+                            <td>@periodOperation.CurrentPeriodBudgetedAmount</td>
+                            <td>@periodOperation.CurrentPeriodEndBudgetedAmount</td>
+                            <td>@periodOperation.TotalBudgetedAmount</td>
                         </tr>
                     }
                 </tbody>

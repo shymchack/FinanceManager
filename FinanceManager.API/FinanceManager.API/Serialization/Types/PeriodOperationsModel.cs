@@ -16,6 +16,10 @@ namespace FinanceManager.API.Serialization.Types
         public string PaymentLeftLabel { get; set; }
         public string FinishDateLabel { get; set; }
         public string CurrentPeriodPayedLabel { get; set; }
+        public string TotalBudgetedAmountLabel { get; set; }
+        public string CurrentPeriodBeginningBudgetedAmountLabel { get; set; }
+        public string CurrentPeriodBudgetedAmountLabel { get; set; }
+        public string CurrentPeriodEndBudgetedAmountLabel { get; set; }
 
         public IEnumerable<MoneyOperationStatus> PeriodOperations { get; set; }
     }
