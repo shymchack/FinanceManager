@@ -8,10 +8,16 @@ namespace FinanceManager.API.Serialization.Types
 {
     public class PeriodSummaryModel
     {
+        public PeriodSummaryModel()
+        {
+            OperationsModel = new PeriodOperationsModel();
+            NewMoneyOperation = new MoneyOperationModel();
+        }
+
         public string PeriodTitle { get; set; }
 
         public double CurrentTotalBalance { get; set; }
-        public double PeriodBeginningTotalBalance { get; set; }
+        public double PeriodBeginningTotalBalance { get { return CurrentTotalBalance + (double)OperationsModel.PeriodOperations.Sum(om => om.CurrentPeriodPayedAmount); } }
         public double TotalBalanceDifference { get { return CurrentTotalBalance - PeriodBeginningTotalBalance; } }
 
 
@@ -20,8 +26,8 @@ namespace FinanceManager.API.Serialization.Types
         public double PeriodBalanceDifference { get { return CurrentPeriodBalance - PeriodBeginningPeriodBalance; } }
 
 
-        public double PeriodBeginningPeriodExpensesAmount { get; set; }
-        public double CurrentPeriodExpensesAmount { get; set; }
+        public double PeriodBeginningPeriodExpensesAmount { get { return (double) OperationsModel.PeriodOperations.Sum(mo => mo.CurrentPeriodBeginningBudgetedAmount); } }
+        public double CurrentPeriodExpensesAmount { get { return (double) OperationsModel.PeriodOperations.Sum(mo => mo.CurrentPeriodBudgetedAmount); } } //TODO needed to add money operation modification date
         public double PeriodExpensesDifference { get { return CurrentPeriodExpensesAmount - PeriodBeginningPeriodExpensesAmount; } }
 
         public double PeriodBeginningPeriodIncomesAmount { get; set; }
@@ -31,6 +37,7 @@ namespace FinanceManager.API.Serialization.Types
         public PeriodOperationsModel OperationsModel { get; set; }
 
         public MoneyOperationModel NewMoneyOperation { get; set; }
-        public int NextPeriodBeginningTotalBalance { get; set; }
+        public double NextPeriodBeginningTotalBalance { get { return PeriodBeginningTotalBalance + (double) OperationsModel.PeriodOperations.Sum(po => po.CurrentPeriodBeginningBudgetedAmount); } }
+        public double PeriodEndPeriodExpensesAmount { get { return (double) OperationsModel.PeriodOperations.Sum(mo => mo.CurrentPeriodEndBudgetedAmount); } }
     }
 }

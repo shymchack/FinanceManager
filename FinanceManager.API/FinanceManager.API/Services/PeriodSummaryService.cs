@@ -33,34 +33,14 @@ namespace FinanceManager.API.Services
 
             model = new PeriodSummaryModel();
             model.PeriodTitle = "October 2018";
-
-
-            List<PeriodOperationModel> monthOperations = new List<PeriodOperationModel>();
-
-            foreach (MoneyOperationStatus moneyOperation in moneyOperations)
-            {
-                PeriodOperationModel op = new PeriodOperationModel();
-                op.TotalAmount = moneyOperation.InitialAmount;
-                op.AlreadyPayedAmount = moneyOperation.AlreadyPayedAmount;
-                op.CurrentPeriodPayedAmount = moneyOperation.CurrentPeriodPayedAmount;
-                op.FinishDate = moneyOperation.FinishDate;
-                op.BeginningDate = moneyOperation.BeginningDate;
-                op.Name = moneyOperation.Name;
-                monthOperations.Add(op);
-            }
-
-            model.CurrentPeriodExpensesAmount = 10133;
-            model.PeriodBeginningPeriodExpensesAmount = 8956;
-
-            model.CurrentPeriodIncomesAmount = 8015;
-            model.PeriodBeginningPeriodIncomesAmount = 8015;
+            
+            model.CurrentPeriodIncomesAmount = 8015; //TODO needed to add mmoney operation modification date
+            model.PeriodBeginningPeriodIncomesAmount = (double)moneyOperations.Sum(mo => mo.CurrentPeriodIncomes);
 
             model.CurrentTotalBalance = (double)accounts.Sum(a => a.CurrentAmount);
-            model.PeriodBeginningTotalBalance = (double)accounts.Sum(a => a.CurrentAmount) + (double)monthOperations.Where(mo => mo.FinishDate >= DateTime.UtcNow && mo.BeginningDate <= DateTime.UtcNow).Sum(mo => mo.CurrentPeriodPayedAmount); //TODO: UtcNow date should be taken from server!
-            model.NextPeriodBeginningTotalBalance = 20000;
 
             model.OperationsModel = new PeriodOperationsModel();
-            model.OperationsModel.PeriodOperations = monthOperations;
+            model.OperationsModel.PeriodOperations = moneyOperations;
 
             model.OperationsModel.AlreadyPayedLabel = "Already payed";
             model.OperationsModel.FinishDateLabel = "Finish date";

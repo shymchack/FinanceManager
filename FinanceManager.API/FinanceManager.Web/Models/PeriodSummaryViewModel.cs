@@ -10,32 +10,34 @@ namespace FinanceManager.Web.Models
     {
         public PeriodSummaryViewModel()
         {
-            OperationsModel = new MoneyOperationsViewModel();
+            OperationsModel = new PeriodOperationsViewModel();
             NewMoneyOperation = new MoneyOperationModel();
         }
         public string PeriodTitle { get; set; }
 
         public double CurrentTotalBalance { get; set; }
         public double PeriodBeginningTotalBalance { get; set; }
-        public double TotalBalanceDifference { get { return CurrentTotalBalance - PeriodBeginningTotalBalance; } }
+        public double TotalBalanceDifference { get; set; }
 
 
-        public double CurrentPeriodBalance { get { return CurrentPeriodIncomesAmount - CurrentPeriodExpensesAmount; } }
-        public double PeriodBeginningPeriodBalance { get { return PeriodBeginningPeriodIncomesAmount - PeriodBeginningPeriodExpensesAmount; } }
-        public double PeriodBalanceDifference { get { return CurrentPeriodBalance - PeriodBeginningPeriodBalance; } }
+        public double CurrentPeriodBalance { get; set; }
+        public double PeriodBeginningPeriodBalance { get; set; }
+        public double PeriodBalanceDifference { get; set; }
 
 
         public double PeriodBeginningPeriodExpensesAmount { get; set; }
         public double CurrentPeriodExpensesAmount { get; set; }
-        public double PeriodExpensesDifference { get { return CurrentPeriodExpensesAmount - PeriodBeginningPeriodExpensesAmount; } }
+        public double PeriodExpensesDifference { get; set; }
 
         public double PeriodBeginningPeriodIncomesAmount { get; set; }
         public double CurrentPeriodIncomesAmount { get; set; }
-        public double PeriodIncomesDifference { get { return CurrentPeriodIncomesAmount - PeriodBeginningPeriodIncomesAmount; } }
+        public double PeriodIncomesDifference { get; set; }
 
-        public MoneyOperationsViewModel OperationsModel { get; set; }
+        public PeriodOperationsViewModel OperationsModel { get; set; }
 
         public MoneyOperationModel NewMoneyOperation { get; set; }
-        public int NextPeriodBeginningTotalBalance { get; set; }
+        public double NextPeriodBeginningTotalBalance { get; set; }
+        public double PeriodEndPeriodExpensesAmount { get; set; }
+
     }
 }

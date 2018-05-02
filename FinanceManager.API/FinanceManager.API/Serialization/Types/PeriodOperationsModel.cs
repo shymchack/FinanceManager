@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using FinanceManager.BL;
+using System.Collections.Generic;
 
 namespace FinanceManager.API.Serialization.Types
 {
@@ -6,7 +7,7 @@ namespace FinanceManager.API.Serialization.Types
     {
         public PeriodOperationsModel()
         {
-            PeriodOperations = new List<PeriodOperationModel>();
+            PeriodOperations = new List<MoneyOperationStatus>();
         }
 
         public string NameLabel { get; set; }
@@ -16,6 +17,6 @@ namespace FinanceManager.API.Serialization.Types
         public string FinishDateLabel { get; set; }
         public string CurrentPeriodPayedLabel { get; set; }
 
-        public IEnumerable<PeriodOperationModel> PeriodOperations { get; set; }
+        public IEnumerable<MoneyOperationStatus> PeriodOperations { get; set; }
     }
 }

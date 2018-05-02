@@ -70,24 +70,29 @@ namespace FinanceManager.BL.UserInput
 
             //TimeSpan repetitionTimeSpan = RepetitionUnitCalculator.CalculateRepetitionTimeSpan(moneyOperationDto); // I don't know if this is necessary
             MoneyOperationStatus status = new MoneyOperationStatus();
+            IEnumerable<MoneyOperationChangeDto> periodMoneyOperationChanges = ExtractCurrentPeriodOperations(moneyOperationDto);
             status.AccountID = moneyOperationDto.AccountID;
             status.InitialAmount = moneyOperationDto.InitialAmount;
             status.AlreadyPayedAmount = moneyOperationDto.MoneyOperationChanges.Sum(moc => -moc.ChangeAmount);
-            status.CurrentPeriodPayedAmount = ExtractCurrentPeriodPayedAmount(moneyOperationDto); //TODO think abuot making this independent of UtcNow
+            status.CurrentPeriodPayedAmount = periodMoneyOperationChanges.Sum(moc => -moc.ChangeAmount);
             status.Description = moneyOperationDto.Description;
             status.Name = moneyOperationDto.Name;
-            status.FrozenAmount = currentPaymentNumber / totalPaymentsNumber * status.InitialAmount - status.AlreadyPayedAmount; // TODO: Make sure it's needed to subtract already payed amount
+            status.TotalBudgetedAmount = currentPaymentNumber / totalPaymentsNumber * status.InitialAmount - status.AlreadyPayedAmount; // TODO: Make sure it's needed to subtract already payed amount
             status.FinishDate = moneyOperationDto.ValidityEndDate;
             status.BeginningDate = moneyOperationDto.ValidityBeginDate;
+            //TODO at first implement the "money operation freeze feature" - remember to rename FrozenAmount to prevent misunderstaindings.
+            status.PeriodsLeftToPay = totalPaymentsNumber - currentPaymentNumber;
+            //status.CurrPeriodIncomes = moneyOperationChanges.Where(mo => mo.ChangeAmount > 0).Sum(moc => moc.ChangeAmount);
 
             return status;
         }
-
-        private decimal ExtractCurrentPeriodPayedAmount(MoneyOperationDto moneyOperationDto)
+        
+        //TODO think abuot making this independent of UtcNow
+        private IEnumerable<MoneyOperationChangeDto> ExtractCurrentPeriodOperations(MoneyOperationDto moneyOperationDto)
         {
             var repetitionTimeStamp = RepetitionUnitCalculator.CalculateRepetitionTimeStamp(DateTime.UtcNow, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity);
             var currentPeriodChanges = moneyOperationDto.MoneyOperationChanges.Where(moc => ChallengeDateRepetitionProperties(moc.ChangeDate, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity));
-            return currentPeriodChanges.Sum(moc => -moc.ChangeAmount);
+            return currentPeriodChanges;
         }
 
         private bool ChallengeDateRepetitionProperties(DateTime changeDate, PeriodUnit repetitionUnit, short repetitionUnitQuantity)

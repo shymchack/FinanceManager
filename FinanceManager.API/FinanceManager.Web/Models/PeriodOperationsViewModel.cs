@@ -3,9 +3,9 @@
 namespace FinanceManager.Web.Models
 {
     //TODO refactor this - create field-label relation and make it more generic
-    public class MoneyOperationsViewModel
+    public class PeriodOperationsViewModel
     {
-        public MoneyOperationsViewModel()
+        public PeriodOperationsViewModel()
         {
             PeriodOperations = new List<MoneyOperaionViewModel>();
         }

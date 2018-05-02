@@ -201,7 +201,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\MoneyOperationsViewModel.cs" />
+    <Compile Include="Models\PeriodOperationsViewModel.cs" />
     <Compile Include="Models\MoneyOperaionViewModel.cs" />
     <Compile Include="Models\PeriodSummaryViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

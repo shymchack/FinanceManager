@@ -123,7 +123,6 @@
     <Compile Include="Serialization\Types\MoneyOperationStatusViewModel.cs" />
     <Compile Include="Serialization\Types\MoneyOperationViewModel.cs" />
     <Compile Include="Serialization\Types\PeriodOperationsModel.cs" />
-    <Compile Include="Serialization\Types\PeriodOperationModel.cs" />
     <Compile Include="Serialization\Types\PeriodSummaryModel.cs" />
     <Compile Include="Services\AccountsService.cs" />
     <Compile Include="Services\IAccountsService.cs" />
