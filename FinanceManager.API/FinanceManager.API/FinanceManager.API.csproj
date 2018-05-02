@@ -120,7 +120,6 @@
     <Compile Include="Serialization\Types\AccountBalance.cs" />
     <Compile Include="Serialization\Types\AccountOperation.cs" />
     <Compile Include="Serialization\Types\AccountSummary.cs" />
-    <Compile Include="Serialization\Types\MoneyOperationStatusViewModel.cs" />
     <Compile Include="Serialization\Types\MoneyOperationViewModel.cs" />
     <Compile Include="Serialization\Types\PeriodOperationsModel.cs" />
     <Compile Include="Serialization\Types\PeriodSummaryModel.cs" />
