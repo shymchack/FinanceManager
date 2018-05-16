@@ -15,11 +15,10 @@ namespace FinanceManager.Web.Models
         public string AlreadyPayedLabel { get; set; }
         public string PaymentLeftLabel { get; set; }
         public string FinishDateLabel { get; set; }
-        public string CurrentPeriodPayedLabel { get; set; }
-        public string TotalBudgetedAmountLabel { get; set; }
-        public string CurrentPeriodBeginningBudgetedAmountLabel { get; set; }
+        public string CurrentPeriodPaymentLeftLabel { get; set; }
+        public string CurrentPeriodEndAmountLabel { get; set; }
         public string CurrentPeriodBudgetedAmountLabel { get; set; }
-        public string CurrentPeriodEndBudgetedAmountLabel { get; set; }
+        public string CurrentPeriodPayedAmountLabel { get; set; }
         public IEnumerable<MoneyOperaionViewModel> PeriodOperations { get; set; }
     }
 }

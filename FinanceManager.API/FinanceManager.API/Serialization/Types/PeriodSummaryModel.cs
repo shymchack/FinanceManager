@@ -26,8 +26,8 @@ namespace FinanceManager.API.Serialization.Types
         public double PeriodBalanceDifference { get { return CurrentPeriodBalance - PeriodBeginningPeriodBalance; } }
 
 
-        public double PeriodBeginningPeriodExpensesAmount { get { return (double) OperationsModel.PeriodOperations.Sum(mo => mo.CurrentPeriodBeginningBudgetedAmount); } }
-        public double CurrentPeriodExpensesAmount { get { return (double) OperationsModel.PeriodOperations.Sum(mo => mo.CurrentPeriodBudgetedAmount); } } //TODO needed to add money operation modification date
+        public double PeriodBeginningPeriodExpensesAmount { get { return (double) OperationsModel.PeriodOperations.Sum(mo => mo.CurrentPeriodBudgetedAmount); } }
+        public double CurrentPeriodExpensesAmount { get { return (double) OperationsModel.PeriodOperations.Sum(mo => mo.CurrentPeriodPaymentLeft); } } //TODO needed to add money operation modification date
         public double PeriodExpensesDifference { get { return CurrentPeriodExpensesAmount - PeriodBeginningPeriodExpensesAmount; } }
 
         public double PeriodBeginningPeriodIncomesAmount { get; set; }
@@ -37,7 +37,7 @@ namespace FinanceManager.API.Serialization.Types
         public PeriodOperationsModel OperationsModel { get; set; }
 
         public MoneyOperationModel NewMoneyOperation { get; set; }
-        public double NextPeriodBeginningTotalBalance { get { return PeriodBeginningTotalBalance + (double) OperationsModel.PeriodOperations.Sum(po => po.CurrentPeriodBeginningBudgetedAmount); } }
-        public double PeriodEndPeriodExpensesAmount { get { return (double) OperationsModel.PeriodOperations.Sum(mo => mo.CurrentPeriodEndBudgetedAmount); } }
+        public double NextPeriodBeginningTotalBalance { get { return PeriodBeginningTotalBalance + (double) OperationsModel.PeriodOperations.Sum(po => po.CurrentPeriodBudgetedAmount); } }
+        public double PeriodEndPeriodExpensesAmount { get { return (double) OperationsModel.PeriodOperations.Sum(mo => mo.CurrentPeriodEndAmount); } }
     }
 }

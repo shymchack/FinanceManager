@@ -50,11 +50,10 @@
                         <th class="text-center">@Model.OperationsModel.FinishDateLabel</th>
                         <th class="text-center">@Model.OperationsModel.PaymentLeftLabel</th>
                         <th class="text-center">@Model.OperationsModel.AlreadyPayedLabel</th>
-                        <th class="text-center">@Model.OperationsModel.CurrentPeriodPayedLabel</th>
-                        <th class="text-center">@Model.OperationsModel.CurrentPeriodBeginningBudgetedAmountLabel</th>
+                        <th class="text-center">@Model.OperationsModel.CurrentPeriodEndAmountLabel</th>
                         <th class="text-center">@Model.OperationsModel.CurrentPeriodBudgetedAmountLabel</th>
-                        <th class="text-center">@Model.OperationsModel.CurrentPeriodEndBudgetedAmountLabel</th>
-                        <th class="text-center">@Model.OperationsModel.TotalBudgetedAmountLabel</th>
+                        <th class="text-center">@Model.OperationsModel.CurrentPeriodPayedAmountLabel</th>
+                        <th class="text-center">@Model.OperationsModel.CurrentPeriodPaymentLeftLabel</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,11 +65,10 @@
                             <td>@periodOperation.FinishDate</td>
                             <td>@periodOperation.CurrentAmount</td>
                             <td>@periodOperation.AlreadyPayedAmount</td>
-                            <td>@periodOperation.CurrentPeriodPayedAmount</td>
-                            <td>@periodOperation.CurrentPeriodBeginningBudgetedAmount</td>
+                            <td>@periodOperation.CurrentPeriodEndAmount</td>
                             <td>@periodOperation.CurrentPeriodBudgetedAmount</td>
-                            <td>@periodOperation.CurrentPeriodEndBudgetedAmount</td>
-                            <td>@periodOperation.TotalBudgetedAmount</td>
+                            <td>@periodOperation.CurrentPeriodPayedAmount</td>
+                            <td>@periodOperation.CurrentPeriodPaymentLeft</td>
                         </tr>
                     }
                 </tbody>

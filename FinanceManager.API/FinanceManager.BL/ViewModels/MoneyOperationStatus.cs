@@ -17,10 +17,9 @@ namespace FinanceManager.BL
         public short RepetitionUnitQuantity { get; set; } //TODO: Rename
         public PeriodUnit RepetitionUnit { get; set; } //TODO: Rename
         public int AccountID { get; set; }
-        public decimal TotalBudgetedAmount { get; set; }
-        public decimal CurrentPeriodBudgetedAmount { get; set; }
-        public decimal CurrentPeriodBeginningBudgetedAmount { get; set; }
-        public decimal CurrentPeriodEndBudgetedAmount { get; set; } 
+        public decimal CurrentPeriodPaymentLeft { get { return Math.Max(0, CurrentPeriodBudgetedAmount - CurrentPeriodPayedAmount); } }
+        public decimal CurrentPeriodBudgetedAmount { get { return Math.Max(0, CurrentAmount / PeriodsLeftToPay); } }
+        public decimal CurrentPeriodEndAmount { get { return CurrentAmount - CurrentPeriodBudgetedAmount; } } 
         public decimal CurrentPeriodIncomes { get; set; }
         public int PeriodsLeftToPay { get; set; }
     }

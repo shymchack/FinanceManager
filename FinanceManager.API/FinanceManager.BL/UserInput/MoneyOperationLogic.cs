@@ -54,13 +54,14 @@ namespace FinanceManager.BL.UserInput
 
         public MoneyOperationStatus PrepareMoneyOperationStatus(MoneyOperationDto moneyOperationDto, DateTime date)
         {
-            DateTime currentDate = date;
-            short currentPaymentNumber = 0;
-            short totalPaymentsNumber = 0;
+            if (date < moneyOperationDto.ValidityBeginDate || date > moneyOperationDto.ValidityEndDate) return null; //TODO: maybe should return new()?
+            DateTime currentDate = moneyOperationDto.ValidityBeginDate;
+            short currentPaymentNumber = 1;
+            short totalPaymentsNumber = 1;
             //TODO: Write some helper that would check only to repetitionUnit precision, for example reject minutes and seconds if unit is hour
             while(currentDate <= moneyOperationDto.ValidityEndDate)
             {
-                if(currentDate < DateTime.UtcNow)
+                if (currentDate <= date)
                 {
                     currentPaymentNumber++;
                 }
@@ -79,13 +80,10 @@ namespace FinanceManager.BL.UserInput
             status.BeginningDate = moneyOperationDto.ValidityBeginDate;
             status.AlreadyPayedAmount = moneyOperationDto.MoneyOperationChanges.Sum(moc => -moc.ChangeAmount);
             status.CurrentPeriodPayedAmount = periodMoneyOperationChanges.Sum(moc => -moc.ChangeAmount);
-            status.TotalBudgetedAmount = currentPaymentNumber / totalPaymentsNumber * status.InitialAmount - status.AlreadyPayedAmount; // TODO: Make sure it's needed to subtract already payed amount
             status.PeriodsLeftToPay = totalPaymentsNumber - currentPaymentNumber;
-            status.CurrentPeriodBeginningBudgetedAmount = status.TotalBudgetedAmount / status.PeriodsLeftToPay;
-            status.CurrentPeriodBudgetedAmount = status.CurrentPeriodBeginningBudgetedAmount - status.CurrentPeriodPayedAmount;
-            status.CurrentPeriodEndBudgetedAmount = status.TotalBudgetedAmount / (status.PeriodsLeftToPay + 1); //TODO verify the count of periods, also in beginning amount
-            
-             //TODO at first implement the "money operation freeze feature" - remember to rename FrozenAmount to prevent misunderstaindings.
+            //status.TotalBudgetedAmount = (decimal)currentPaymentNumber / (decimal)totalPaymentsNumber * (status.InitialAmount - status.AlreadyPayedAmount); // TODO: Make sure it's needed to subtract already payed amount
+
+            //TODO at first implement the "money operation freeze feature" - remember to rename FrozenAmount to prevent misunderstaindings.
             //status.CurrPeriodIncomes = moneyOperationChanges.Where(mo => mo.ChangeAmount > 0).Sum(moc => moc.ChangeAmount);
 
             return status;
