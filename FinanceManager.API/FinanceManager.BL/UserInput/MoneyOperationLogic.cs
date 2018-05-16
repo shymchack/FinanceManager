@@ -70,17 +70,30 @@ namespace FinanceManager.BL.UserInput
             }
 
             //TimeSpan repetitionTimeSpan = RepetitionUnitCalculator.CalculateRepetitionTimeSpan(moneyOperationDto); // I don't know if this is necessary
-            MoneyOperationStatus status = new MoneyOperationStatus();
             IEnumerable<MoneyOperationChangeDto> periodMoneyOperationChanges = ExtractCurrentPeriodOperations(moneyOperationDto);
+            var periodsLeftToPay = totalPaymentsNumber - currentPaymentNumber;
+            var alreadyPayedAmount = moneyOperationDto.MoneyOperationChanges.Sum(moc => -moc.ChangeAmount);
+            var initialAmount = moneyOperationDto.InitialAmount;
+            var currentAmount = initialAmount - alreadyPayedAmount;
+            var currentPeriodBudgetedAmount = Math.Max(0, currentAmount / periodsLeftToPay);
+            var currentPeriodPayedAmount = periodMoneyOperationChanges.Sum(moc => -moc.ChangeAmount);
+            var currentPeriodPaymentLeft = Math.Max(0, currentPeriodBudgetedAmount - currentPeriodPayedAmount);
+            var currentPeriodEndAmount = currentAmount - currentPeriodBudgetedAmount;
+
+            MoneyOperationStatus status = new MoneyOperationStatus();
             status.AccountID = moneyOperationDto.AccountID;
-            status.InitialAmount = moneyOperationDto.InitialAmount;
             status.Description = moneyOperationDto.Description;
             status.Name = moneyOperationDto.Name;
             status.FinishDate = moneyOperationDto.ValidityEndDate;
             status.BeginningDate = moneyOperationDto.ValidityBeginDate;
-            status.AlreadyPayedAmount = moneyOperationDto.MoneyOperationChanges.Sum(moc => -moc.ChangeAmount);
-            status.CurrentPeriodPayedAmount = periodMoneyOperationChanges.Sum(moc => -moc.ChangeAmount);
-            status.PeriodsLeftToPay = totalPaymentsNumber - currentPaymentNumber;
+
+            status.InitialAmount = initialAmount;
+            status.CurrentAmount = currentAmount;
+            status.AlreadyPayedAmount = alreadyPayedAmount;
+            status.CurrentPeriodPayedAmount = currentPeriodPayedAmount;
+            status.CurrentPeriodBudgetedAmount = currentPeriodBudgetedAmount;
+            status.CurrentPeriodPaymentLeft = currentPeriodPaymentLeft;
+            status.CurrentPeriodEndAmount = currentPeriodEndAmount;
             //status.TotalBudgetedAmount = (decimal)currentPaymentNumber / (decimal)totalPaymentsNumber * (status.InitialAmount - status.AlreadyPayedAmount); // TODO: Make sure it's needed to subtract already payed amount
 
             //TODO at first implement the "money operation freeze feature" - remember to rename FrozenAmount to prevent misunderstaindings.
