@@ -49,7 +49,8 @@ namespace FinanceManager.API.Services
             foreach(MoneyOperationDto moneyOperationDto in moneyOperationDtos)
             {
                 MoneyOperationStatus status = GetMoneyOperationStatusFromDto(moneyOperationDto, date);
-                moneyOperationStatuses.Add(status);
+                if (status != null)
+                    moneyOperationStatuses.Add(status);
             }
 
             return moneyOperationStatuses;

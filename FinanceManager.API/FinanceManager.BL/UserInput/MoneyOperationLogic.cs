@@ -75,7 +75,7 @@ namespace FinanceManager.BL.UserInput
             var alreadyPayedAmount = moneyOperationDto.MoneyOperationChanges.Sum(moc => -moc.ChangeAmount);
             var initialAmount = moneyOperationDto.InitialAmount;
             var currentAmount = initialAmount - alreadyPayedAmount;
-            var currentPeriodBudgetedAmount = Math.Max(0, currentAmount / periodsLeftToPay);
+            var currentPeriodBudgetedAmount = periodsLeftToPay > 0 ? Math.Max(0, currentAmount / periodsLeftToPay) : 0;
             var currentPeriodPayedAmount = periodMoneyOperationChanges.Sum(moc => -moc.ChangeAmount);
             var currentPeriodPaymentLeft = Math.Max(0, currentPeriodBudgetedAmount - currentPeriodPayedAmount);
             var currentPeriodEndAmount = currentAmount - currentPeriodBudgetedAmount;
