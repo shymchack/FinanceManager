@@ -29,6 +29,21 @@ namespace FinanceManager.Web.Controllers
             return View(periodSummary ?? new PeriodSummaryViewModel());
         }
 
+        public ActionResult Details(int moneyOperationId)
+        {
+            MoneyOperationScheduleViewModel schedule = null;
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.BaseAddress = new Uri("http://localhost:35816/api/MoneyOperations/");
+                var response = httpClient.GetAsync($"GetMoneyOperationSchedule?moneyOperationId={1}");
+                response.Wait();
+                string result = response.Result.Content.ReadAsStringAsync().Result;
+                schedule = JsonConvert.DeserializeObject<MoneyOperationScheduleViewModel>(result);
+            }
+            return null;
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

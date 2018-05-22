@@ -5,6 +5,7 @@ using System.Web;
 using FinanceManager.BL.UserInput;
 using FinanceManager.API.Serialization;
 using FinanceManager.BL;
+using FinanceManager.API.Serialization.Types;
 
 namespace FinanceManager.API.Services
 {
@@ -13,5 +14,6 @@ namespace FinanceManager.API.Services
         int AddMoneyOperation(MoneyOperationModel moneyOperation);
         MoneyOperationModel GetMoneyOperationById(int id);
         IEnumerable<MoneyOperationStatus> GetMoneyOperationsByAccountsIds(IEnumerable<int> accountId, DateTime date);
+        MoneyOperationScheduleModel GetMoneyOperationSchedule(int moneyOperationId);
     }
 }

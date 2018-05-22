@@ -45,6 +45,8 @@
     <Compile Include="UserInput\IMoneyOperationLogic.cs" />
     <Compile Include="UserInput\MoneyOperationLogic.cs" />
     <Compile Include="UserInput\MoneyOperationModel.cs" />
+    <Compile Include="ViewModels\MoneyOperationScheduleItemModel.cs" />
+    <Compile Include="ViewModels\MoneyOperationScheduleModel.cs" />
     <Compile Include="ViewModels\MoneyOperationStatus.cs" />
   </ItemGroup>
   <ItemGroup>

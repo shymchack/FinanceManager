@@ -3,7 +3,7 @@
 namespace FinanceManager.Web.Models
 {
 
-    public class MoneyOperaionViewModel
+    public class MoneyOperationViewModel
     {
         public string Name { get; set; }
         public double InitialAmount { get; set; }

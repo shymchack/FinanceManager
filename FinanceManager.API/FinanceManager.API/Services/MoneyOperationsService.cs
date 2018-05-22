@@ -57,11 +57,25 @@ namespace FinanceManager.API.Services
 
         }
 
+        public MoneyOperationScheduleModel GetMoneyOperationSchedule(int moneyOperationId)
+        {
+            MoneyOperationDto moneyOperation = _moneyOperationUOW.GetMoneyOperationById(moneyOperationId);
+            
+            MoneyOperationScheduleModel model = GetMoneyOperationScheduleFromDto(moneyOperation);
+            return model;
+        }
+
+
         private MoneyOperationStatus GetMoneyOperationStatusFromDto(MoneyOperationDto moneyOperationDto, DateTime date)
         {
             MoneyOperationStatus status = _moneyOperationLogic.PrepareMoneyOperationStatus(moneyOperationDto, date);
 
             return status;
+        }
+
+        private MoneyOperationScheduleModel GetMoneyOperationScheduleFromDto(MoneyOperationDto moneyOperationDto)
+        {
+            return _moneyOperationLogic.GetMoneyOperationSchedule(moneyOperationDto);
         }
     }
 }

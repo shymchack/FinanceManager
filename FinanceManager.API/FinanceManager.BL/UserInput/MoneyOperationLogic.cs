@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FinanceManager.Types.Enums;
+using System.Globalization;
 
 namespace FinanceManager.BL.UserInput
 {
@@ -56,6 +57,7 @@ namespace FinanceManager.BL.UserInput
         {
             if (date < moneyOperationDto.ValidityBeginDate || date > moneyOperationDto.ValidityEndDate) return null; //TODO: maybe should return new()?
             DateTime currentDate = moneyOperationDto.ValidityBeginDate;
+            DateTime currentPeriodBeginningDate = currentDate;
             short currentPaymentNumber = 1;
             short totalPaymentsNumber = 1;
             //TODO: Write some helper that would check only to repetitionUnit precision, for example reject minutes and seconds if unit is hour
@@ -64,21 +66,22 @@ namespace FinanceManager.BL.UserInput
                 if (currentDate <= date)
                 {
                     currentPaymentNumber++;
+                    currentPeriodBeginningDate = currentDate;
                 }
                 totalPaymentsNumber++;
                 currentDate = RepetitionUnitCalculator.CalculateNextRepetitionDate(currentDate, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity);
             }
 
             //TimeSpan repetitionTimeSpan = RepetitionUnitCalculator.CalculateRepetitionTimeSpan(moneyOperationDto); // I don't know if this is necessary
-            IEnumerable<MoneyOperationChangeDto> periodMoneyOperationChanges = ExtractCurrentPeriodOperations(moneyOperationDto);
+            IEnumerable<MoneyOperationChangeDto> periodMoneyOperationChanges = ExtractPeriodOperations(moneyOperationDto, date);
             var periodsLeftToPay = totalPaymentsNumber - currentPaymentNumber;
-            var alreadyPayedAmount = moneyOperationDto.MoneyOperationChanges.Sum(moc => -moc.ChangeAmount);
+            var alreadyPayedAmount = moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate < currentPeriodBeginningDate).Sum(moc => -moc.ChangeAmount);
             var initialAmount = moneyOperationDto.InitialAmount;
-            var currentAmount = initialAmount - alreadyPayedAmount;
-            var currentPeriodBudgetedAmount = periodsLeftToPay > 0 ? Math.Max(0, currentAmount / periodsLeftToPay) : 0;
             var currentPeriodPayedAmount = periodMoneyOperationChanges.Sum(moc => -moc.ChangeAmount);
+            var currentAmount = initialAmount - alreadyPayedAmount - currentPeriodPayedAmount;
+            var currentPeriodBudgetedAmount = periodsLeftToPay > 0 ? Math.Max(0, (currentAmount + currentPeriodPayedAmount) / periodsLeftToPay) : 0;
             var currentPeriodPaymentLeft = Math.Max(0, currentPeriodBudgetedAmount - currentPeriodPayedAmount);
-            var currentPeriodEndAmount = currentAmount - currentPeriodBudgetedAmount;
+            var currentPeriodEndAmount = currentAmount - currentPeriodPaymentLeft;
 
             MoneyOperationStatus status = new MoneyOperationStatus();
             status.AccountID = moneyOperationDto.AccountID;
@@ -101,22 +104,52 @@ namespace FinanceManager.BL.UserInput
 
             return status;
         }
-        
-        //TODO think abuot making this independent of UtcNow
-        private IEnumerable<MoneyOperationChangeDto> ExtractCurrentPeriodOperations(MoneyOperationDto moneyOperationDto)
+
+        public MoneyOperationScheduleModel GetMoneyOperationSchedule(MoneyOperationDto moneyOperationDto)
         {
-            var repetitionTimeStamp = RepetitionUnitCalculator.CalculateRepetitionTimeStamp(DateTime.UtcNow, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity);
-            var currentPeriodChanges = moneyOperationDto.MoneyOperationChanges.Where(moc => ChallengeDateRepetitionProperties(moc.ChangeDate, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity));
-            return currentPeriodChanges;
+            MoneyOperationScheduleModel moneyOperationScheduleModel = new MoneyOperationScheduleModel();
+
+            moneyOperationScheduleModel.Name = moneyOperationDto.Name;
+            moneyOperationScheduleModel.TotalAmount= moneyOperationDto.InitialAmount + moneyOperationDto.MoneyOperationChanges.Sum(moc => -moc.ChangeAmount); // TODO make InitialAmount not focused on expenses only. Invert the value.
+            DateTime date = moneyOperationDto.ValidityBeginDate;
+            var scheduleItems = new List<MoneyOperationScheduleItemModel>();
+            while (date <= moneyOperationDto.ValidityEndDate)
+            {
+                var moneyOperationStatus = PrepareMoneyOperationStatus(moneyOperationDto, date);
+                MoneyOperationScheduleItemModel scheduleItem = new MoneyOperationScheduleItemModel();
+                scheduleItem.ItemBalance = (double)moneyOperationStatus.CurrentAmount;
+                scheduleItem.BudgetedAmount = (double) moneyOperationStatus.CurrentPeriodBudgetedAmount;
+                scheduleItem.PayedAmount = (double)moneyOperationStatus.CurrentPeriodPayedAmount;
+                scheduleItem.PeriodName = date.ToString("MMMM", CultureInfo.InvariantCulture); // TODO this is so bad to use month name. Remember that not only months can be processed.
+                date = RepetitionUnitCalculator.CalculateNextRepetitionDate(date, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity);
+
+                scheduleItems.Add(scheduleItem);
+            }
+            moneyOperationScheduleModel.ScheduleItem = scheduleItems;
+            return moneyOperationScheduleModel;
         }
 
-        private bool ChallengeDateRepetitionProperties(DateTime changeDate, PeriodUnit repetitionUnit, short repetitionUnitQuantity)
+        private IEnumerable<MoneyOperationChangeDto> ExtractPeriodOperations(MoneyOperationDto moneyOperationDto, DateTime dateFromPeriod)
         {
-            var currentPeriodBeginning = RepetitionUnitCalculator.ClearMinorDateTimePart(changeDate, repetitionUnit, repetitionUnitQuantity);
-            var timestampToIncrement = RepetitionUnitCalculator.CalculateRepetitionTimeStamp(changeDate, repetitionUnit, repetitionUnitQuantity);
-            var nextPeriodBegining = currentPeriodBeginning.Add(timestampToIncrement);
+            var periodChanges = moneyOperationDto.MoneyOperationChanges.Where(moc => ChallengeRepetitionPeriod(dateFromPeriod, moc.ChangeDate, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity));
+            return periodChanges;
+        }
 
-            return nextPeriodBegining >= DateTime.UtcNow && currentPeriodBeginning <= DateTime.UtcNow;
+        /// <summary>
+        /// Returns true if the slaveDate is placed in the repetition period specified by masterDate, repetitionUnit and repetitionUnitQuantity
+        /// </summary>
+        /// <param name="masterDate"></param>
+        /// <param name="slaveDate"></param>
+        /// <param name="repetitionUnit"></param>
+        /// <param name="repetitionUnitQuantity"></param>
+        /// <returns></returns>
+        private bool ChallengeRepetitionPeriod(DateTime masterDate, DateTime slaveDate, PeriodUnit repetitionUnit, short repetitionUnitQuantity)
+        {
+            var periodBeginning = RepetitionUnitCalculator.ClearMinorDateTimePart(masterDate, repetitionUnit, repetitionUnitQuantity);
+            var timestampToIncrement = RepetitionUnitCalculator.CalculateRepetitionTimeStamp(masterDate, repetitionUnit, repetitionUnitQuantity);
+            var nextPeriodBegining = periodBeginning.Add(timestampToIncrement);
+
+            return nextPeriodBegining > slaveDate && periodBeginning <= slaveDate;
         }
 
         private DateTime CalculateNextOperationExecutionDate(MoneyOperationDto moneyOperationDto)

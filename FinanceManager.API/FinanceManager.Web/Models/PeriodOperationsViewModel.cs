@@ -7,7 +7,7 @@ namespace FinanceManager.Web.Models
     {
         public PeriodOperationsViewModel()
         {
-            PeriodOperations = new List<MoneyOperaionViewModel>();
+            PeriodOperations = new List<MoneyOperationViewModel>();
         }
 
         public string NameLabel { get; set; }
@@ -19,6 +19,6 @@ namespace FinanceManager.Web.Models
         public string CurrentPeriodEndAmountLabel { get; set; }
         public string CurrentPeriodBudgetedAmountLabel { get; set; }
         public string CurrentPeriodPayedAmountLabel { get; set; }
-        public IEnumerable<MoneyOperaionViewModel> PeriodOperations { get; set; }
+        public IEnumerable<MoneyOperationViewModel> PeriodOperations { get; set; }
     }
 }
