@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FinanceManager.Types.Enums;
 using System.Globalization;
+using FinanceManager.BL.Metadata;
 
 namespace FinanceManager.BL.UserInput
 {
@@ -13,69 +14,23 @@ namespace FinanceManager.BL.UserInput
     {
         public MoneyOperationDto ConvertUserInputToDto(MoneyOperationModel moneyOperation)
         {
-            //TODO validate data conversion - most probably not all needed fields are included (or too much of them)
-            if (IsValid(moneyOperation))
-            {
-                MoneyOperationDto moneyOperationDto = new MoneyOperationDto();
-                moneyOperationDto.AccountID = moneyOperation.AccountID;
-                moneyOperationDto.Description = moneyOperation.Description;
-                moneyOperationDto.InitialAmount = moneyOperation.InitialAmount;
-                moneyOperationDto.IsActive = moneyOperation.IsActive;
-                moneyOperationDto.IsAlreadyProcessed = false;
-                moneyOperationDto.IsReal = moneyOperation.IsReal;
-                moneyOperationDto.Name = moneyOperation.Name;
-                moneyOperationDto.OperationSettingID = moneyOperation.OperationSettingID;
-                moneyOperationDto.RepetitionUnit = moneyOperation.RepetitionUnit;
-                moneyOperationDto.RepetitionUnitQuantity = moneyOperation.RepetitionUnitQuantity;
-                moneyOperationDto.ValidityBeginDate = moneyOperation.ValidityBeginDate;
-                moneyOperationDto.ValidityEndDate = moneyOperation.ValidityEndDate;
-                moneyOperationDto.NextOperationExecutionDate = CalculateNextOperationExecutionDate(moneyOperationDto);
-                return moneyOperationDto;
-            }
-            return null;
+            return MapUserInputToDto(moneyOperation);
         }
 
         public MoneyOperationModel ConvertDtoToViewData(MoneyOperationDto moneyOperationDto)
         {
-            //TODO validate data conversion - most probably not all needed fields are included (or too much of them)
-            MoneyOperationModel moneyOperationViewData = new MoneyOperationModel();
-            moneyOperationViewData.Description = moneyOperationDto.Description;
-            moneyOperationViewData.InitialAmount = moneyOperationDto.InitialAmount;
-            moneyOperationViewData.IsActive = moneyOperationDto.IsActive;
-            moneyOperationViewData.IsReal = moneyOperationDto.IsReal;
-            moneyOperationViewData.Name = moneyOperationDto.Name;
-            moneyOperationViewData.OperationSettingID = moneyOperationDto.OperationSettingID;
-            moneyOperationViewData.RepetitionUnit = moneyOperationDto.RepetitionUnit;
-            moneyOperationViewData.RepetitionUnitQuantity = moneyOperationDto.RepetitionUnitQuantity;
-            moneyOperationViewData.ValidityBeginDate = moneyOperationDto.ValidityBeginDate;
-            moneyOperationViewData.ValidityEndDate = moneyOperationDto.ValidityEndDate;
-
-            return moneyOperationViewData;
+            return MapDtoToViewData(moneyOperationDto);
         }
 
         public MoneyOperationStatus PrepareMoneyOperationStatus(MoneyOperationDto moneyOperationDto, DateTime date)
         {
-            if (date < moneyOperationDto.ValidityBeginDate || date > moneyOperationDto.ValidityEndDate) return null; //TODO: maybe should return new()?
-            DateTime currentDate = moneyOperationDto.ValidityBeginDate;
-            DateTime currentPeriodBeginningDate = currentDate;
-            short currentPaymentNumber = 1;
-            short totalPaymentsNumber = 1;
-            //TODO: Write some helper that would check only to repetitionUnit precision, for example reject minutes and seconds if unit is hour
-            while(currentDate <= moneyOperationDto.ValidityEndDate)
-            {
-                if (currentDate <= date)
-                {
-                    currentPaymentNumber++;
-                    currentPeriodBeginningDate = currentDate;
-                }
-                totalPaymentsNumber++;
-                currentDate = RepetitionUnitCalculator.CalculateNextRepetitionDate(currentDate, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity);
-            }
-
+            if (date < moneyOperationDto.ValidityBeginDate || date > moneyOperationDto.ValidityEndDate) return null; //TODO: maybe should return new()?Metad
+            MoneyOperationPeriodMetadata periodMetadata = ReadCurrentPeriodMetadata(moneyOperationDto, date);
+            
             //TimeSpan repetitionTimeSpan = RepetitionUnitCalculator.CalculateRepetitionTimeSpan(moneyOperationDto); // I don't know if this is necessary
             IEnumerable<MoneyOperationChangeDto> periodMoneyOperationChanges = ExtractPeriodOperations(moneyOperationDto, date);
-            var periodsLeftToPay = totalPaymentsNumber - currentPaymentNumber;
-            var alreadyPayedAmount = moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate < currentPeriodBeginningDate).Sum(moc => -moc.ChangeAmount);
+            var periodsLeftToPay = periodMetadata.TotalPaymentsNumber - periodMetadata.CurrentPaymentNumber;
+            var alreadyPayedAmount = moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate < periodMetadata.CurrentPeriodBeginningDate).Sum(moc => -moc.ChangeAmount);
             var initialAmount = moneyOperationDto.InitialAmount;
             var currentPeriodPayedAmount = periodMoneyOperationChanges.Sum(moc => -moc.ChangeAmount);
             var currentAmount = initialAmount - alreadyPayedAmount - currentPeriodPayedAmount;
@@ -127,6 +82,75 @@ namespace FinanceManager.BL.UserInput
             }
             moneyOperationScheduleModel.ScheduleItem = scheduleItems;
             return moneyOperationScheduleModel;
+        }
+
+        private MoneyOperationDto MapUserInputToDto(MoneyOperationModel moneyOperation)
+        {
+            //TODO validate data conversion - most probably not all needed fields are included (or too much of them)
+            if (IsValid(moneyOperation))
+            {
+                MoneyOperationDto moneyOperationDto = new MoneyOperationDto();
+                moneyOperationDto.AccountID = moneyOperation.AccountID;
+                moneyOperationDto.Description = moneyOperation.Description;
+                moneyOperationDto.InitialAmount = moneyOperation.InitialAmount;
+                moneyOperationDto.IsActive = moneyOperation.IsActive;
+                moneyOperationDto.IsAlreadyProcessed = false;
+                moneyOperationDto.IsReal = moneyOperation.IsReal;
+                moneyOperationDto.Name = moneyOperation.Name;
+                moneyOperationDto.OperationSettingID = moneyOperation.OperationSettingID;
+                moneyOperationDto.RepetitionUnit = moneyOperation.RepetitionUnit;
+                moneyOperationDto.RepetitionUnitQuantity = moneyOperation.RepetitionUnitQuantity;
+                moneyOperationDto.ValidityBeginDate = moneyOperation.ValidityBeginDate;
+                moneyOperationDto.ValidityEndDate = moneyOperation.ValidityEndDate;
+                moneyOperationDto.NextOperationExecutionDate = CalculateNextOperationExecutionDate(moneyOperationDto);
+                return moneyOperationDto;
+            }
+            return null;
+        }
+
+        private MoneyOperationModel MapDtoToViewData(MoneyOperationDto moneyOperationDto)
+        {
+            //TODO validate data conversion - most probably not all needed fields are included (or too much of them)
+            MoneyOperationModel moneyOperationViewData = new MoneyOperationModel();
+            moneyOperationViewData.Description = moneyOperationDto.Description;
+            moneyOperationViewData.InitialAmount = moneyOperationDto.InitialAmount;
+            moneyOperationViewData.IsActive = moneyOperationDto.IsActive;
+            moneyOperationViewData.IsReal = moneyOperationDto.IsReal;
+            moneyOperationViewData.Name = moneyOperationDto.Name;
+            moneyOperationViewData.OperationSettingID = moneyOperationDto.OperationSettingID;
+            moneyOperationViewData.RepetitionUnit = moneyOperationDto.RepetitionUnit;
+            moneyOperationViewData.RepetitionUnitQuantity = moneyOperationDto.RepetitionUnitQuantity;
+            moneyOperationViewData.ValidityBeginDate = moneyOperationDto.ValidityBeginDate;
+            moneyOperationViewData.ValidityEndDate = moneyOperationDto.ValidityEndDate;
+
+            return moneyOperationViewData;
+        }
+
+        private MoneyOperationPeriodMetadata ReadCurrentPeriodMetadata(MoneyOperationDto moneyOperationDto, DateTime date)
+        {
+            MoneyOperationPeriodMetadata metadata = new MoneyOperationPeriodMetadata();
+
+            DateTime currentDate = moneyOperationDto.ValidityBeginDate;
+            DateTime currentPeriodBeginningDate = currentDate;
+            short currentPaymentNumber = 1;
+            short totalPaymentsNumber = 1;
+            //TODO: Write some helper that would check only to repetitionUnit precision, for example reject minutes and seconds if unit is hour
+            while (currentDate <= moneyOperationDto.ValidityEndDate)
+            {
+                if (currentDate <= date)
+                {
+                    currentPaymentNumber++;
+                    currentPeriodBeginningDate = currentDate;
+                }
+                totalPaymentsNumber++;
+                currentDate = RepetitionUnitCalculator.CalculateNextRepetitionDate(currentDate, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity);
+            }
+
+            metadata.CurrentPaymentNumber = currentPaymentNumber;
+            metadata.CurrentPeriodBeginningDate = currentPeriodBeginningDate;
+            metadata.TotalPaymentsNumber = totalPaymentsNumber;
+
+            return metadata;
         }
 
         private IEnumerable<MoneyOperationChangeDto> ExtractPeriodOperations(MoneyOperationDto moneyOperationDto, DateTime dateFromPeriod)
