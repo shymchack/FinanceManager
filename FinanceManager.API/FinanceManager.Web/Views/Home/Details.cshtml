@@ -1,0 +1,46 @@
+﻿@using FinanceManager.Web.Models
+@model MoneyOperationScheduleViewModel
+@{
+    ViewBag.Title = $"{Model.Name} Details ({Model.InitialAmount})";
+}
+<div>
+    <section class="row">
+        <div>
+            <div class="col-xs-12 text-center">
+                <div>
+                    <h1>@(ViewBag.Title) </h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="row text-center">
+        <div class="col-xs-12" style="padding-top: 20px;">
+            <table style="width: 100%; border:thick;" class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th class="text-center">@Model.PeriodNameLabel</th>
+                        <th class="text-center">@Model.BudgetedAmountLabel</th>
+                        <th class="text-center">@Model.TotalBudgetedAmountLabel</th>
+                        <th class="text-center">@Model.PayedAmountLabel</th>
+                        <th class="text-center">@Model.ItemBalanceLabel</th>
+                        <th class="text-center">@Model.ItemBudgetedBalanceLabel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ( MoneyOperationScheduleItemViewModel scheduleItem in Model.ScheduleItem)
+                    {
+                        <tr>
+                            <td>@scheduleItem.PeriodName</td>
+                            <td>@scheduleItem.BudgetedAmount</td>
+                            <td>@scheduleItem.TotalBudgetedAmount</td>
+                            <td>@scheduleItem.PayedAmount</td>
+                            <td>@scheduleItem.ItemBalance</td>
+                            <td>@scheduleItem.ItemBudgetedBalance</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>

@@ -194,7 +194,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Models\MoneyOperationBasicViewModel.cs" />
+    <Compile Include="Models\MoneyOperationScheduleItemViewModel.cs" />
     <Compile Include="Models\MoneyOperationScheduleViewModel.cs" />
     <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Controllers\Base\BaseController.cs" />
@@ -277,6 +277,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Home\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

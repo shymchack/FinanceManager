@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FinanceManager.Types.Enums;
 using System.Globalization;
 using FinanceManager.BL.Metadata;
@@ -22,21 +20,32 @@ namespace FinanceManager.BL.UserInput
             return MapDtoToViewData(moneyOperationDto);
         }
 
-        public MoneyOperationStatus PrepareMoneyOperationStatus(MoneyOperationDto moneyOperationDto, DateTime date)
+        public MoneyOperationStatus PrepareMoneyOperationStatus(MoneyOperationDto moneyOperationDto, DateTime targetDate)
         {
-            if (date < moneyOperationDto.ValidityBeginDate || date > moneyOperationDto.ValidityEndDate) return null; //TODO: maybe should return new()?Metad
-            MoneyOperationPeriodMetadata periodMetadata = ReadCurrentPeriodMetadata(moneyOperationDto, date);
-            
+            if (targetDate < moneyOperationDto.ValidityBeginDate || targetDate > moneyOperationDto.ValidityEndDate) return null; //TODO: maybe should return new()?Metad
+
+            MoneyOperationPeriodMetadata periodMetadata = ReadCurrentPeriodMetadata(moneyOperationDto, targetDate);
+            MoneyOperationStatusDatasource statusDataSource = new MoneyOperationStatusDatasource();
             //TimeSpan repetitionTimeSpan = RepetitionUnitCalculator.CalculateRepetitionTimeSpan(moneyOperationDto); // I don't know if this is necessary
-            IEnumerable<MoneyOperationChangeDto> periodMoneyOperationChanges = ExtractPeriodOperations(moneyOperationDto, date);
-            var periodsLeftToPay = periodMetadata.TotalPaymentsNumber - periodMetadata.CurrentPaymentNumber;
-            var alreadyPayedAmount = moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate < periodMetadata.CurrentPeriodBeginningDate).Sum(moc => -moc.ChangeAmount);
+            IEnumerable<MoneyOperationChangeDto> periodMoneyOperationChanges = ExtractPeriodOperations(moneyOperationDto, targetDate);
+            var periodsLeftToPayIncludingNow = periodMetadata.TotalPaymentsNumber - periodMetadata.NowPaymentNumber + 1;
+            var alreadyPayedAmountBeforeCurrent = moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate < periodMetadata.CurrentPeriodBeginningDate).Sum(moc => -moc.ChangeAmount);
+            //TODO should I round the date up to end of current period? Think about periodMetadata.NowPaymentNumber usage below
             var initialAmount = moneyOperationDto.InitialAmount;
+            var periodBeginningAmount = initialAmount - alreadyPayedAmountBeforeCurrent;
             var currentPeriodPayedAmount = periodMoneyOperationChanges.Sum(moc => -moc.ChangeAmount);
-            var currentAmount = initialAmount - alreadyPayedAmount - currentPeriodPayedAmount;
-            var currentPeriodBudgetedAmount = periodsLeftToPay > 0 ? Math.Max(0, (currentAmount + currentPeriodPayedAmount) / periodsLeftToPay) : 0;
-            var currentPeriodPaymentLeft = Math.Max(0, currentPeriodBudgetedAmount - currentPeriodPayedAmount);
-            var currentPeriodEndAmount = currentAmount - currentPeriodPaymentLeft;
+            var currentAmount = initialAmount - alreadyPayedAmountBeforeCurrent - currentPeriodPayedAmount;
+            var currentPeriodBudgetedAmount = 0m;
+            if (targetDate >= periodMetadata.NowPeriodBeginningDate)
+            {
+                currentPeriodBudgetedAmount = periodsLeftToPayIncludingNow > 0 ? Math.Max(0, (periodBeginningAmount / periodsLeftToPayIncludingNow)) : 0;
+                if (targetDate < periodMetadata.NowPeriodEndDate)
+                {
+                    currentPeriodBudgetedAmount -= currentPeriodPayedAmount;
+                }
+            }
+
+            var currentPeriodEndAmount = currentAmount - currentPeriodBudgetedAmount;
 
             MoneyOperationStatus status = new MoneyOperationStatus();
             status.AccountID = moneyOperationDto.AccountID;
@@ -47,10 +56,9 @@ namespace FinanceManager.BL.UserInput
 
             status.InitialAmount = initialAmount;
             status.CurrentAmount = currentAmount;
-            status.AlreadyPayedAmount = alreadyPayedAmount;
+            status.AlreadyPayedAmount = alreadyPayedAmountBeforeCurrent;
             status.CurrentPeriodPayedAmount = currentPeriodPayedAmount;
             status.CurrentPeriodBudgetedAmount = currentPeriodBudgetedAmount;
-            status.CurrentPeriodPaymentLeft = currentPeriodPaymentLeft;
             status.CurrentPeriodEndAmount = currentPeriodEndAmount;
             //status.TotalBudgetedAmount = (decimal)currentPaymentNumber / (decimal)totalPaymentsNumber * (status.InitialAmount - status.AlreadyPayedAmount); // TODO: Make sure it's needed to subtract already payed amount
 
@@ -65,16 +73,25 @@ namespace FinanceManager.BL.UserInput
             MoneyOperationScheduleModel moneyOperationScheduleModel = new MoneyOperationScheduleModel();
 
             moneyOperationScheduleModel.Name = moneyOperationDto.Name;
-            moneyOperationScheduleModel.TotalAmount= moneyOperationDto.InitialAmount + moneyOperationDto.MoneyOperationChanges.Sum(moc => -moc.ChangeAmount); // TODO make InitialAmount not focused on expenses only. Invert the value.
+            moneyOperationScheduleModel.TotalAmount= (double) (moneyOperationDto.InitialAmount + moneyOperationDto.MoneyOperationChanges.Sum(moc => -moc.ChangeAmount)); // TODO make InitialAmount not focused on expenses only. Invert the value.
+            moneyOperationScheduleModel.InitialAmount = (double) moneyOperationDto.InitialAmount;
             DateTime date = moneyOperationDto.ValidityBeginDate;
             var scheduleItems = new List<MoneyOperationScheduleItemModel>();
+            var totalBudgetedAmount = 0d;
             while (date <= moneyOperationDto.ValidityEndDate)
             {
+                //TODO here is the problem. In PrepareMoneyOperationStatus it does not take care about budgeted amount from last month crap.d
                 var moneyOperationStatus = PrepareMoneyOperationStatus(moneyOperationDto, date);
+                var itemBalance = (double)moneyOperationStatus.CurrentAmount;
+                var budgetedAmount = Math.Max(0,(double)moneyOperationStatus.CurrentPeriodBudgetedAmount);
+                var payedAmount = (double) moneyOperationStatus.CurrentPeriodPayedAmount;
+                totalBudgetedAmount += budgetedAmount;
                 MoneyOperationScheduleItemModel scheduleItem = new MoneyOperationScheduleItemModel();
-                scheduleItem.ItemBalance = (double)moneyOperationStatus.CurrentAmount;
-                scheduleItem.BudgetedAmount = (double) moneyOperationStatus.CurrentPeriodBudgetedAmount;
+                scheduleItem.ItemBalance = itemBalance;
+                scheduleItem.BudgetedAmount = budgetedAmount;
+                scheduleItem.TotalBudgetedAmount = Math.Max(0, totalBudgetedAmount);
                 scheduleItem.PayedAmount = (double)moneyOperationStatus.CurrentPeriodPayedAmount;
+                scheduleItem.ItemBudgetedBalance = Math.Max(0, itemBalance - Math.Max(0, totalBudgetedAmount));
                 scheduleItem.PeriodName = date.ToString("MMMM", CultureInfo.InvariantCulture); // TODO this is so bad to use month name. Remember that not only months can be processed.
                 date = RepetitionUnitCalculator.CalculateNextRepetitionDate(date, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity);
 
@@ -131,23 +148,32 @@ namespace FinanceManager.BL.UserInput
             MoneyOperationPeriodMetadata metadata = new MoneyOperationPeriodMetadata();
 
             DateTime currentDate = moneyOperationDto.ValidityBeginDate;
+            DateTime nowPeriodBeginningDate = DateTime.UtcNow;
+            DateTime nowPeriodEndDate = DateTime.UtcNow;
             DateTime currentPeriodBeginningDate = currentDate;
-            short currentPaymentNumber = 1;
-            short totalPaymentsNumber = 1;
+            short currentPaymentNumber = 0;
+            short totalPaymentsNumber = 0;
             //TODO: Write some helper that would check only to repetitionUnit precision, for example reject minutes and seconds if unit is hour
             while (currentDate <= moneyOperationDto.ValidityEndDate)
             {
+                totalPaymentsNumber++;
                 if (currentDate <= date)
                 {
                     currentPaymentNumber++;
                     currentPeriodBeginningDate = currentDate;
                 }
-                totalPaymentsNumber++;
+                if (currentDate <= DateTime.UtcNow)
+                {
+                    nowPeriodBeginningDate = currentDate;
+                    nowPeriodEndDate = RepetitionUnitCalculator.CalculateNextRepetitionDate(nowPeriodBeginningDate, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity);
+                    metadata.NowPaymentNumber = totalPaymentsNumber;
+                }
                 currentDate = RepetitionUnitCalculator.CalculateNextRepetitionDate(currentDate, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity);
             }
 
             metadata.CurrentPaymentNumber = currentPaymentNumber;
             metadata.CurrentPeriodBeginningDate = currentPeriodBeginningDate;
+            metadata.NowPeriodBeginningDate = nowPeriodBeginningDate;
             metadata.TotalPaymentsNumber = totalPaymentsNumber;
 
             return metadata;
@@ -226,5 +252,9 @@ namespace FinanceManager.BL.UserInput
         {
             return (moneyOperation.ValidityEndDate >= moneyOperation.ValidityBeginDate);
         }
+    }
+
+    internal class MoneyOperationStatusDatasource
+    {
     }
 }

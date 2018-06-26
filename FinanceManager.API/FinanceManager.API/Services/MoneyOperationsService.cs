@@ -75,7 +75,17 @@ namespace FinanceManager.API.Services
 
         private MoneyOperationScheduleModel GetMoneyOperationScheduleFromDto(MoneyOperationDto moneyOperationDto)
         {
-            return _moneyOperationLogic.GetMoneyOperationSchedule(moneyOperationDto);
+            MoneyOperationScheduleModel model = _moneyOperationLogic.GetMoneyOperationSchedule(moneyOperationDto);
+            model.PayedAmountLabel = "Payed amount";
+            //model.PaymentLeftLabel = "Payment left";
+            //model.TotalAmountLabel = "Total amoun";
+            model.ItemBalanceLabel = "Item balance";
+            model.BudgetedAmountLabel = "Budgeted amount";
+            model.TotalBudgetedAmountLabel = "Total budgeted amount";
+            model.ItemBudgetedBalanceLabel = "Budgeted balance";
+            model.PeriodNameLabel = "Period name";
+
+            return model;
         }
     }
 }

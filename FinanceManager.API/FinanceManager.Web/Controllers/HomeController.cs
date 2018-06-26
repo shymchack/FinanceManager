@@ -36,12 +36,12 @@ namespace FinanceManager.Web.Controllers
             using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = new Uri("http://localhost:35816/api/MoneyOperations/");
-                var response = httpClient.GetAsync($"GetMoneyOperationSchedule?moneyOperationId={1}");
+                var response = httpClient.GetAsync($"GetMoneyOperationSchedule?moneyOperationId={moneyOperationId}");
                 response.Wait();
                 string result = response.Result.Content.ReadAsStringAsync().Result;
                 schedule = JsonConvert.DeserializeObject<MoneyOperationScheduleViewModel>(result);
             }
-            return null;
+            return View(schedule ?? new MoneyOperationScheduleViewModel());
         }
 
         public ActionResult About()
