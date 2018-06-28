@@ -44,6 +44,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FinanceManager.API, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\FinanceManager.API\FinanceManager.API\bin\FinanceManager.API.dll</HintPath>
+    </Reference>
+    <Reference Include="FinanceManager.BL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\FinanceManager.API\FinanceManager.API\bin\FinanceManager.BL.dll</HintPath>
+    </Reference>
+    <Reference Include="FinanceManager.Types, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\FinanceManager.API\FinanceManager.API\bin\FinanceManager.Types.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -288,20 +300,6 @@
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FinanceManager.API\FinanceManager.API.csproj">
-      <Project>{BFE5FB64-2935-4C89-A587-9C72D55C2C95}</Project>
-      <Name>FinanceManager.API</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FinanceManager.BL\FinanceManager.BL.csproj">
-      <Project>{DE346A55-7BC6-4CCE-9FA0-A841581BB6ED}</Project>
-      <Name>FinanceManager.BL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FinanceManager.Types\FinanceManager.Types.csproj">
-      <Project>{918AA76B-3A54-4CBB-8C19-5F332FA7885A}</Project>
-      <Name>FinanceManager.Types</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -321,6 +319,8 @@
           <DevelopmentServerPort>4675</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:31455/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:31455/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
