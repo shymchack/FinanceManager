@@ -42,8 +42,8 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepetitionUnitCalculator.cs" />
-    <Compile Include="UserInput\IMoneyOperationLogic.cs" />
-    <Compile Include="UserInput\MoneyOperationLogic.cs" />
+    <Compile Include="MoneyOperationLogic\IMoneyOperationLogic.cs" />
+    <Compile Include="MoneyOperationLogic\MoneyOperationLogic.cs" />
     <Compile Include="UserInput\MoneyOperationModel.cs" />
     <Compile Include="Metadata\MoneyOperationPeriodMetadata.cs" />
     <Compile Include="ViewModels\MoneyOperationScheduleItemModel.cs" />

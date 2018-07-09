@@ -5,8 +5,6 @@ using FinanceManager.DAL.Repositories.Contracts;
 using Microsoft.Practices.Unity;
 using System.Web.Http;
 using Unity.WebApi;
-using System;
-using FinanceManager.BL.UserInput;
 using FinanceManager.BL;
 using FinanceManager.DAL.UnitOfWork;
 using FinanceManager.Database.Context;

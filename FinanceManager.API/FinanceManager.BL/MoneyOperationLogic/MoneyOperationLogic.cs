@@ -5,8 +5,9 @@ using System.Linq;
 using FinanceManager.Types.Enums;
 using System.Globalization;
 using FinanceManager.BL.Metadata;
+using FinanceManager.BL.UserInput;
 
-namespace FinanceManager.BL.UserInput
+namespace FinanceManager.BL
 {
     public class MoneyOperationLogic : IMoneyOperationLogic
     {
