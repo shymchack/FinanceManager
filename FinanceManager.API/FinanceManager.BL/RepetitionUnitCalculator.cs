@@ -64,7 +64,7 @@ namespace FinanceManager.BL
             if (repetitionUnit > PeriodUnit.Second) { newDate = newDate.AddSeconds(-newDate.Second); }
             if (repetitionUnit > PeriodUnit.Minute) { newDate = newDate.AddMinutes(-newDate.Minute); }
             if (repetitionUnit > PeriodUnit.Hour) { newDate = newDate.AddHours(-newDate.Hour); }
-            if (repetitionUnit > PeriodUnit.Week) { newDate = newDate.AddDays(-newDate.Day + 1); }
+            if (repetitionUnit > PeriodUnit.Day) { newDate = newDate.AddDays(-newDate.Day + 1); }
             if (repetitionUnit == PeriodUnit.Week) { while (newDate.DayOfWeek != DayOfWeek.Monday) { newDate = newDate.AddDays(-1); } }
             if (repetitionUnit > PeriodUnit.Month) { newDate = newDate.AddMonths(-newDate.Month + 1); }
 

@@ -27,7 +27,7 @@ namespace FinanceManager.BL
 
             MoneyOperationPeriodMetadata periodMetadata = ReadCurrentPeriodMetadata(moneyOperationDto, targetDate);
             MoneyOperationStatusDatasource statusDataSource = new MoneyOperationStatusDatasource();
-            //TimeSpan repetitionTimeSpan = RepetitionUnitCalculator.CalculateRepetitionTimeSpan(moneyOperationDto); // I don't know if this is necessary
+
             IEnumerable<MoneyOperationChangeDto> periodMoneyOperationChanges = ExtractPeriodOperations(moneyOperationDto, targetDate);
             var periodsLeftToPayIncludingNow = periodMetadata.TotalPaymentsNumber - periodMetadata.NowPaymentNumber + 1;
             var alreadyPayedAmountBeforeCurrent = moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate < periodMetadata.CurrentPeriodBeginningDate).Sum(moc => -moc.ChangeAmount);
@@ -61,10 +61,6 @@ namespace FinanceManager.BL
             status.CurrentPeriodPayedAmount = currentPeriodPayedAmount;
             status.CurrentPeriodBudgetedAmount = currentPeriodBudgetedAmount;
             status.CurrentPeriodEndAmount = currentPeriodEndAmount;
-            //status.TotalBudgetedAmount = (decimal)currentPaymentNumber / (decimal)totalPaymentsNumber * (status.InitialAmount - status.AlreadyPayedAmount); // TODO: Make sure it's needed to subtract already payed amount
-
-            //TODO at first implement the "money operation freeze feature" - remember to rename FrozenAmount to prevent misunderstaindings.
-            //status.CurrPeriodIncomes = moneyOperationChanges.Where(mo => mo.ChangeAmount > 0).Sum(moc => moc.ChangeAmount);
 
             return status;
         }
@@ -74,14 +70,13 @@ namespace FinanceManager.BL
             MoneyOperationScheduleModel moneyOperationScheduleModel = new MoneyOperationScheduleModel();
 
             moneyOperationScheduleModel.Name = moneyOperationDto.Name;
-            moneyOperationScheduleModel.TotalAmount= (double) (moneyOperationDto.InitialAmount + moneyOperationDto.MoneyOperationChanges.Sum(moc => -moc.ChangeAmount)); // TODO make InitialAmount not focused on expenses only. Invert the value.
+            moneyOperationScheduleModel.TotalAmount = (double) (moneyOperationDto.InitialAmount + moneyOperationDto.MoneyOperationChanges.Sum(moc => -moc.ChangeAmount));
             moneyOperationScheduleModel.InitialAmount = (double) moneyOperationDto.InitialAmount;
             DateTime date = moneyOperationDto.ValidityBeginDate;
             var scheduleItems = new List<MoneyOperationScheduleItemModel>();
             var totalBudgetedAmount = 0d;
             while (date <= moneyOperationDto.ValidityEndDate)
             {
-                //TODO here is the problem. In PrepareMoneyOperationStatus it does not take care about budgeted amount from last month crap.d
                 var moneyOperationStatus = PrepareMoneyOperationStatus(moneyOperationDto, date);
                 var itemBalance = (double)moneyOperationStatus.CurrentAmount;
                 var budgetedAmount = Math.Max(0,(double)moneyOperationStatus.CurrentPeriodBudgetedAmount);
@@ -155,7 +150,7 @@ namespace FinanceManager.BL
             short currentPaymentNumber = 0;
             short totalPaymentsNumber = 0;
             //TODO: Write some helper that would check only to repetitionUnit precision, for example reject minutes and seconds if unit is hour
-            while (currentDate <= moneyOperationDto.ValidityEndDate)
+            while (CompareWithRepetitionUnitPrecision(currentDate, moneyOperationDto.ValidityEndDate, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity))
             {
                 totalPaymentsNumber++;
                 if (currentDate <= date)
@@ -178,6 +173,11 @@ namespace FinanceManager.BL
             metadata.TotalPaymentsNumber = totalPaymentsNumber;
 
             return metadata;
+        }
+
+        private bool CompareWithRepetitionUnitPrecision(DateTime date, DateTime referenceDate, PeriodUnit repetitionUnit, short repetitionUnitQuantity)
+        {
+            return RepetitionUnitCalculator.ClearMinorDateTimePart(date, repetitionUnit, repetitionUnitQuantity) < RepetitionUnitCalculator.ClearMinorDateTimePart(referenceDate, repetitionUnit, repetitionUnitQuantity);
         }
 
         private IEnumerable<MoneyOperationChangeDto> ExtractPeriodOperations(MoneyOperationDto moneyOperationDto, DateTime dateFromPeriod)
