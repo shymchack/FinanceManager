@@ -26,7 +26,7 @@ namespace FinanceManager.API.Services
         public PeriodSummaryModel GetPeriodSummary(DateTime dateFromPeriod, int userId, PeriodUnit periodUnit = PeriodUnit.Month)
         {
             IEnumerable<AccountDto> accounts = _userAccountsUnitOfWork.GetAccountsByUserId(userId);
-            IEnumerable<MoneyOperationStatus> moneyOperations = _moneyOperationsService.GetMoneyOperationsByAccountsIds(accounts.Select(a => a.ID), dateFromPeriod);
+            IEnumerable<MoneyOperationStatusModel> moneyOperations = _moneyOperationsService.GetMoneyOperationsByAccountsIds(accounts.Select(a => a.ID), dateFromPeriod);
 
             //TODO implement periodUnit
             PeriodSummaryModel model = new PeriodSummaryModel();

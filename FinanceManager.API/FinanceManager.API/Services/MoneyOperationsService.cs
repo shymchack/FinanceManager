@@ -41,14 +41,14 @@ namespace FinanceManager.API.Services
             return viewData;
         }
 
-        public IEnumerable<MoneyOperationStatus> GetMoneyOperationsByAccountsIds(IEnumerable<int> accountsIds, DateTime date)
+        public IEnumerable<MoneyOperationStatusModel> GetMoneyOperationsByAccountsIds(IEnumerable<int> accountsIds, DateTime date)
         {
             IEnumerable<MoneyOperationDto> moneyOperationDtos = _moneyOperationUOW.GetMoneyOperationsByAccountsIDs(accountsIds, date);
-            List<MoneyOperationStatus> moneyOperationStatuses = new List<MoneyOperationStatus>();
+            List<MoneyOperationStatusModel> moneyOperationStatuses = new List<MoneyOperationStatusModel>();
 
             foreach(MoneyOperationDto moneyOperationDto in moneyOperationDtos)
             {
-                MoneyOperationStatus status = GetMoneyOperationStatusFromDto(moneyOperationDto, date);
+                MoneyOperationStatusModel status = GetMoneyOperationStatusFromDto(moneyOperationDto, date);
                 if (status != null)
                     moneyOperationStatuses.Add(status);
             }
@@ -66,9 +66,9 @@ namespace FinanceManager.API.Services
         }
 
 
-        private MoneyOperationStatus GetMoneyOperationStatusFromDto(MoneyOperationDto moneyOperationDto, DateTime date)
+        private MoneyOperationStatusModel GetMoneyOperationStatusFromDto(MoneyOperationDto moneyOperationDto, DateTime date)
         {
-            MoneyOperationStatus status = _moneyOperationLogic.PrepareMoneyOperationStatus(moneyOperationDto, date);
+            MoneyOperationStatusModel status = _moneyOperationLogic.PrepareMoneyOperationStatus(moneyOperationDto, date);
 
             return status;
         }

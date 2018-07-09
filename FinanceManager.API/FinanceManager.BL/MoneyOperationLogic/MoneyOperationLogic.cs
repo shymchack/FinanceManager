@@ -21,7 +21,7 @@ namespace FinanceManager.BL
             return MapDtoToViewData(moneyOperationDto);
         }
 
-        public MoneyOperationStatus PrepareMoneyOperationStatus(MoneyOperationDto moneyOperationDto, DateTime targetDate)
+        public MoneyOperationStatusModel PrepareMoneyOperationStatus(MoneyOperationDto moneyOperationDto, DateTime targetDate)
         {
             if (targetDate < moneyOperationDto.ValidityBeginDate || targetDate > moneyOperationDto.ValidityEndDate) return null; //TODO: maybe should return new()?Metad
 
@@ -48,7 +48,7 @@ namespace FinanceManager.BL
 
             var currentPeriodEndAmount = currentAmount - currentPeriodBudgetedAmount;
 
-            MoneyOperationStatus status = new MoneyOperationStatus();
+            MoneyOperationStatusModel status = new MoneyOperationStatusModel();
             status.AccountID = moneyOperationDto.AccountID;
             status.Description = moneyOperationDto.Description;
             status.Name = moneyOperationDto.Name;

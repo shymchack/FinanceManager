@@ -3,7 +3,7 @@ using FinanceManager.Types.Enums;
 
 namespace FinanceManager.BL
 {
-    public class MoneyOperationStatus
+    public class MoneyOperationStatusModel
     {
         public string Name { get; set; }
         public decimal InitialAmount { get; set; }

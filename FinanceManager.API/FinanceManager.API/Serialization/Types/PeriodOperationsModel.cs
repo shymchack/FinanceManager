@@ -7,7 +7,7 @@ namespace FinanceManager.API.Serialization.Types
     {
         public PeriodOperationsModel()
         {
-            PeriodOperations = new List<MoneyOperationStatus>();
+            PeriodOperations = new List<MoneyOperationStatusModel>();
         }
 
         public string NameLabel { get; set; }
@@ -19,6 +19,6 @@ namespace FinanceManager.API.Serialization.Types
         public string CurrentPeriodEndAmountLabel { get; set; }
         public string CurrentPeriodBudgetedAmountLabel { get; set; }
         public string CurrentPeriodPayedAmountLabel { get; set; }
-        public IEnumerable<MoneyOperationStatus> PeriodOperations { get; set; }
+        public IEnumerable<MoneyOperationStatusModel> PeriodOperations { get; set; }
     }
 }

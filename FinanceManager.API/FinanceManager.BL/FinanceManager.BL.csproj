@@ -46,9 +46,9 @@
     <Compile Include="MoneyOperationLogic\MoneyOperationLogic.cs" />
     <Compile Include="UserInput\MoneyOperationModel.cs" />
     <Compile Include="Metadata\MoneyOperationPeriodMetadata.cs" />
-    <Compile Include="ViewModels\MoneyOperationScheduleItemModel.cs" />
-    <Compile Include="ViewModels\MoneyOperationScheduleModel.cs" />
-    <Compile Include="ViewModels\MoneyOperationStatus.cs" />
+    <Compile Include="Model\MoneyOperationScheduleItemModel.cs" />
+    <Compile Include="Model\MoneyOperationScheduleModel.cs" />
+    <Compile Include="Model\MoneyOperationStatusModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FinanceManager.DAL\FinanceManager.DAL.csproj">
