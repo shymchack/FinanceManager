@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FinanceManager.Types.Enums;
 
 namespace FinanceManager.BL
 {
-    //TODO: Refactor the name of this etc.
     public class RepetitionUnitCalculator
     {
         public static DateTime CalculateNextRepetitionDate(DateTime targetDateTime, PeriodUnit repetitionUnit, short repetitionUnitQuantity)
