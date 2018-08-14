@@ -3,6 +3,16 @@
 @{
     ViewBag.Title = "Home Page";
 }
+
+<!-- Load React. -->
+<!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<!-- Load our React component. -->
+<script src="like_button.js"></script>
+
 <div>
     <section class="row">
         <div>
@@ -41,40 +51,37 @@
     </section>
 
     <section class="row text-center">
-        <div class="col-xs-12" style="padding-top: 20px;">
-            <table style="width: 100%; border:thick;" class="table table-responsive">
-                <thead>
-                    <tr>
-                        <th class="text-center">@Model.OperationsModel.NameLabel</th>
-                        <th class="text-center">@Model.OperationsModel.TotalAmonutLabel</th>
-                        <th class="text-center">@Model.OperationsModel.FinishDateLabel</th>
-                        <th class="text-center">@Model.OperationsModel.PaymentLeftLabel</th>
-                        <th class="text-center">@Model.OperationsModel.AlreadyPayedLabel</th>
-                        <th class="text-center">@Model.OperationsModel.CurrentPeriodEndAmountLabel</th>
-                        <th class="text-center">@Model.OperationsModel.CurrentPeriodBudgetedAmountLabel</th>
-                        <th class="text-center">@Model.OperationsModel.CurrentPeriodPayedAmountLabel</th>
-                        <th class="text-center">@Model.OperationsModel.CurrentPeriodPaymentLeftLabel</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (FinanceManager.Web.Models.MoneyOperationViewModel periodOperation in Model.OperationsModel.PeriodOperations)
-                    {
-                        <tr>
-                            <td>@periodOperation.Name</td>
-                            <td>@periodOperation.InitialAmount</td>
-                            <td>@periodOperation.FinishDate</td>
-                            <td>@periodOperation.CurrentAmount</td>
-                            <td>@periodOperation.AlreadyPayedAmount</td>
-                            <td>@periodOperation.CurrentPeriodEndAmount</td>
-                            <td>@periodOperation.CurrentPeriodBudgetedAmount</td>
-                            <td>@periodOperation.CurrentPeriodPayedAmount</td>
-                            <td>@periodOperation.CurrentPeriodPaymentLeft</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+        <div class="container" style="padding-top: 20px;">
+            <div class="row">
+                <div class="col-sm">@Model.OperationsModel.NameLabel</div>
+                <div class="col-sm">@Model.OperationsModel.TotalAmonutLabel</div>
+                <div class="col-sm">@Model.OperationsModel.FinishDateLabel</div>
+                <div class="col-sm">@Model.OperationsModel.PaymentLeftLabel</div>
+                <div class="col-sm">@Model.OperationsModel.AlreadyPayedLabel</div>
+                <div class="col-sm">@Model.OperationsModel.CurrentPeriodEndAmountLabel</div>
+                <div class="col-sm">@Model.OperationsModel.CurrentPeriodBudgetedAmountLabel</div>
+                <div class="col-sm">@Model.OperationsModel.CurrentPeriodPayedAmountLabel</div>
+                <div class="col-sm">@Model.OperationsModel.CurrentPeriodPaymentLeftLabel</div>
+            </div>
+            @foreach (FinanceManager.Web.Models.MoneyOperationViewModel periodOperation in Model.OperationsModel.PeriodOperations)
+            {
+                <div class="row">
+                    <div class="col-sm">@periodOperation.Name</div>
+                    <div class="col-sm">@periodOperation.InitialAmount</div>
+                    <div class="col-sm">@periodOperation.FinishDate</div>
+                    <div class="col-sm">@periodOperation.CurrentAmount</div>
+                    <div class="col-sm">@periodOperation.AlreadyPayedAmount</div>
+                    <div class="col-sm">@periodOperation.CurrentPeriodEndAmount</div>
+                    <div class="col-sm">@periodOperation.CurrentPeriodBudgetedAmount</div>
+                    <div class="col-sm">@periodOperation.CurrentPeriodPayedAmount</div>
+                    <div class="col-sm">@periodOperation.CurrentPeriodPaymentLeft</div>
+                </div>
+            }
         </div>
     </section>
+
+
+
     @using (Html.BeginForm("AddExpense", "HomeController", Model.NewMoneyOperation))
     {
         <section class="row">
