@@ -14,7 +14,7 @@
 <script src="like_button.js"></script>
 
 <div>
-    <section class="row">
+    <section class="">
         <div>
             <div class="col-xs-12 text-center">
                 <div>
@@ -23,34 +23,38 @@
             </div>
         </div>
     </section>
-    <section class="row text-center">
-        <div class="col-xs-2">
-            <h2>Incomes</h2>
-            <span>@Model.PeriodBeginningPeriodIncomesAmount</span>
-            <span>@Model.PeriodIncomesDifference</span>
-            <span>@Model.CurrentPeriodIncomesAmount</span>
-        </div>
-        <div class="col-xs-2">
-            <h2>Expenses</h2>
-            <span>@Model.PeriodBeginningPeriodExpensesAmount</span>
-            <span>@Model.PeriodExpensesDifference</span>
-            <span>@Model.CurrentPeriodExpensesAmount</span>
-        </div>
-        <div class="col-xs-3">
-            <h2>Period Balance</h2>
-            <span>@Model.PeriodBeginningPeriodBalance</span>
-            <span>@Model.PeriodBalanceDifference</span>
-            <span>@Model.CurrentPeriodBalance</span>
-        </div>
-        <div class="col-xs-5">
-            <h2>Total Balance</h2>
-            <span>@Model.PeriodBeginningTotalBalance</span>
-            <span>@Model.TotalBalanceDifference</span>
-            <span>@Model.CurrentTotalBalance</span>
+    <section class="text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h2>Incomes</h2>
+                    <span>@Model.PeriodBeginningPeriodIncomesAmount</span>
+                    <span>@Model.PeriodIncomesDifference</span>
+                    <span>@Model.CurrentPeriodIncomesAmount</span>
+                </div>
+                <div class="col">
+                    <h2>Expenses</h2>
+                    <span>@Model.PeriodBeginningPeriodExpensesAmount</span>
+                    <span>@Model.PeriodExpensesDifference</span>
+                    <span>@Model.CurrentPeriodExpensesAmount</span>
+                </div>
+                <div class="col">
+                    <h2>Period Balance</h2>
+                    <span>@Model.PeriodBeginningPeriodBalance</span>
+                    <span>@Model.PeriodBalanceDifference</span>
+                    <span>@Model.CurrentPeriodBalance</span>
+                </div>
+                <div class="col">
+                    <h2>Total Balance</h2>
+                    <span>@Model.PeriodBeginningTotalBalance</span>
+                    <span>@Model.TotalBalanceDifference</span>
+                    <span>@Model.CurrentTotalBalance</span>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section class="row text-center">
+    <section class="text-center">
         <div class="container" style="padding-top: 20px;">
             <div class="row">
                 <div class="col-sm">@Model.OperationsModel.NameLabel</div>
