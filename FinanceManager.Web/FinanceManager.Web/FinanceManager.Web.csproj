@@ -242,6 +242,10 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="js\src\components.js" />
+    <Content Include="js\vendors\bootstrap.min.css" />
+    <Content Include="js\vendors\react-dom.development.js" />
+    <Content Include="js\vendors\react.development.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

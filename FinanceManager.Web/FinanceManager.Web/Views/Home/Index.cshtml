@@ -3,27 +3,12 @@
 @{
     ViewBag.Title = "Home Page";
 }
-
-<!-- Load React. -->
-<!-- Note: when deploying, replace "development.js" with "production.min.js". -->
-<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-<!-- Load our React component. -->
-<script src="like_button.js"></script>
-
-<div>
-    <section class="">
-        <div>
-            <div class="col-xs-12 text-center">
-                <div>
-                    <h1>@(Model.PeriodTitle) Summary</h1>
-                </div>
-            </div>
+<head>
+</head>
+<body>
+    <div id="root">
+        <div id="header">
         </div>
-    </section>
-    <section class="text-center">
         <div class="container">
             <div class="row">
                 <div class="col">
@@ -52,43 +37,37 @@
                 </div>
             </div>
         </div>
-    </section>
 
-    <section class="text-center">
         <div class="container" style="padding-top: 20px;">
             <div class="row">
-                <div class="col-sm">@Model.OperationsModel.NameLabel</div>
-                <div class="col-sm">@Model.OperationsModel.TotalAmonutLabel</div>
-                <div class="col-sm">@Model.OperationsModel.FinishDateLabel</div>
-                <div class="col-sm">@Model.OperationsModel.PaymentLeftLabel</div>
-                <div class="col-sm">@Model.OperationsModel.AlreadyPayedLabel</div>
-                <div class="col-sm">@Model.OperationsModel.CurrentPeriodEndAmountLabel</div>
-                <div class="col-sm">@Model.OperationsModel.CurrentPeriodBudgetedAmountLabel</div>
-                <div class="col-sm">@Model.OperationsModel.CurrentPeriodPayedAmountLabel</div>
-                <div class="col-sm">@Model.OperationsModel.CurrentPeriodPaymentLeftLabel</div>
+                <div class="col-sm-4">@Model.OperationsModel.NameLabel</div>
+                <div class="col-sm-1">@Model.OperationsModel.TotalAmonutLabel</div>
+                <div class="col-sm-1">@Model.OperationsModel.FinishDateLabel</div>
+                <div class="col-sm-1">@Model.OperationsModel.PaymentLeftLabel</div>
+                <div class="col-sm-1">@Model.OperationsModel.AlreadyPayedLabel</div>
+                <div class="col-sm-1">@Model.OperationsModel.CurrentPeriodEndAmountLabel</div>
+                <div class="col-sm-1">@Model.OperationsModel.CurrentPeriodBudgetedAmountLabel</div>
+                <div class="col-sm-1">@Model.OperationsModel.CurrentPeriodPayedAmountLabel</div>
+                <div class="col-sm-1">@Model.OperationsModel.CurrentPeriodPaymentLeftLabel</div>
             </div>
             @foreach (FinanceManager.Web.Models.MoneyOperationViewModel periodOperation in Model.OperationsModel.PeriodOperations)
             {
                 <div class="row">
-                    <div class="col-sm">@periodOperation.Name</div>
-                    <div class="col-sm">@periodOperation.InitialAmount</div>
-                    <div class="col-sm">@periodOperation.FinishDate</div>
-                    <div class="col-sm">@periodOperation.CurrentAmount</div>
-                    <div class="col-sm">@periodOperation.AlreadyPayedAmount</div>
-                    <div class="col-sm">@periodOperation.CurrentPeriodEndAmount</div>
-                    <div class="col-sm">@periodOperation.CurrentPeriodBudgetedAmount</div>
-                    <div class="col-sm">@periodOperation.CurrentPeriodPayedAmount</div>
-                    <div class="col-sm">@periodOperation.CurrentPeriodPaymentLeft</div>
+                    <div class="col-sm-4">@periodOperation.Name</div>
+                    <div class="col-sm-1">@periodOperation.InitialAmount</div>
+                    <div class="col-sm-1">@periodOperation.FinishDate.ToShortDateString()</div>
+                    <div class="col-sm-1">@periodOperation.CurrentAmount</div>
+                    <div class="col-sm-1">@periodOperation.AlreadyPayedAmount</div>
+                    <div class="col-sm-1">@periodOperation.CurrentPeriodEndAmount</div>
+                    <div class="col-sm-1">@periodOperation.CurrentPeriodBudgetedAmount</div>
+                    <div class="col-sm-1">@periodOperation.CurrentPeriodPayedAmount</div>
+                    <div class="col-sm-1">@periodOperation.CurrentPeriodPaymentLeft</div>
                 </div>
             }
         </div>
-    </section>
 
-
-
-    @using (Html.BeginForm("AddExpense", "HomeController", Model.NewMoneyOperation))
-    {
-        <section class="row">
+        @using (Html.BeginForm("AddExpense", "HomeController", Model.NewMoneyOperation))
+        {
             @Html.LabelFor(m => m.NewMoneyOperation.Name)
             @Html.TextBoxFor(m => m.NewMoneyOperation.Name)
             @Html.LabelFor(m => m.NewMoneyOperation.Description)
@@ -101,6 +80,14 @@
             @Html.CheckBoxFor(m => m.NewMoneyOperation.IsReal)
             @Html.HiddenFor(m => m.NewMoneyOperation.AccountID)
             <button type="submit">SUBMIT</button>
-        </section>
-    }
-</div>
+        }
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    <!-- Load React. -->
+    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="~/js/vendors/react.development.js" crossorigin></script>
+    <script src="~/js/vendors/react-dom.development.js" crossorigin></script>
+    <link rel="stylesheet" href="~/js/vendors/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="~/js/src/components.js"></script>
+</body>
