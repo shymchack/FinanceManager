@@ -8,50 +8,22 @@
 </head>
 <body>
     <div id="root">
-        @*<div class="container" style="padding-top: 20px;">
-            <div class="row">
-                <div class="col-sm-4">@Model.OperationsModel.NameLabel</div>
-                <div class="col-sm-1">@Model.OperationsModel.TotalAmonutLabel</div>
-                <div class="col-sm-1">@Model.OperationsModel.FinishDateLabel</div>
-                <div class="col-sm-1">@Model.OperationsModel.PaymentLeftLabel</div>
-                <div class="col-sm-1">@Model.OperationsModel.AlreadyPayedLabel</div>
-                <div class="col-sm-1">@Model.OperationsModel.CurrentPeriodEndAmountLabel</div>
-                <div class="col-sm-1">@Model.OperationsModel.CurrentPeriodBudgetedAmountLabel</div>
-                <div class="col-sm-1">@Model.OperationsModel.CurrentPeriodPayedAmountLabel</div>
-                <div class="col-sm-1">@Model.OperationsModel.CurrentPeriodPaymentLeftLabel</div>
-            </div>
-            @foreach (FinanceManager.Web.Models.MoneyOperationViewModel periodOperation in Model.OperationsModel.PeriodOperations)
-            {
-                <div class="row">
-                    <div class="col-sm-4">@periodOperation.Name</div>
-                    <div class="col-sm-1">@periodOperation.InitialAmount</div>
-                    <div class="col-sm-1">@periodOperation.FinishDate.ToShortDateString()</div>
-                    <div class="col-sm-1">@periodOperation.CurrentAmount</div>
-                    <div class="col-sm-1">@periodOperation.AlreadyPayedAmount</div>
-                    <div class="col-sm-1">@periodOperation.CurrentPeriodEndAmount</div>
-                    <div class="col-sm-1">@periodOperation.CurrentPeriodBudgetedAmount</div>
-                    <div class="col-sm-1">@periodOperation.CurrentPeriodPayedAmount</div>
-                    <div class="col-sm-1">@periodOperation.CurrentPeriodPaymentLeft</div>
-                </div>
-            }
-        </div>*@
-
-        @using (Html.BeginForm("AddExpense", "HomeController", Model.NewMoneyOperation))
-        {
-            @Html.LabelFor(m => m.NewMoneyOperation.Name)
-            @Html.TextBoxFor(m => m.NewMoneyOperation.Name)
-            @Html.LabelFor(m => m.NewMoneyOperation.Description)
-            @Html.TextBoxFor(m => m.NewMoneyOperation.Description)
-            @Html.LabelFor(m => m.NewMoneyOperation.InitialAmount)
-            @Html.TextBoxFor(m => m.NewMoneyOperation.InitialAmount)
-            @Html.LabelFor(m => m.NewMoneyOperation.RepetitionUnitQuantity)
-            @Html.TextBoxFor(m => m.NewMoneyOperation.RepetitionUnitQuantity)
-            @Html.LabelFor(m => m.NewMoneyOperation.IsReal)
-            @Html.CheckBoxFor(m => m.NewMoneyOperation.IsReal)
-            @Html.HiddenFor(m => m.NewMoneyOperation.AccountID)
-            <button type="submit">SUBMIT</button>
-        }
     </div>
+    @using (Html.BeginForm("AddExpense", "HomeController", Model.NewMoneyOperation))
+    {
+        @Html.LabelFor(m => m.NewMoneyOperation.Name)
+        @Html.TextBoxFor(m => m.NewMoneyOperation.Name)
+        @Html.LabelFor(m => m.NewMoneyOperation.Description)
+        @Html.TextBoxFor(m => m.NewMoneyOperation.Description)
+        @Html.LabelFor(m => m.NewMoneyOperation.InitialAmount)
+        @Html.TextBoxFor(m => m.NewMoneyOperation.InitialAmount)
+        @Html.LabelFor(m => m.NewMoneyOperation.RepetitionUnitQuantity)
+        @Html.TextBoxFor(m => m.NewMoneyOperation.RepetitionUnitQuantity)
+        @Html.LabelFor(m => m.NewMoneyOperation.IsReal)
+        @Html.CheckBoxFor(m => m.NewMoneyOperation.IsReal)
+        @Html.HiddenFor(m => m.NewMoneyOperation.AccountID)
+        <button type="submit">SUBMIT</button>
+    }
     <!-- Load React. -->
     <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
     <script src="~/js/vendors/react.development.js" crossorigin></script>
