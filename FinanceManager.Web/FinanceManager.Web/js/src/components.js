@@ -33,12 +33,47 @@ class PeriodSummaryContainer extends React.Component {
     render() {
         return React.createElement('div', null,
             React.createElement(PeriodSummaryHeader, { periodTitle: 'October 2018' }),
-            React.createElement(PeriodSummary))
+            React.createElement(PeriodSummary),
+            React.createElement(MoneyAllocationItemsGrid))
     }
 }
 
+class MoneyAllocationItemsGrid extends React.Component {
+    render() {
+        return React.createElement('div', {className: 'container', style: [{paddingTop: '20px'}] }, 
+            React.createElement('div', {className:'row'}, 
+                React.createElement('div', {className: 'col-sm-4'}, 'NameLabel'),
+                React.createElement('div', {className: 'col-sm-1'}, 'TotalAmountLabel'),
+                React.createElement('div', {className: 'col-sm-1'}, 'FinishDateLabel'),
+                React.createElement('div', {className: 'col-sm-1'}, 'PaymentLeftLabel'),
+                React.createElement('div', {className: 'col-sm-1'}, 'ALreadyPayedLabel'),
+                React.createElement('div', {className: 'col-sm-1'}, 'CurrentPeriodEndAmountLabel'),
+                React.createElement('div', {className: 'col-sm-1'}, 'CurrentPeriodBudgetedAmountLabel'),
+                React.createElement('div', {className: 'col-sm-1'}, 'CurrentPeriodPayedAmountLabel'),
+                React.createElement('div', {className: 'col-sm-1'}, 'CurrentPeriodPaymentLeftLabel')
+            ),
+            React.createElement(MoneyAllocationItem)
+            );
+    }
+}
+
+class MoneyAllocationItem extends React.Component {
+    render() {
+        return React.createElement('div', { className: 'row' },
+                React.createElement('div', { className: 'col-sm-4' }, 'OC Volvo'),
+                React.createElement('div', { className: 'col-sm-1' }, '3000'),
+                React.createElement('div', { className: 'col-sm-1' }, '120'),
+                React.createElement('div', { className: 'col-sm-1' }, '12323'),
+                React.createElement('div', { className: 'col-sm-1' }, '124'),
+                React.createElement('div', { className: 'col-sm-1' }, '1231'),
+                React.createElement('div', { className: 'col-sm-1' }, '123'),
+                React.createElement('div', { className: 'col-sm-1' }, '3123'),
+                React.createElement('div', { className: 'col-sm-1' }, '231')
+            )
+    }
+}
 
 ReactDOM.render(
   React.createElement(PeriodSummaryContainer),
-  document.getElementById('header')
+  document.getElementById('root')
 );

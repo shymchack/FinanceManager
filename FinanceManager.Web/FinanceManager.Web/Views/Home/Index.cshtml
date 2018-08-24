@@ -8,38 +8,7 @@
 </head>
 <body>
     <div id="root">
-        <div id="header">
-        </div>
-        @*<div id ="period-summary" class="container">
-            <div class="row">
-                <div class="col">
-                    <h2>Incomes</h2>
-                    <span>@Model.PeriodBeginningPeriodIncomesAmount</span>
-                    <span>@Model.PeriodIncomesDifference</span>
-                    <span>@Model.CurrentPeriodIncomesAmount</span>
-                </div>
-                <div class="col">
-                    <h2>Expenses</h2>
-                    <span>@Model.PeriodBeginningPeriodExpensesAmount</span>
-                    <span>@Model.PeriodExpensesDifference</span>
-                    <span>@Model.CurrentPeriodExpensesAmount</span>
-                </div>
-                <div class="col">
-                    <h2>Period Balance</h2>
-                    <span>@Model.PeriodBeginningPeriodBalance</span>
-                    <span>@Model.PeriodBalanceDifference</span>
-                    <span>@Model.CurrentPeriodBalance</span>
-                </div>
-                <div class="col">
-                    <h2>Total Balance</h2>
-                    <span>@Model.PeriodBeginningTotalBalance</span>
-                    <span>@Model.TotalBalanceDifference</span>
-                    <span>@Model.CurrentTotalBalance</span>
-                </div>
-            </div>
-        </div>*@
-
-        <div class="container" style="padding-top: 20px;">
+        @*<div class="container" style="padding-top: 20px;">
             <div class="row">
                 <div class="col-sm-4">@Model.OperationsModel.NameLabel</div>
                 <div class="col-sm-1">@Model.OperationsModel.TotalAmonutLabel</div>
@@ -65,7 +34,7 @@
                     <div class="col-sm-1">@periodOperation.CurrentPeriodPaymentLeft</div>
                 </div>
             }
-        </div>
+        </div>*@
 
         @using (Html.BeginForm("AddExpense", "HomeController", Model.NewMoneyOperation))
         {
