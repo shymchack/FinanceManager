@@ -4,12 +4,13 @@
     ViewBag.Title = "Home Page";
 }
 <head>
+    @Scripts.Render("~/bundles/jquery")
 </head>
 <body>
     <div id="root">
         <div id="header">
         </div>
-        <div class="container">
+        @*<div id ="period-summary" class="container">
             <div class="row">
                 <div class="col">
                     <h2>Incomes</h2>
@@ -36,7 +37,7 @@
                     <span>@Model.CurrentTotalBalance</span>
                 </div>
             </div>
-        </div>
+        </div>*@
 
         <div class="container" style="padding-top: 20px;">
             <div class="row">
@@ -82,7 +83,6 @@
             <button type="submit">SUBMIT</button>
         }
     </div>
-    @Scripts.Render("~/bundles/jquery")
     <!-- Load React. -->
     <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
     <script src="~/js/vendors/react.development.js" crossorigin></script>
