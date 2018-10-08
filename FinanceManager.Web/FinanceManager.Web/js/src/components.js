@@ -34,7 +34,8 @@ class PeriodSummaryContainer extends React.Component {
         return React.createElement('div', null,
             React.createElement(PeriodSummaryHeader, { periodTitle: 'October 2018' }),
             React.createElement(PeriodSummary),
-            React.createElement(MoneyAllocationItemsGrid))
+            React.createElement(MoneyAllocationItemsGrid),
+            React.createElement(NewMoneyAllocationItemForm))
     }
 }
 
@@ -70,6 +71,24 @@ class MoneyAllocationItem extends React.Component {
                 React.createElement('div', { className: 'col-sm-1' }, '3123'),
                 React.createElement('div', { className: 'col-sm-1' }, '231')
             )
+    }
+}
+
+class NewMoneyAllocationItemForm extends React.Component {
+    render() {
+        return React.createElement('form', { action: '/HomeController/AddExpense', method: 'post' },
+            React.createElement('label', { for: 'NewMoneyOperation_Name' }, 'Name'),
+            React.createElement('input', { id: 'NewMoneyOperation_Name', name: 'NewMoneyOperation_Name', type: 'text' }),
+            React.createElement('label', { for: 'NewMoneyOperation_Description' }, 'Description'),
+            React.createElement('input', { id: 'NewMoneyOperation_Description', name: 'NewMoneyOperation_Description', type: 'text' }),
+            React.createElement('label', { for: 'NewMoneyOperation_InitialAmount' }, 'Initial amount'),
+            React.createElement('input', { id: 'NewMoneyOperation_InitialAmount', name: 'NewMoneyOperation_InitialAmount' }),
+            React.createElement('label', { for: 'NewMoneyOperation_RepetitionUnitQuantity' }, 'Repetition unit quantity'),
+            React.createElement('input', { id: 'NewMoneyOperation_RepetitionUnitQuantity', name: 'NewMoneyOperation_RepetitionUnitQuantity' }),
+            React.createElement('label', { for: 'NewMoneyOperation_IsReal' }, 'Is real?'),
+            React.createElement('input', { id: 'NewMoneyOperation_IsReal', name: 'NewMoneyOperation_IsReal', type: 'checkbox' }),
+            React.createElement('button', { type: 'submit' }, 'SUBMIT'),
+            React.createElement('input', { id: 'NewMoneyOperation_AccountID', name: 'NewMoneyOperation_AccountID', type: 'hidden' }));
     }
 }
 

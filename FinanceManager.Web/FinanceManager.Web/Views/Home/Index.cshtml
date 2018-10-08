@@ -9,21 +9,6 @@
 <body>
     <div id="root">
     </div>
-    @using (Html.BeginForm("AddExpense", "HomeController", Model.NewMoneyOperation))
-    {
-        @Html.LabelFor(m => m.NewMoneyOperation.Name)
-        @Html.TextBoxFor(m => m.NewMoneyOperation.Name)
-        @Html.LabelFor(m => m.NewMoneyOperation.Description)
-        @Html.TextBoxFor(m => m.NewMoneyOperation.Description)
-        @Html.LabelFor(m => m.NewMoneyOperation.InitialAmount)
-        @Html.TextBoxFor(m => m.NewMoneyOperation.InitialAmount)
-        @Html.LabelFor(m => m.NewMoneyOperation.RepetitionUnitQuantity)
-        @Html.TextBoxFor(m => m.NewMoneyOperation.RepetitionUnitQuantity)
-        @Html.LabelFor(m => m.NewMoneyOperation.IsReal)
-        @Html.CheckBoxFor(m => m.NewMoneyOperation.IsReal)
-        @Html.HiddenFor(m => m.NewMoneyOperation.AccountID)
-        <button type="submit">SUBMIT</button>
-    }
     <!-- Load React. -->
     <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
     <script src="~/js/vendors/react.development.js" crossorigin></script>
