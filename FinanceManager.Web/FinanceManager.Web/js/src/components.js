@@ -1,7 +1,7 @@
 ﻿class PeriodSummaryContainer extends React.Component {
     render() {
         return React.createElement('div', null,
-            React.createElement(PeriodSummaryHeader, { periodTitle: 'October 2018' }),
+            React.createElement(PeriodSummaryHeader, { periodTitle: this.props.periodTitle }),
             React.createElement(PeriodSummary),
             React.createElement(MoneyAllocationItemsGrid),
             React.createElement(NewMoneyAllocationItemForm))
@@ -92,7 +92,9 @@ class NewMoneyAllocationItemForm extends React.Component {
     }
 }
 
-ReactDOM.render(
-  React.createElement(PeriodSummaryContainer),
-  document.getElementById('root')
-);
+function renderPeriodSummaryViewModel(model) {
+    ReactDOM.render(
+      React.createElement(PeriodSummaryContainer, { periodTitle: model.PeriodTitle }),
+      document.getElementById('root')
+    );
+}

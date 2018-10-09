@@ -15,5 +15,13 @@
     <script src="~/js/vendors/react-dom.development.js" crossorigin></script>
     <link rel="stylesheet" href="~/js/vendors/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <script src="~/js/src/components.js"></script>
+    <script src="~/js/src/components.js">
+
+    </script>
+    <script>
+        $(function()
+        {
+            (renderPeriodSummaryViewModel(@Html.Raw((Json.Encode(Model)))));
+        })
+    </script>
 </body>
