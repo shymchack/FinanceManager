@@ -1,4 +1,14 @@
-﻿class PeriodSummaryHeader extends React.Component {
+﻿class PeriodSummaryContainer extends React.Component {
+    render() {
+        return React.createElement('div', null,
+            React.createElement(PeriodSummaryHeader, { periodTitle: 'October 2018' }),
+            React.createElement(PeriodSummary),
+            React.createElement(MoneyAllocationItemsGrid),
+            React.createElement(NewMoneyAllocationItemForm))
+    }
+}
+
+class PeriodSummaryHeader extends React.Component {
     render() {
         return React.createElement('div', { className: 'col-xs-12 text-center' },
             React.createElement('h1', null, `${this.props.periodTitle} Summary`));
@@ -26,16 +36,6 @@ class PeriodSummary extends React.Component {
                 React.createElement(PeriodSummaryItem, { title: 'Expenses', periodBeginningValue: '4500', periodDifference: '5500', periodValue: '6500' }),
                 React.createElement(PeriodSummaryItem, { title: 'Period Balance', periodBeginningValue: '7500', periodDifference: '8500', periodValue: '9500' }),
                 React.createElement(PeriodSummaryItem, { title: 'Total Balance', periodBeginningValue: '10500', periodDifference: '11500', periodValue: '12500' })));
-    }
-}
-
-class PeriodSummaryContainer extends React.Component {
-    render() {
-        return React.createElement('div', null,
-            React.createElement(PeriodSummaryHeader, { periodTitle: 'October 2018' }),
-            React.createElement(PeriodSummary),
-            React.createElement(MoneyAllocationItemsGrid),
-            React.createElement(NewMoneyAllocationItemForm))
     }
 }
 
