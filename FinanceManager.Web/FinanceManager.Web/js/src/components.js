@@ -2,8 +2,21 @@
     render() {
         return React.createElement('div', null,
             React.createElement(PeriodSummaryHeader, { periodTitle: this.props.periodTitle }),
-            React.createElement(PeriodSummary),
-            React.createElement(MoneyAllocationItemsGrid),
+            React.createElement(PeriodSummary, {
+                currentTotalBalance: this.props.currentTotalBalance,
+                periodBeginningTotalBalance: this.props.periodBeginningTotalBalance,
+                totalBalanceDifference: this.props.totalBalanceDifference,
+                currentPeriodBalance: this.props.currentPeriodBalance,
+                periodBeginningPeriodBalance: this.props.periodBeginningPeriodBalance,
+                periodBalanceDifference: this.props.periodBalanceDifference,
+                periodBeginningPeriodExpensesAmount: this.props.periodBeginningPeriodExpensesAmount,
+                currentPeriodExpensesAmount: this.props.currentPeriodExpensesAmount,
+                periodExpensesDifference: this.props.periodExpensesDifference,
+                periodBeginningPeriodIncomesAmount: this.props.periodBeginningPeriodIncomesAmount,
+                currentPeriodIncomesAmount: this.props.currentPeriodIncomesAmount,
+                periodIncomesDifference: this.props.periodIncomesDifference
+            }),
+            React.createElement(MoneyAllocationItemsGrid, { moneyAllocationItems: this.props.moneyAllocationItems }),
             React.createElement(NewMoneyAllocationItemForm))
     }
 }
@@ -32,10 +45,10 @@ class PeriodSummary extends React.Component {
     render() {
         return React.createElement('div', { className: 'container' },
             React.createElement('div', { className: 'row row-conformity' },
-                React.createElement(PeriodSummaryItem, { title: 'Incomes', periodBeginningValue: '1500', periodDifference: '2500', periodValue: '3500'}),
-                React.createElement(PeriodSummaryItem, { title: 'Expenses', periodBeginningValue: '4500', periodDifference: '5500', periodValue: '6500' }),
-                React.createElement(PeriodSummaryItem, { title: 'Period Balance', periodBeginningValue: '7500', periodDifference: '8500', periodValue: '9500' }),
-                React.createElement(PeriodSummaryItem, { title: 'Total Balance', periodBeginningValue: '10500', periodDifference: '11500', periodValue: '12500' })));
+                React.createElement(PeriodSummaryItem, { title: 'Incomes', periodBeginningValue: this.props.periodBeginningPeriodIncomesAmount, periodDifference: this.props.periodIncomesDifference, periodValue: this.props.currentPeriodIncomesAmount }),
+                React.createElement(PeriodSummaryItem, { title: 'Expenses', periodBeginningValue: this.props.periodBeginningPeriodExpensesAmount, periodDifference: this.props.periodExpensesDifference, periodValue: this.props.currentPeriodExpensesAmount }),
+                React.createElement(PeriodSummaryItem, { title: 'Period Balance', periodBeginningValue: this.props.periodBeginningPeriodBalance, periodDifference: this.props.periodBalanceDifference, periodValue: this.props.currentPeriodBalance }),
+                React.createElement(PeriodSummaryItem, { title: 'Total Balance', periodBeginningValue: this.props.periodBeginningTotalBalance, periodDifference: this.props.totalBalanceDifference, periodValue: this.props.currentTotalBalance })));
     }
 }
 
@@ -94,7 +107,22 @@ class NewMoneyAllocationItemForm extends React.Component {
 
 function renderPeriodSummaryViewModel(model) {
     ReactDOM.render(
-      React.createElement(PeriodSummaryContainer, { periodTitle: model.PeriodTitle }),
+      React.createElement(PeriodSummaryContainer, {
+          periodTitle: model.PeriodTitle,
+          currentTotalBalance: model.CurrentTotalBalance,
+          periodBeginningTotalBalance: model.PeriodBeginningTotalBalance,
+          totalBalanceDifference: model.TotalBalanceDifference,
+          currentPeriodBalance: model.CurrentPeriodBalance,
+          periodBeginningPeriodBalance: model.PeriodBeginningPeriodBalance,
+          periodBalanceDifference: model.PeriodBalanceDifference,
+          periodBeginningPeriodExpensesAmount: model.PeriodBeginningPeriodExpensesAmount,
+          currentPeriodExpensesAmount: model.CurrentPeriodExpensesAmount,
+          periodExpensesDifference: model.PeriodExpensesDifference,
+          periodBeginningPeriodIncomesAmount: model.PeriodBeginningPeriodIncomesAmount,
+          currentPeriodIncomesAmount: model.CurrentPeriodIncomesAmount,
+          periodIncomesDifference: model.PeriodIncomesDifference,
+          moneyAllocationItems: model.OperationsModel
+      }),
       document.getElementById('root')
     );
 }
