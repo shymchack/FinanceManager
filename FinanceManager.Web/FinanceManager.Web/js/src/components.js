@@ -16,7 +16,7 @@
                 currentPeriodIncomesAmount: this.props.currentPeriodIncomesAmount,
                 periodIncomesDifference: this.props.periodIncomesDifference
             }),
-            React.createElement(MoneyAllocationItemsGrid, { moneyAllocationItems: this.props.moneyAllocationItems }),
+            React.createElement(MoneyAllocationItemsModelGrid, { moneyAllocationItemsModel: this.props.moneyAllocationItemsModel }),
             React.createElement(NewMoneyAllocationItemForm))
     }
 }
@@ -29,12 +29,12 @@ class PeriodSummaryHeader extends React.Component {
 }
 
 class PeriodSummaryItem extends React.Component {
-//TODO: make theese items heights equal.
+    //TODO: make theese items heights equal.
     render() {
         return React.createElement('div', { className: 'col-3' },
-            React.createElement('div', {className: 'to-bottom'}, 
+            React.createElement('div', { className: 'to-bottom' },
                 React.createElement('h2', { className: 'text-center' }, `${this.props.title}`),
-                React.createElement('div', { className: 'row' }, 
+                React.createElement('div', { className: 'row' },
                     React.createElement('div', { className: 'col-2 col-sm-4' }, `${this.props.periodBeginningValue}`),
                     React.createElement('div', { className: 'col-2 col-sm-4' }, `${this.props.periodDifference}`),
                     React.createElement('div', { className: 'col-2 col-sm-4' }, `${this.props.periodValue}`))));
@@ -52,37 +52,58 @@ class PeriodSummary extends React.Component {
     }
 }
 
-class MoneyAllocationItemsGrid extends React.Component {
+class MoneyAllocationItemsModelGrid extends React.Component {
     render() {
-        return React.createElement('div', {className: 'container', style: [{paddingTop: '20px'}] }, 
-            React.createElement('div', {className:'row'}, 
-                React.createElement('div', {className: 'col-sm-4'}, 'NameLabel'),
-                React.createElement('div', {className: 'col-sm-1'}, 'TotalAmountLabel'),
-                React.createElement('div', {className: 'col-sm-1'}, 'FinishDateLabel'),
-                React.createElement('div', {className: 'col-sm-1'}, 'PaymentLeftLabel'),
-                React.createElement('div', {className: 'col-sm-1'}, 'ALreadyPayedLabel'),
-                React.createElement('div', {className: 'col-sm-1'}, 'CurrentPeriodEndAmountLabel'),
-                React.createElement('div', {className: 'col-sm-1'}, 'CurrentPeriodBudgetedAmountLabel'),
-                React.createElement('div', {className: 'col-sm-1'}, 'CurrentPeriodPayedAmountLabel'),
-                React.createElement('div', {className: 'col-sm-1'}, 'CurrentPeriodPaymentLeftLabel')
+
+        var items = [];
+        for (var i = 0; i < this.props.moneyAllocationItemsModel.PeriodOperations.length; i++) {
+            items.push(React.createElement(MoneyAllocationItem, {
+                key: 'MoneyAllocationItem_' + i, // TODO: this does not work at all
+                Name: this.props.moneyAllocationItemsModel.PeriodOperations[i].Name,
+                TotalAmount: this.props.moneyAllocationItemsModel.PeriodOperations[i].TotalAmount,
+                FinishDate: this.props.moneyAllocationItemsModel.PeriodOperations[i].FinishDate,
+                PaymentLeft: this.props.moneyAllocationItemsModel.PeriodOperations[i].PaymentLeft,
+                AlreadyPayed: this.props.moneyAllocationItemsModel.PeriodOperations[i].ALreadyPayed,
+                CurrentPeriodEndAmount: this.props.moneyAllocationItemsModel.PeriodOperations[i].CurrentPeriodEndAmount,
+                CurrentPeriodBudgetedAmount: this.props.moneyAllocationItemsModel.PeriodOperations[i].CurrentPeriodBudgetedAmount,
+                CurrentPeriodPayedAmount: this.props.moneyAllocationItemsModel.PeriodOperations[i].CurrentPeriodPayedAmount,
+                CurrentPeriodPaymentLeftLabel: this.props.moneyAllocationItemsModel.PeriodOperations[i].CurrentPeriodPaymentLeft
+            }))
+        };
+        return React.createElement('div', { id: 'MoneyAllocationItemsModelGrid', className: 'container', style: [{ paddingTop: '20px' }] },
+            React.createElement('div', { className: 'row' },
+                React.createElement('div', { className: 'col-sm-4' }, this.props.moneyAllocationItemsModel.NameLabel),
+                React.createElement('div', { className: 'col-sm-1' }, this.props.moneyAllocationItemsModel.TotalAmountLabel),
+                React.createElement('div', { className: 'col-sm-1' }, this.props.moneyAllocationItemsModel.FinishDateLabel),
+                React.createElement('div', { className: 'col-sm-1' }, this.props.moneyAllocationItemsModel.PaymentLeftLabel),
+                React.createElement('div', { className: 'col-sm-1' }, this.props.moneyAllocationItemsModel.ALreadyPayedLabel),
+                React.createElement('div', { className: 'col-sm-1' }, this.props.moneyAllocationItemsModel.CurrentPeriodEndAmountLabel),
+                React.createElement('div', { className: 'col-sm-1' }, this.props.moneyAllocationItemsModel.CurrentPeriodBudgetedAmountLabel),
+                React.createElement('div', { className: 'col-sm-1' }, this.props.moneyAllocationItemsModel.CurrentPeriodPayedAmountLabel),
+                React.createElement('div', { className: 'col-sm-1' }, this.props.moneyAllocationItemsModel.CurrentPeriodPaymentLeftLabel)
             ),
-            React.createElement(MoneyAllocationItem)
-            );
+            React.createElement(MoneyAllocationItems, { items: items })
+    )}
+}
+
+class MoneyAllocationItems extends React.Component {
+    render() {
+        return this.props.items  ;
     }
 }
 
 class MoneyAllocationItem extends React.Component {
     render() {
-        return React.createElement('div', { className: 'row' },
-                React.createElement('div', { className: 'col-sm-4' }, 'OC Volvo'),
-                React.createElement('div', { className: 'col-sm-1' }, '3000'),
-                React.createElement('div', { className: 'col-sm-1' }, '120'),
-                React.createElement('div', { className: 'col-sm-1' }, '12323'),
-                React.createElement('div', { className: 'col-sm-1' }, '124'),
-                React.createElement('div', { className: 'col-sm-1' }, '1231'),
-                React.createElement('div', { className: 'col-sm-1' }, '123'),
-                React.createElement('div', { className: 'col-sm-1' }, '3123'),
-                React.createElement('div', { className: 'col-sm-1' }, '231')
+        return React.createElement('div', { id: 'MoneyAllocationItem_' + this.props.Id, className: 'row' },
+                React.createElement('div', { className: 'col-sm-4' }, this.props.Name),
+                React.createElement('div', { className: 'col-sm-1' }, this.props.TotalAmount),
+                React.createElement('div', { className: 'col-sm-1' }, this.props.FinishDate),
+                React.createElement('div', { className: 'col-sm-1' }, this.props.PaymentLeft),
+                React.createElement('div', { className: 'col-sm-1' }, this.props.AlreadyPayed),
+                React.createElement('div', { className: 'col-sm-1' }, this.props.CurrentPeriodEndAmount),
+                React.createElement('div', { className: 'col-sm-1' }, this.props.CurrentPeriodBudgetedAmount),
+                React.createElement('div', { className: 'col-sm-1' }, this.props.CurrentPeriodPayedAmount),
+                React.createElement('div', { className: 'col-sm-1' }, this.props.CurrentPeriodPaymentLeftLabel)
             )
     }
 }
@@ -121,7 +142,7 @@ function renderPeriodSummaryViewModel(model) {
           periodBeginningPeriodIncomesAmount: model.PeriodBeginningPeriodIncomesAmount,
           currentPeriodIncomesAmount: model.CurrentPeriodIncomesAmount,
           periodIncomesDifference: model.PeriodIncomesDifference,
-          moneyAllocationItems: model.OperationsModel
+          moneyAllocationItemsModel: model.OperationsModel
       }),
       document.getElementById('root')
     );
