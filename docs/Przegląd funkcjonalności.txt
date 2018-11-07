@@ -1,0 +1,32 @@
+Przegląd funkcjonalności:
+
+- Zestawienie wydatków i stanu finansowego w wybranym period unit  (domyślnie current) (+filtry)
+	- możliwość przejścia do innego period unit z zachowaniem zaznaczenia (+filtry)
+	- podział na wydatki różnych kategorii
+		- cykliczne permanentne
+		- cykliczne z datą ważności
+		- cykliczne "nierzeczywiste" (np. oszczędności na konkretny cel, poduszka finansowa)
+		- jednorazowe
+		- jednorazowe "nierzeczywiste" (jw.)
+		- przyszłe (zarówno cykliczne, jak i jednorazowe)
+		- przeszłe (zakończone - jw.)
+		- wydatek reprezentujący wyrównanie między obecnym stanem konta wprowadzonym z palca (zapisywać to gdzies? czy jako wydatek wprowadzać i spłatę oraz nadpisywać kwotę początkową na koncie), a tym, który wynika z danych w bazie
+- Szczegóły konkretnego wydatku w wybranym period unit (domyślnie current)
+	- możliwość przejścia do innego miesiąca z zachowaniem zaznaczeń
+	
+- dodanie nowego wydatku
+- aktualizacja wydatku
+	- zmiana nazwy
+	- zmiana kwoty początkowej
+		- zmiana wpływająca na cały okres ważności wydatku
+		- zmiana wpływająca na okres od wybranej daty do końca wydatku
+			2 opcje:
+			- wykorzystując wprowadzenie odpowiedniej money operation z właściwą datą (chyba potrzebna flaga, żeby m.in. nie wyświetlać tego w operacjach)
+			- dodając nowy wydatek (pomyśleć czy to samo czy inne ID) podmieniając uzupełniające się daty obowiązywania
+	- zmiana okresu ważności wydatku
+		- zmiana wpływająca na cały okres ważności wydatku
+		- zmiana wpływająca tylko na różnicę między nowym a starym okresem obowiązywania
+			- od teraz do nowego końca 
+			- od nowego początku do nowego końca
+- "spłata" wydatku (możliwe kwoty ujemne i dodatnie oraz działania w przeszłości)
+- aktualizacja początkowego stanu konta
