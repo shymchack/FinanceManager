@@ -244,6 +244,7 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="js\src\components.js" />
     <Content Include="js\vendors\bootstrap.min.css" />
+    <Content Include="js\vendors\moment.js" />
     <Content Include="js\vendors\react-dom.development.js" />
     <Content Include="js\vendors\react.development.js" />
     <Content Include="Scripts\bootstrap.js" />

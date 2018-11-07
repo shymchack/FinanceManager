@@ -60,10 +60,10 @@ class MoneyAllocationItemsModelGrid extends React.Component {
             items.push(React.createElement(MoneyAllocationItem, {
                 key: 'MoneyAllocationItem_' + i, // TODO: this does not work at all
                 Name: this.props.moneyAllocationItemsModel.PeriodOperations[i].Name,
-                TotalAmount: this.props.moneyAllocationItemsModel.PeriodOperations[i].TotalAmount,
+                TotalAmount: this.props.moneyAllocationItemsModel.PeriodOperations[i].InitialAmount,
                 FinishDate: this.props.moneyAllocationItemsModel.PeriodOperations[i].FinishDate,
-                PaymentLeft: this.props.moneyAllocationItemsModel.PeriodOperations[i].PaymentLeft,
-                AlreadyPayed: this.props.moneyAllocationItemsModel.PeriodOperations[i].ALreadyPayed,
+                PaymentLeft: this.props.moneyAllocationItemsModel.PeriodOperations[i].CurrentAmount,
+                AlreadyPayed: this.props.moneyAllocationItemsModel.PeriodOperations[i].AlreadyPayedAmount,
                 CurrentPeriodEndAmount: this.props.moneyAllocationItemsModel.PeriodOperations[i].CurrentPeriodEndAmount,
                 CurrentPeriodBudgetedAmount: this.props.moneyAllocationItemsModel.PeriodOperations[i].CurrentPeriodBudgetedAmount,
                 CurrentPeriodPayedAmount: this.props.moneyAllocationItemsModel.PeriodOperations[i].CurrentPeriodPayedAmount,
@@ -97,13 +97,14 @@ class MoneyAllocationItem extends React.Component {
         return React.createElement('div', { id: 'MoneyAllocationItem_' + this.props.Id, className: 'row' },
                 React.createElement('div', { className: 'col-sm-4' }, this.props.Name),
                 React.createElement('div', { className: 'col-sm-1' }, this.props.TotalAmount),
-                React.createElement('div', { className: 'col-sm-1' }, this.props.FinishDate),
+                React.createElement('div', { className: 'col-sm-1' }, moment(this.props.FinishDate).toDate().toLocaleDateString()),
                 React.createElement('div', { className: 'col-sm-1' }, this.props.PaymentLeft),
                 React.createElement('div', { className: 'col-sm-1' }, this.props.AlreadyPayed),
                 React.createElement('div', { className: 'col-sm-1' }, this.props.CurrentPeriodEndAmount),
                 React.createElement('div', { className: 'col-sm-1' }, this.props.CurrentPeriodBudgetedAmount),
                 React.createElement('div', { className: 'col-sm-1' }, this.props.CurrentPeriodPayedAmount),
-                React.createElement('div', { className: 'col-sm-1' }, this.props.CurrentPeriodPaymentLeftLabel)
+                React.createElement('div', { className: 'col-sm-1' }, this.props.CurrentPeriodPaymentLeftLabel),
+                React.createElement('div', { className: 'col-sm-1' } )
             )
     }
 }
@@ -113,10 +114,12 @@ class NewMoneyAllocationItemForm extends React.Component {
         return React.createElement('form', { action: '/HomeController/AddExpense', method: 'post' },
             React.createElement('label', { for: 'NewMoneyOperation_Name' }, 'Name'),
             React.createElement('input', { id: 'NewMoneyOperation_Name', name: 'NewMoneyOperation_Name', type: 'text' }),
-            React.createElement('label', { for: 'NewMoneyOperation_Description' }, 'Description'),
-            React.createElement('input', { id: 'NewMoneyOperation_Description', name: 'NewMoneyOperation_Description', type: 'text' }),
             React.createElement('label', { for: 'NewMoneyOperation_InitialAmount' }, 'Initial amount'),
             React.createElement('input', { id: 'NewMoneyOperation_InitialAmount', name: 'NewMoneyOperation_InitialAmount' }),
+            React.createElement('label', { for: 'NewMoneyOperation_BeginningDate' }, 'BeginningDate'),
+            React.createElement('input', { id: 'NewMoneyOperation_BeginningDate', name: 'NewMoneyOperation_BeginningDate', type: 'text' }),
+            React.createElement('label', { for: 'NewMoneyOperation_EndDate' }, 'EndDate'),
+            React.createElement('input', { id: 'NewMoneyOperation_EndDate', name: 'NewMoneyOperation_EndDate', type: 'text' }),
             React.createElement('label', { for: 'NewMoneyOperation_RepetitionUnitQuantity' }, 'Repetition unit quantity'),
             React.createElement('input', { id: 'NewMoneyOperation_RepetitionUnitQuantity', name: 'NewMoneyOperation_RepetitionUnitQuantity' }),
             React.createElement('label', { for: 'NewMoneyOperation_IsReal' }, 'Is real?'),
