@@ -1,9 +1,6 @@
 ﻿using FinanceManager.DAL.Dtos;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinanceManager.DAL.UnitOfWork
 {
@@ -12,5 +9,6 @@ namespace FinanceManager.DAL.UnitOfWork
         int AddMoneyOperation(MoneyOperationDto moneyOperation);
         MoneyOperationDto GetMoneyOperationById(int id);
         IEnumerable<MoneyOperationDto> GetMoneyOperationsByAccountsIDs(IEnumerable<int> accountsIds, DateTime date);
+        int AddMoneyOperationChange(MoneyOperationChangeDto moneyOperationChangeDto);
     }
 }

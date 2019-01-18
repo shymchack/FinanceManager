@@ -24,6 +24,8 @@ namespace FinanceManager.API.Tests
 
         public IDbSet<UserAccount> UsersAccounts { get; set; }
 
+        public IDbSet<MoneyOperationChange> MoneyOperationChanges { get; set; }
+
         public ObjectContext ObjectContext
         {
             get
@@ -31,6 +33,7 @@ namespace FinanceManager.API.Tests
                 throw new NotImplementedException();
             }
         }
+
 
         public FakeFinanceManagerContext()
         {

@@ -10,5 +10,6 @@ namespace FinanceManager.BL
         MoneyOperationModel ConvertDtoToViewData(MoneyOperationDto moneyOperationDto);
         MoneyOperationStatusModel PrepareMoneyOperationStatus(MoneyOperationDto moneyOperationDto, DateTime date);
         MoneyOperationScheduleModel GetMoneyOperationSchedule(MoneyOperationDto moneyOperationDto);
+        MoneyOperationChangeDto ConvertMoneyOperationChangeUserInputToDto(MoneyOperationChangeModel moneyOperationChange);
     }
 }

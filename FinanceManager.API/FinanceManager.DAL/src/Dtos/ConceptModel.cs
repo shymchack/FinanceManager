@@ -61,6 +61,7 @@ namespace FinanceManager.DAL.Dtos
     {
         public decimal ChangeAmount { get; set; }
         public DateTime ChangeDate { get; set; }
+        public int MoneyOperationID { get; set; }
     }
 
     public class UserDto

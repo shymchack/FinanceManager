@@ -44,6 +44,13 @@ namespace FinanceManager.Web.Controllers
             return View(schedule ?? new MoneyOperationScheduleViewModel());
         }
 
+        public ActionResult AddExpense(MoneyOperationViewModel moneyOperation)
+        {
+
+
+            return Index();
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

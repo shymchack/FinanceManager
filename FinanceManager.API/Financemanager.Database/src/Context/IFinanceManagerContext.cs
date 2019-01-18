@@ -18,6 +18,8 @@ namespace FinanceManager.Database.Context
 
         IDbSet<UserAccount> UsersAccounts { get; set; }
 
+        IDbSet<MoneyOperationChange> MoneyOperationChanges { get; set; }
+
         void SaveChanges();
 
         DbEntityEntry Entry(object entity);

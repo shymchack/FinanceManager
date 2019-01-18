@@ -1,7 +1,12 @@
+FinanceManager.API/GetTotalSummary
+FinanceManager.API/Get
+FinanceManager.API/GetDetails
+
 Przegląd funkcjonalności:
 
-- Zestawienie wydatków i stanu finansowego w wybranym period unit  (domyślnie current) (+filtry)
-	- możliwość przejścia do innego period unit z zachowaniem zaznaczenia (+filtry)
+- Zestawienie wydatków i stanu finansowego w wybranym period unit  (domyślnie current)
+	- filtry, grupowanie po kategorii
+	- możliwość przejścia do innego period unit z zachowaniem zaznaczenia
 	- podział na wydatki różnych kategorii
 		- cykliczne permanentne
 		- cykliczne z datą ważności
@@ -30,3 +35,14 @@ Przegląd funkcjonalności:
 			- od nowego początku do nowego końca
 - "spłata" wydatku (możliwe kwoty ujemne i dodatnie oraz działania w przeszłości)
 - aktualizacja początkowego stanu konta
+
+
+API:
+- GetPeriodSummary(int userId) - domyślna data UtcNow.
+- GetPeriodSummaryByDate(int userId, DateTime dateTime)
+- GetMoneyOperationSchedule(int moneyOperationId)
+- GetMoneyOperationSchedule(int moneyOperationId, DateTime dateTime)
+- CreateMoneyOperation(CreateMoneyOperationRequestData data)
+	- data: { string name, string description, decimal initialAmount,  int accountId, bool isReal, bool isActive, DateTime validityBeginDate, DateTime validityEndDate, short repetitionUnitQuantity, PeriodUniti repetitionUnit, MoneyOperationSetting moneyOperationSettingData}
+- CreateMoneyOperationChange
+	

@@ -19,7 +19,7 @@ namespace FinanceManager.Database.Context
         public IDbSet<UserAccount> UsersAccounts { get; set; }
         public IDbSet<UserToken> UsersTokens { get; set; }
         public IDbSet<Token> Tokens { get; set; }
-
+        public IDbSet<MoneyOperationChange> MoneyOperationChanges { get; set; }
 
         public FinanceManagerContext() : base("name=FinanceManagerConnectionString")
         {

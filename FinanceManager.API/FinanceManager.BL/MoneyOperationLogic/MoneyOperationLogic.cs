@@ -96,6 +96,20 @@ namespace FinanceManager.BL
             moneyOperationScheduleModel.ScheduleItem = scheduleItems;
             return moneyOperationScheduleModel;
         }
+        public MoneyOperationChangeDto ConvertMoneyOperationChangeUserInputToDto(MoneyOperationChangeModel moneyOperationChange)
+        {
+            return MapMoneyOperationChangeUserInputToDto(moneyOperationChange);
+        }
+
+        private MoneyOperationChangeDto MapMoneyOperationChangeUserInputToDto(MoneyOperationChangeModel moneyOperationChange)
+        {
+            var moneyOperationChangeDto = new MoneyOperationChangeDto();
+            moneyOperationChangeDto.ChangeAmount = moneyOperationChange.ChangeAmount;
+            moneyOperationChangeDto.ChangeDate = moneyOperationChange.ChangeDate;
+            moneyOperationChangeDto.MoneyOperationID = moneyOperationChange.MoneyOperationId;
+
+            return moneyOperationChangeDto;
+        }
 
         private MoneyOperationDto MapUserInputToDto(MoneyOperationModel moneyOperation)
         {

@@ -65,6 +65,13 @@ namespace FinanceManager.API.Services
             return model;
         }
 
+        public void AddMoneyOperationChange(MoneyOperationChangeModel moneyOperationChange)
+        {
+            MoneyOperationChangeDto moneyOperationChangeDto = _moneyOperationLogic.ConvertMoneyOperationChangeUserInputToDto(moneyOperationChange);
+
+            _moneyOperationUOW.AddMoneyOperationChange(moneyOperationChangeDto);
+        }
+
 
         private MoneyOperationStatusModel GetMoneyOperationStatusFromDto(MoneyOperationDto moneyOperationDto, DateTime date)
         {

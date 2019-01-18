@@ -1,9 +1,6 @@
 ﻿using FinanceManager.Database.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinanceManager.DAL.Repositories.Contracts
 {
@@ -13,5 +10,7 @@ namespace FinanceManager.DAL.Repositories.Contracts
         void AddMoneyOperation(MoneyOperation moneyOperation);
         MoneyOperation GetMoneyOperationById(int id);
         IEnumerable<MoneyOperation> GetMoneyOperationsByAccountsIDs(IEnumerable<int> accountsIDs, DateTime date);
+        MoneyOperationChange CreateMoneyOperationChange(MoneyOperation moneyOperation);
+        void AddMoneyOperationChange(MoneyOperationChange moneyOperationChange);
     }
 }

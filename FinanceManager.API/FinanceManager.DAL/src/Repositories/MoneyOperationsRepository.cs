@@ -2,12 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FinanceManager.Database.Entities;
 using FinanceManager.Database.Context;
 using System.Data.Entity;
-using FinanceManager.DAL.Dtos;
 
 namespace FinanceManager.DAL.Repositories
 {
@@ -44,6 +41,22 @@ namespace FinanceManager.DAL.Repositories
                 .Where(mo => accountsIDs.Contains(mo.AccountID.Value) && mo.ValidityBeginDate <= date)
                 .Include(mo => mo.Account)
                 .Include(mo => mo.MoneyOperationChanges);
+        }
+
+        public MoneyOperationChange CreateMoneyOperationChange(MoneyOperation moneyOperation)
+        {
+            MoneyOperationChange moneyOperationChange = Context.MoneyOperationChanges.Create();
+            moneyOperationChange.MoneyOperation = moneyOperation;
+            Context.MoneyOperationChanges.Add(moneyOperationChange);
+            return moneyOperationChange;
+        }
+
+        public void AddMoneyOperationChange(MoneyOperationChange moneyOperationChange)
+        {
+            if (Context.Entry(moneyOperationChange).State == EntityState.Added)
+            {
+                Context.SaveChanges();
+            }
         }
     }
 }

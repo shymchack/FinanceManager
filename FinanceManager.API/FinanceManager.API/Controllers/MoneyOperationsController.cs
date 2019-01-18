@@ -1,5 +1,6 @@
 ﻿using FinanceManager.API.Services;
 using FinanceManager.BL;
+using FinanceManager.BL.UserInput;
 using System;
 using System.Web.Http;
 
@@ -22,6 +23,16 @@ namespace FinanceManager.API.Controllers
         public MoneyOperationScheduleModel GetMoneyOperationSchedule(int moneyOperationId)
         {
             return _moneyOperationsService.GetMoneyOperationSchedule(moneyOperationId);
+        }
+
+        public void AddMoneyOperation(MoneyOperationModel moneyOperation)
+        {
+            _moneyOperationsService.AddMoneyOperation(moneyOperation);
+        }
+
+        public void AddMoneyOperationChange(MoneyOperationChangeModel moneyOperationChange)
+        {
+            _moneyOperationsService.AddMoneyOperationChange(moneyOperationChange);
         }
     }
 }
