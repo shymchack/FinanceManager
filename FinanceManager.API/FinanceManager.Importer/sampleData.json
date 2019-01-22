@@ -1,0 +1,39 @@
+{
+	excelFolder: {
+		name: "2017.xlsx",
+		sheets: [{
+			name: "Kwiecień 2017",
+			singleCommitments: {
+				startIndex: 10,
+				endIndex: 26,
+				nameColumn: "F",
+				totalAmountColumn: "G",
+				payedAmountColumn: "H"
+			},
+			budgetedCommitments: {
+				startIndex: 3,
+				endIndex: 49,
+				nameColumn: "I",
+				totalAmountColumn: "K",
+				payedAmountColumn: "Q",
+				paymentMonthNumberColumn: "L"
+			},
+			cyclicCommitments: [
+				{
+					startIndex: 3,
+					endIndex: 9,
+					nameColumn: "F",
+					totalAmountColumn: "G",
+					payedAmountColumn: "H"
+				},
+				{
+					startIndex: 3,
+					endIndex: 8,
+					nameColumn: "A",
+					totalAmountColumn: "E",
+					payedAmountColumn: "E"				
+				}]
+		}],
+		
+	}
+}
