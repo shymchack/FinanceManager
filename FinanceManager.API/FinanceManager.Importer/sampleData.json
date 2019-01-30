@@ -3,36 +3,436 @@
 		name: "2017.xlsx",
 		sheets: [{
 			name: "Kwiecień 2017",
-			singleCommitments: {
-				startIndex: 10,
-				endIndex: 26,
-				nameColumn: "F",
-				totalAmountColumn: "G",
-				payedAmountColumn: "H"
-			},
-			budgetedCommitments: {
-				startIndex: 3,
-				endIndex: 49,
-				nameColumn: "I",
-				totalAmountColumn: "K",
-				payedAmountColumn: "Q",
-				paymentMonthNumberColumn: "L"
-			},
+			beginDate: "01.04.2017",
+			endDate: "30.04.2017 23:59:59",
+			currentMonthColumnIndex: 1, 
+			currentMonthRowIndex: 10,
+			singleCommitments: [{
+				firstRowIndex: 9,
+				lastRowIndex: 25,
+				nameColumnIndex: 5,
+				totalAmountColumnIndex: 6,
+				thisMonthPayedAmountColumnIndex: 7,	
+				payedAmountColumnIndex: 7
+			}],
+			budgetedCommitments: [{
+				firstRowIndex: 2,
+				lastRowIndex: 48,
+				nameColumnIndex: 8,
+				totalAmountColumnIndex: 10,
+				payedAmountColumnIndex: 16,
+				thisMonthPayedAmountColumnIndex: 16,
+				paymentMonthNumberColumnIndex: 11
+			}],
 			cyclicCommitments: [
 				{
-					startIndex: 3,
-					endIndex: 9,
-					nameColumn: "F",
-					totalAmountColumn: "G",
-					payedAmountColumn: "H"
+					firstRowIndex: 2,
+					lastRowIndex: 8,
+					nameColumnIndex: 5,
+					totalAmountColumnIndex: 6,
+					payedAmountColumnIndex: 7,
+					thisMonthPayedAmountColumnIndex: 7,
 				},
 				{
-					startIndex: 3,
-					endIndex: 8,
-					nameColumn: "A",
-					totalAmountColumn: "E",
-					payedAmountColumn: "E"				
-				}]
+					firstRowIndex: 2,
+					lastRowIndex: 7,
+					nameColumnIndex: 0,
+					totalAmountColumnIndex: 4,
+					payedAmountColumnIndex: 4,
+					thisMonthPayedAmountColumnIndex: 4				
+				}
+			],
+			incomes: [
+			{
+				firstRowIndex: 7,
+				lastRowIndex: 11,
+				nameColumnIndex: 17,
+				totalAmountColumnIndex: 19,
+			}]
+		},{
+			name: "Maj 2017",
+			beginDate: "01.05.2017",
+			endDate: "31.05.2017 23:59:59",
+			currentMonthColumnIndex: 1, 
+			currentMonthRowIndex: 10,
+			singleCommitments: [{
+				firstRowIndex: 9,
+				lastRowIndex: 25,
+				nameColumnIndex: 5,
+				totalAmountColumnIndex: 6,
+				thisMonthPayedAmountColumnIndex: 7,	
+				payedAmountColumnIndex: 7
+			}],
+			budgetedCommitments: [{
+				firstRowIndex: 2,
+				lastRowIndex: 48,
+				nameColumnIndex: 8,
+				totalAmountColumnIndex: 10,
+				payedAmountColumnIndex: 16,
+				thisMonthPayedAmountColumnIndex: 17,
+				paymentMonthNumberColumnIndex: 11
+			}],
+			cyclicCommitments: [
+				{
+					firstRowIndex: 2,
+					lastRowIndex: 8,
+					nameColumnIndex: 5,
+					totalAmountColumnIndex: 6,
+					thisMonthPayedAmountColumnIndex: 7,
+					payedAmountColumnIndex: 7
+				},
+				{
+					firstRowIndex: 2,
+					lastRowIndex: 7,
+					nameColumnIndex: 0,
+					totalAmountColumnIndex: 4,
+					thisMonthPayedAmountColumnIndex: 4,
+					payedAmountColumnIndex: 4				
+				}
+			],
+			incomes: [
+			{
+				firstRowIndex: 7,
+				lastRowIndex: 11,
+				nameColumnIndex: 18,
+				totalAmountColumnIndex: 19,
+			}]
+		},{
+			name: "Czerwiec 2017",
+			beginDate: "01.06.2017",
+			endDate: "30.06.2017 23:59:59",
+			currentMonthColumnIndex: 1, 
+			currentMonthRowIndex: 10,
+			singleCommitments: [{
+				firstRowIndex: 9,
+				lastRowIndex: 25,
+				nameColumnIndex: 5,
+				totalAmountColumnIndex: 6,
+				thisMonthPayedAmountColumnIndex: 7,
+				payedAmountColumnIndex: 7
+			}],
+			budgetedCommitments: [{
+				firstRowIndex: 2,
+				lastRowIndex: 48,
+				nameColumnIndex: 8,
+				totalAmountColumnIndex: 10,
+				payedAmountColumnIndex: 16,
+				thisMonthPayedAmountColumnIndex: 17,
+				paymentMonthNumberColumnIndex: 11
+			}],
+			cyclicCommitments: [
+				{
+					firstRowIndex: 2,
+					lastRowIndex: 8,
+					nameColumnIndex: 5,
+					totalAmountColumnIndex: 6,
+					thisMonthPayedAmountColumnIndex: 7,
+					payedAmountColumnIndex: 7
+				},
+				{
+					firstRowIndex: 2,
+					lastRowIndex: 7,
+					nameColumnIndex: 0,
+					totalAmountColumnIndex: 4,
+					thisMonthPayedAmountColumnIndex: 4,
+					payedAmountColumnIndex: 4				
+				}
+			],
+			incomes: [
+			{
+				firstRowIndex: 7,
+				lastRowIndex: 11,
+				nameColumnIndex: 18,
+				totalAmountColumnIndex: 19,
+			}]
+		},{
+			name: "Lipiec 2017",
+			beginDate: "01.07.2017",
+			endDate: "31.07.2017 23:59:59",
+			currentMonthColumnIndex: 1, 
+			currentMonthRowIndex: 10,
+			singleCommitments: [{
+				firstRowIndex: 10,
+				lastRowIndex: 25,
+				nameColumnIndex: 5,
+				totalAmountColumnIndex: 6,
+				thisMonthPayedAmountColumnIndex: 7,
+				payedAmountColumnIndex: 7
+			}],
+			budgetedCommitments: [{
+				firstRowIndex: 2,
+				lastRowIndex: 51,
+				nameColumnIndex: 8,
+				totalAmountColumnIndex: 10,
+				payedAmountColumnIndex: 16,
+				thisMonthPayedAmountColumnIndex: 17,
+				paymentMonthNumberColumnIndex: 11
+			}],
+			cyclicCommitments: [
+				{
+					firstRowIndex: 2,
+					lastRowIndex: 8,
+					nameColumnIndex: 5,
+					totalAmountColumnIndex: 6,
+					thisMonthPayedAmountColumnIndex: 7,
+					payedAmountColumnIndex: 7
+				},
+				{
+					firstRowIndex: 2,
+					lastRowIndex: 7,
+					nameColumnIndex: 0,
+					totalAmountColumnIndex: 4,
+					thisMonthPayedAmountColumnIndex: 7,
+					payedAmountColumnIndex: 4				
+				}
+			],
+			incomes: [
+			{
+				firstRowIndex: 7,
+				lastRowIndex: 11,
+				nameColumnIndex: 18,
+				totalAmountColumnIndex: 19,
+			}]
+		},{
+			name: "Sierpień 2017",
+			beginDate: "01.08.2017",
+			endDate: "31.08.2017 23:59:59",
+			currentMonthColumnIndex: 1, 
+			currentMonthRowIndex: 10,
+			singleCommitments: [{
+				firstRowIndex: 12,
+				lastRowIndex: 25,
+				nameColumnIndex: 5,
+				totalAmountColumnIndex: 6,
+				thisMonthPayedAmountColumnIndex: 7,
+				payedAmountColumnIndex: 7
+			}],
+			budgetedCommitments: [{
+				firstRowIndex: 2,
+				lastRowIndex: 48,
+				nameColumnIndex: 8,
+				totalAmountColumnIndex: 10,
+				payedAmountColumnIndex: 16,
+				thisMonthPayedAmountColumnIndex: 17,
+				paymentMonthNumberColumnIndex: 11
+			}],
+			cyclicCommitments: [
+				{
+					firstRowIndex: 2,
+					lastRowIndex: 8,
+					nameColumnIndex: 5,
+					totalAmountColumnIndex: 6,
+					thisMonthPayedAmountColumnIndex: 7,
+					payedAmountColumnIndex: 7
+				},
+				{
+					firstRowIndex: 2,
+					lastRowIndex: 7,
+					nameColumnIndex: 0,
+					totalAmountColumnIndex: 4,
+					thisMonthPayedAmountColumnIndex: 7,
+					payedAmountColumnIndex: 4				
+				}
+			],
+			incomes: [
+			{
+				firstRowIndex: 7,
+				lastRowIndex: 11,
+				nameColumnIndex: 18,
+				totalAmountColumnIndex: 19,
+			}]
+		},{
+			name: "Wrzesień 2017",
+			beginDate: "01.09.2017",
+			endDate: "30.09.2017 23:59:59",
+			currentMonthColumnIndex: 1, 
+			currentMonthRowIndex: 10,
+			singleCommitments: [{
+				firstRowIndex: 10,
+				lastRowIndex: 25,
+				nameColumnIndex: 5,
+				totalAmountColumnIndex: 6,
+				thisMonthPayedAmountColumnIndex: 7,
+				payedAmountColumnIndex: 7
+			}],
+			budgetedCommitments: [{
+				firstRowIndex: 2,
+				lastRowIndex: 52,
+				nameColumnIndex: 8,
+				totalAmountColumnIndex: 10,
+				payedAmountColumnIndex: 16,
+				thisMonthPayedAmountColumnIndex: 17,
+				paymentMonthNumberColumnIndex: 11
+			}],
+			cyclicCommitments: [
+				{
+					firstRowIndex: 2,
+					lastRowIndex: 8,
+					nameColumnIndex: 5,
+					totalAmountColumnIndex: 6,
+					thisMonthPayedAmountColumnIndex: 7,
+					payedAmountColumnIndex: 7
+				},
+				{
+					firstRowIndex: 2,
+					lastRowIndex: 7,
+					nameColumnIndex: 0,
+					totalAmountColumnIndex: 4,
+					thisMonthPayedAmountColumnIndex: 4,
+					payedAmountColumnIndex: 4				
+				}
+			],
+			incomes: [
+			{
+				firstRowIndex: 7,
+				lastRowIndex: 11,
+				nameColumnIndex: 18,
+				totalAmountColumnIndex: 19,
+			}]
+		},{
+			name: "Październik 2017",
+			beginDate: "01.10.2017",
+			endDate: "31.10.2017 23:59:59",
+			currentMonthColumnIndex: 1, 
+			currentMonthRowIndex: 10,
+			singleCommitments: [{
+				firstRowIndex: 23,
+				lastRowIndex: 25,
+				nameColumnIndex: 5,
+				totalAmountColumnIndex: 6,
+				thisMonthPayedAmountColumnIndex: 7,
+				payedAmountColumnIndex: 7
+			}],
+			budgetedCommitments: [{
+				firstRowIndex: 2,
+				lastRowIndex: 53,
+				nameColumnIndex: 8,
+				totalAmountColumnIndex: 10,
+				payedAmountColumnIndex: 16,
+				thisMonthPayedAmountColumnIndex: 17,
+				paymentMonthNumberColumnIndex: 11
+			}],
+			cyclicCommitments: [
+				{
+					firstRowIndex: 2,
+					lastRowIndex: 8,
+					nameColumnIndex: 5,
+					totalAmountColumnIndex: 6,
+					thisMonthPayedAmountColumnIndex: 7,
+					payedAmountColumnIndex: 7
+				},
+				{
+					firstRowIndex: 2,
+					lastRowIndex: 7,
+					nameColumnIndex: 0,
+					totalAmountColumnIndex: 4,
+					thisMonthPayedAmountColumnIndex: 4,
+					payedAmountColumnIndex: 4				
+				}
+			],
+			incomes: [
+			{
+				firstRowIndex: 7,
+				lastRowIndex: 11,
+				nameColumnIndex: 18,
+				totalAmountColumnIndex: 19,
+			}]
+		},{
+			name: "Listopad 2017",
+			beginDate: "01.11.2017",
+			endDate: "30.11.2017 23:59:59",
+			currentMonthColumnIndex: 1, 
+			currentMonthRowIndex: 10,
+			singleCommitments: [{
+				firstRowIndex: 16,
+				lastRowIndex: 25,
+				nameColumnIndex: 5,
+				totalAmountColumnIndex: 6,
+				thisMonthPayedAmountColumnIndex: 7,
+				payedAmountColumnIndex: 7
+			}],
+			budgetedCommitments: [{
+				firstRowIndex: 2,
+				lastRowIndex: 48,
+				nameColumnIndex: 8,
+				totalAmountColumnIndex: 10,
+				payedAmountColumnIndex: 16,
+				thisMonthPayedAmountColumnIndex: 17,
+				paymentMonthNumberColumnIndex: 11
+			}],
+			cyclicCommitments: [
+				{
+					firstRowIndex: 2,
+					lastRowIndex: 11,
+					nameColumnIndex: 5,
+					totalAmountColumnIndex: 6,
+					thisMonthPayedAmountColumnIndex: 7,
+					payedAmountColumnIndex: 7
+				},
+				{
+					firstRowIndex: 2,
+					lastRowIndex: 7,
+					nameColumnIndex: 0,
+					totalAmountColumnIndex: 4,
+					thisMonthPayedAmountColumnIndex: 4,
+					payedAmountColumnIndex: 4				
+				}
+			],
+			incomes: [
+			{
+				firstRowIndex: 7,
+				lastRowIndex: 11,
+				nameColumnIndex: 18,
+				totalAmountColumnIndex: 19,
+			}]
+		},{
+			name: "Grudzień 2017",
+			beginDate: "01.12.2017",
+			endDate: "31.12.2017 23:59:59",
+			currentMonthColumnIndex: 1, 
+			currentMonthRowIndex: 10,
+			singleCommitments: [{
+				firstRowIndex: 16,
+				lastRowIndex: 25,
+				nameColumnIndex: 5,
+				totalAmountColumnIndex: 6,
+				thisMonthPayedAmountColumnIndex: 7,
+				payedAmountColumnIndex: 7
+			}],
+			budgetedCommitments: [{
+				firstRowIndex: 2,
+				lastRowIndex: 56,
+				nameColumnIndex: 8,
+				totalAmountColumnIndex: 10,
+				payedAmountColumnIndex: 16,
+				thisMonthPayedAmountColumnIndex: 17,
+				paymentMonthNumberColumnIndex: 11
+			}],
+			cyclicCommitments: [
+				{
+					firstRowIndex: 2,
+					lastRowIndex: 11,
+					nameColumnIndex: 5,
+					totalAmountColumnIndex: 6,
+					thisMonthPayedAmountColumnIndex: 7,
+					payedAmountColumnIndex: 7
+				},
+				{
+					firstRowIndex: 2,
+					lastRowIndex: 7,
+					nameColumnIndex: 0,
+					totalAmountColumnIndex: 4,
+					thisMonthPayedAmountColumnIndex: 4,
+					payedAmountColumnIndex: 4				
+				}
+			],
+			incomes: [
+			{
+				firstRowIndex: 7,
+				lastRowIndex: 11,
+				nameColumnIndex: 18,
+				totalAmountColumnIndex: 19,
+			}]
 		}],
 		
 	}

@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceManager.BL", "Financ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceManager.Types", "FinanceManager.Types\FinanceManager.Types.csproj", "{918AA76B-3A54-4CBB-8C19-5F332FA7885A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceManager.Importer", "FinanceManager.Importer\FinanceManager.Importer.csproj", "{E65BAA90-C4F3-4C48-AC17-A877768E7EBF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{918AA76B-3A54-4CBB-8C19-5F332FA7885A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{918AA76B-3A54-4CBB-8C19-5F332FA7885A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{918AA76B-3A54-4CBB-8C19-5F332FA7885A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E65BAA90-C4F3-4C48-AC17-A877768E7EBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E65BAA90-C4F3-4C48-AC17-A877768E7EBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E65BAA90-C4F3-4C48-AC17-A877768E7EBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E65BAA90-C4F3-4C48-AC17-A877768E7EBF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
