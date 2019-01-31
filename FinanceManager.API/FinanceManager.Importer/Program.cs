@@ -10,17 +10,37 @@ using System;
 using FinanceManager.Types.Enums;
 using System.Globalization;
 using System.Threading.Tasks;
+using FinanceManager.Database.Context;
 
 namespace FinanceManager.Importer
 {
     class Program
     {
-
+        public static Dictionary<string, string> pathToConfigNameDict = new Dictionary<string, string>();
+        public static List<MoneyOperation> allMoneyOperations = new List<MoneyOperation>();
         static void Main(string[] args)
         {
+            pathToConfigNameDict.Add(@"D:\Tomek\Wazne\Finanse\Wydatkiwc\trunk\2018_values.xlsx", @"D:\Tomek\Dev\Workspace\FinanceManager\FinanceManager.API\FinanceManager.Importer\sampleData2018.json");
+            pathToConfigNameDict.Add(@"D:\Tomek\Wazne\Finanse\Wydatkiwc\trunk\2017.xlsx", @"D:\Tomek\Dev\Workspace\FinanceManager\FinanceManager.API\FinanceManager.Importer\sampleData.json");
 
-            var filePath = @"D:\Tomek\Wazne\Finanse\Wydatkiwc\trunk\2017.xlsx";
-            using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
+            foreach(var kvp in pathToConfigNameDict)
+            {
+                ReadExcelData(kvp.Key, kvp.Value);
+            }
+
+            IFinanceManagerContext context = new FinanceManagerContext();
+            foreach(var monOp in allMoneyOperations)
+            {
+                context.MoneyOperations.Add(monOp);
+            }
+            var oko = allMoneyOperations.Where(m => m.ValidityBeginDate.Year < 2000 || m.ValidityEndDate.Year < 2000 || m.NextOperationExecutionDate.Year < 2000);
+            var oko2 = allMoneyOperations.Where(m => m.MoneyOperationChanges.Any(mo => mo.ChangeDate.Year < 2000));
+            //context.SaveChanges();
+        }
+
+        private static void ReadExcelData(string dataFilePath, string configFilePath)
+        {
+            using (var stream = File.Open(dataFilePath, FileMode.Open, FileAccess.Read))
             {
                 // Auto-detect format, supports:
                 //  - Binary Excel files (2.0-2003 format; *.xls)
@@ -30,14 +50,14 @@ namespace FinanceManager.Importer
                     // 2. Use the AsDataSet extension method
                     var result = reader.AsDataSet();
                     // The result of each spreadsheet is in result.Tables
-                    ParseExcelData(result);
+                    ParseExcelData(result, configFilePath);
                 }
             }
         }
 
-        static void ParseExcelData(DataSet dataSet)
+        static void ParseExcelData(DataSet dataSet, string configFilePath)
         {
-            ConfigModel configModel = LoadConfiguration();
+            ConfigModel configModel = LoadConfiguration(configFilePath);
 
             List<MoneyOperation> singleOperations = new List<MoneyOperation>();
             List<MoneyOperation> cyclicOperations = new List<MoneyOperation>();
@@ -135,7 +155,7 @@ namespace FinanceManager.Importer
                     }
                 }
             }
-            var newOperations = new List<MoneyOperation>();
+            var newBudgetedOperations = new List<MoneyOperation>();
             foreach(var budOps in budgetedOperations.GroupBy(bo => bo.Name))
             {
                 foreach(var sameInitialAmountOps in budOps.GroupBy(bo => bo.InitialAmount))
@@ -152,17 +172,48 @@ namespace FinanceManager.Importer
                     newMoneyOperation.IsActive = true;
                     newMoneyOperation.ValidityBeginDate = validityBeginDate;
                     newMoneyOperation.ValidityEndDate = validityEndDate;
+                    newMoneyOperation.NextOperationExecutionDate = commonOperationDataSource.NextOperationExecutionDate;
                     newMoneyOperation.InitialAmount = initialAmount;
                     newMoneyOperation.OperationSettingID = 1;
                     newMoneyOperation.AccountID = 3;
                     newMoneyOperation.MoneyOperationChanges.AddRange(operationChanges);
-                    newOperations.Add(newMoneyOperation);
+                    newBudgetedOperations.Add(newMoneyOperation);
                     Parallel.ForEach(sameInitialAmountOps, (budOp) =>
                     {
                         budgetedOperations.Remove(budOp);
                     });
                 }
             }
+            var newCyclicOperations = new List<MoneyOperation>();
+            foreach (var cycOps in cyclicOperations.GroupBy(bo => bo.Name))
+            {
+                foreach (var sameInitialAmountOps in cycOps.GroupBy(bo => bo.InitialAmount))
+                {
+                    var validityEndDate = sameInitialAmountOps.OrderByDescending(op => op.ValidityEndDate).First().ValidityEndDate;
+                    var validityBeginDate = sameInitialAmountOps.OrderBy(op => op.ValidityBeginDate).First().ValidityBeginDate;
+                    var commonOperationDataSource = sameInitialAmountOps.First();
+                    var name = commonOperationDataSource.Name;
+                    var initialAmount = commonOperationDataSource.InitialAmount;
+                    var operationChanges = sameInitialAmountOps.SelectMany(o => o.MoneyOperationChanges).Where(oc => oc.ChangeDate <= validityEndDate && oc.ChangeDate >= validityBeginDate);
+                    var newMoneyOperation = new MoneyOperation();
+                    newMoneyOperation.Name = name;
+                    newMoneyOperation.IsReal = true;
+                    newMoneyOperation.IsActive = true;
+                    newMoneyOperation.ValidityBeginDate = validityBeginDate;
+                    newMoneyOperation.ValidityEndDate = validityEndDate;
+                    newMoneyOperation.NextOperationExecutionDate = commonOperationDataSource.NextOperationExecutionDate;
+                    newMoneyOperation.InitialAmount = initialAmount;
+                    newMoneyOperation.OperationSettingID = 1;
+                    newMoneyOperation.AccountID = 3;
+                    newMoneyOperation.MoneyOperationChanges.AddRange(operationChanges);
+                    newCyclicOperations.Add(newMoneyOperation);
+                    Parallel.ForEach(sameInitialAmountOps, (budOp) =>
+                    {
+                        cyclicOperations.Remove(budOp);
+                    });
+                }
+            }
+            allMoneyOperations.AddRange(singleOperations.Concat(newCyclicOperations).Concat(newBudgetedOperations));
         }
 
         private static string ReportError(Sheet sheet, Commitment oko, DataRow rowCollection, string message)
@@ -184,7 +235,7 @@ namespace FinanceManager.Importer
             operation.Name = (string)rowCollection[nameColumnIndex];
             operation.OperationSettingID = 1;
             operation.AccountID = 3;
-
+            operation.NextOperationExecutionDate = operation.ValidityEndDate;
             var operationChange = new MoneyOperationChange();
             operationChange.ChangeAmount = Convert.ToDecimal(rowCollection[thisMonthPayedAmountColumnIndex]);
             operationChange.ChangeDate = DateTime.Parse(sheet.EndDate, CultureInfo.CurrentCulture.DateTimeFormat).AddSeconds(1);
@@ -192,11 +243,11 @@ namespace FinanceManager.Importer
             return operation;
         }
 
-        private static ConfigModel LoadConfiguration()
+        private static ConfigModel LoadConfiguration(string configFilePath)
         {
             var configModel = new ConfigModel();
             // deserialize JSON directly from a file
-            using (StreamReader file = File.OpenText(@"D:\Tomek\Dev\Workspace\FinanceManager\FinanceManager.API\FinanceManager.Importer\sampleData.json"))
+            using (StreamReader file = File.OpenText(configFilePath))
             {
                 var serializer = new JsonSerializer() { ContractResolver = new CamelCasePropertyNamesContractResolver() };
                 configModel = (ConfigModel)serializer.Deserialize(file, typeof(ConfigModel));
