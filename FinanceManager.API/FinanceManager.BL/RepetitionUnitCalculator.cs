@@ -57,7 +57,7 @@ namespace FinanceManager.BL
             }
         }
 
-        public static DateTime ClearMinorDateTimePart(DateTime changeDate, PeriodUnit repetitionUnit, short repetitionUnitQuantity)
+        public static DateTime ClearMinorDateTimePart(DateTime changeDate, PeriodUnit repetitionUnit)
         {
             var newDate = changeDate;
 
