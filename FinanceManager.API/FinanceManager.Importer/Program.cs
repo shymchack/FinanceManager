@@ -35,7 +35,7 @@ namespace FinanceManager.Importer
             }
             var oko = allMoneyOperations.Where(m => m.ValidityBeginDate.Year < 2000 || m.ValidityEndDate.Year < 2000 || m.NextOperationExecutionDate.Year < 2000);
             var oko2 = allMoneyOperations.Where(m => m.MoneyOperationChanges.Any(mo => mo.ChangeDate.Year < 2000));
-            //context.SaveChanges();
+            context.SaveChanges();
         }
 
         private static void ReadExcelData(string dataFilePath, string configFilePath)
@@ -98,7 +98,7 @@ namespace FinanceManager.Importer
                         {
                             var operation = ReadCommitmentData(sheet, oko, rowCollection);
                             operation.RepetitionUnit = PeriodUnit.Month;
-                            operation.RepetitionUnitQuantity = 0;
+                            operation.RepetitionUnitQuantity = 1;
                             operation.OperationSetting = new MoneyOperationSetting()
                             {
                                 ReservePeriodQuantity = Convert.ToInt32((double)rowCollection[oko.PaymentMonthNumberColumnIndex]) - currentMonth,
@@ -176,6 +176,8 @@ namespace FinanceManager.Importer
                     newMoneyOperation.InitialAmount = initialAmount;
                     newMoneyOperation.OperationSettingID = 1;
                     newMoneyOperation.AccountID = 3;
+                    newMoneyOperation.RepetitionUnit = commonOperationDataSource.RepetitionUnit;
+                    newMoneyOperation.RepetitionUnitQuantity = commonOperationDataSource.RepetitionUnitQuantity;
                     newMoneyOperation.MoneyOperationChanges.AddRange(operationChanges);
                     newBudgetedOperations.Add(newMoneyOperation);
                     Parallel.ForEach(sameInitialAmountOps, (budOp) =>
@@ -237,8 +239,8 @@ namespace FinanceManager.Importer
             operation.AccountID = 3;
             operation.NextOperationExecutionDate = operation.ValidityEndDate;
             var operationChange = new MoneyOperationChange();
-            operationChange.ChangeAmount = Convert.ToDecimal(rowCollection[thisMonthPayedAmountColumnIndex]);
-            operationChange.ChangeDate = DateTime.Parse(sheet.EndDate, CultureInfo.CurrentCulture.DateTimeFormat).AddSeconds(1);
+            operationChange.ChangeAmount = -Convert.ToDecimal(rowCollection[thisMonthPayedAmountColumnIndex]);
+            operationChange.ChangeDate = DateTime.Parse(sheet.BeginDate, CultureInfo.CurrentCulture.DateTimeFormat).AddSeconds(1);
             operation.MoneyOperationChanges.Add(operationChange);
             return operation;
         }
