@@ -46,7 +46,7 @@ namespace FinanceManager.API.Services
             model.OperationsModel.FinishDateLabel = "Finish date";
             model.OperationsModel.NameLabel = "Name";
             model.OperationsModel.PaymentLeftLabel = "Payment left";
-            model.OperationsModel.TotalAmonutLabel = "Total Amount";
+            model.OperationsModel.TotalAmountLabel = "Total Amount";
             model.OperationsModel.CurrentPeriodEndAmountLabel = "Current period end amount";
             model.OperationsModel.CurrentPeriodPayedAmountLabel= "Current period payed amount";
             model.OperationsModel.CurrentPeriodBudgetedAmountLabel = "Current period budgeted amount";
