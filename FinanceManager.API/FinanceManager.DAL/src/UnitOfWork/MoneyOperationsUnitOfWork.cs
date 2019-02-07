@@ -47,9 +47,9 @@ namespace FinanceManager.DAL.UnitOfWork
             return moneyOperationDto;
         }
 
-        public IEnumerable<MoneyOperationDto> GetMoneyOperationsByAccountsIDs(IEnumerable<int> accountsIds, DateTime date)
+        public IEnumerable<MoneyOperationDto> GetMoneyOperationsByAccountsIDs(IEnumerable<int> accountsIds, DateTime beginDate, DateTime endDate)
         {
-            IEnumerable<MoneyOperation> moneyOperations = _moneyOperationsRepository.GetMoneyOperationsByAccountsIDs(accountsIds, date);
+            IEnumerable<MoneyOperation> moneyOperations = _moneyOperationsRepository.GetMoneyOperationsByAccountsIDs(accountsIds, beginDate, endDate);
             List<MoneyOperationDto> moneyOperationsDtos = new List<MoneyOperationDto>();
             foreach (MoneyOperation moneyOperation in moneyOperations)
             {
@@ -102,6 +102,12 @@ namespace FinanceManager.DAL.UnitOfWork
             targetMoneyOperationDto.ValidityBeginDate = moneyOperation.ValidityBeginDate;
             targetMoneyOperationDto.ValidityEndDate = moneyOperation.ValidityEndDate;
             targetMoneyOperationDto.MoneyOperationChanges = moneyOperation.MoneyOperationChanges.Select(ch => new MoneyOperationChangeDto(){ ChangeAmount = ch.ChangeAmount, ChangeDate = ch.ChangeDate} ).ToList();
+            if (moneyOperation.OperationSetting != null)
+            {
+                targetMoneyOperationDto.MoneyOperationSetting = new MoneyOperationSettingDto();
+                targetMoneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity = moneyOperation.OperationSetting.ReservePeriodQuantity;
+                targetMoneyOperationDto.MoneyOperationSetting.ReservationPeriodUnit= moneyOperation.OperationSetting.ReservePeriodUnit;
+            }
 
             return targetMoneyOperationDto;
         }

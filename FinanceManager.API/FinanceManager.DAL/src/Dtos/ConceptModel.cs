@@ -43,6 +43,7 @@ namespace FinanceManager.DAL.Dtos
         public string Name { get; set; }
         public int OperationSettingID { get; set; }
         public List<MoneyOperationChangeDto> MoneyOperationChanges { get; set; }
+        public MoneyOperationSettingDto MoneyOperationSetting { get; set; }
         public DateTime LastOrFirstOperationExecutionDate
         {
             get
@@ -55,6 +56,12 @@ namespace FinanceManager.DAL.Dtos
                 return lastOrFirstOperationExecutionDate;
             }
         }
+    }
+
+    public class MoneyOperationSettingDto
+    {
+        public int ReservationPeriodQuantity { get; set; }
+        public PeriodUnit ReservationPeriodUnit { get; set; }
     }
 
     public class MoneyOperationChangeDto

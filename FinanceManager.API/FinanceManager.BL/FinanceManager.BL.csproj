@@ -40,8 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PeriodicityLogic\IPeriodicityLogic.cs" />
+    <Compile Include="PeriodicityLogic\PeriodicityLogic.cs" />
+    <Compile Include="PeriodicityLogic\PeriodInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RepetitionUnitCalculator.cs" />
+    <Compile Include="PeriodicityLogic\RepetitionUnitCalculator.cs" />
     <Compile Include="MoneyOperationLogic\IMoneyOperationLogic.cs" />
     <Compile Include="MoneyOperationLogic\MoneyOperationLogic.cs" />
     <Compile Include="UserInput\MoneyOperationChangeModel.cs" />

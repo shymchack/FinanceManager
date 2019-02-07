@@ -11,7 +11,7 @@ namespace FinanceManager.Web.Models
         }
 
         public string NameLabel { get; set; }
-        public string TotalAmonutLabel { get; set; }
+        public string TotalAmountLabel { get; set; }
         public string AlreadyPayedLabel { get; set; }
         public string PaymentLeftLabel { get; set; }
         public string FinishDateLabel { get; set; }
