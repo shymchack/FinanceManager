@@ -8,8 +8,11 @@ namespace FinanceManager.BL
     {
         MoneyOperationDto ConvertUserInputToDto(MoneyOperationModel moneyOperation);
         MoneyOperationModel ConvertDtoToViewData(MoneyOperationDto moneyOperationDto);
-        MoneyOperationStatusModel PrepareMoneyOperationStatus(MoneyOperationDto moneyOperationDto, DateTime date);
+        MoneyOperationStatusModel PrepareMoneyOperationStatus(MoneyOperationDto moneyOperationDto, PeriodInfo periodInfo);
         MoneyOperationScheduleModel GetMoneyOperationSchedule(MoneyOperationDto moneyOperationDto);
         MoneyOperationChangeDto ConvertMoneyOperationChangeUserInputToDto(MoneyOperationChangeModel moneyOperationChange);
+        bool IsOperationBudgeted(MoneyOperationDto mo);
+        bool IsOperationCyclic(MoneyOperationDto mo);
+        bool IsOperationSingle(MoneyOperationDto mo);
     }
 }

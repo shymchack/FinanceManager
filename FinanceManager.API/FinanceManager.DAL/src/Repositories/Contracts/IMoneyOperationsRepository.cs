@@ -9,7 +9,7 @@ namespace FinanceManager.DAL.Repositories.Contracts
         MoneyOperation CreateMoneyOperation(Account account);
         void AddMoneyOperation(MoneyOperation moneyOperation);
         MoneyOperation GetMoneyOperationById(int id);
-        IEnumerable<MoneyOperation> GetMoneyOperationsByAccountsIDs(IEnumerable<int> accountsIDs, DateTime date);
+        IEnumerable<MoneyOperation> GetMoneyOperationsByAccountsIDs(IEnumerable<int> accountsIDs, DateTime beginDate, DateTime endDate);
         MoneyOperationChange CreateMoneyOperationChange(MoneyOperation moneyOperation);
         void AddMoneyOperationChange(MoneyOperationChange moneyOperationChange);
     }

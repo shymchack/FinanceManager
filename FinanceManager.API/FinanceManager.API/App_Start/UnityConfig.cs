@@ -30,6 +30,7 @@ namespace FinanceManager.API
             container.RegisterType<IFinanceManagerContext, FinanceManagerContext>();
             container.RegisterType<IUsersRepository, UsersRepository>();
             container.RegisterType<IPeriodSummaryService, PeriodSummaryService>();
+            container.RegisterType<IPeriodicityLogic, PeriodicityLogic>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

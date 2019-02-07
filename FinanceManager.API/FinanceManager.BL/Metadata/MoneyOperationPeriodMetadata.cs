@@ -5,10 +5,7 @@ namespace FinanceManager.BL.Metadata
     public class MoneyOperationPeriodMetadata
     {
         public int CurrentPaymentNumber { get; internal set; }
-        public DateTime CurrentPeriodBeginningDate { get; internal set; }
         public short NowPaymentNumber { get; internal set; }
-        public DateTime NowPeriodBeginningDate { get; internal set; }
-        public DateTime NowPeriodEndDate { get; internal set; }
         public int TotalPaymentsNumber { get; internal set; }
     }
 }

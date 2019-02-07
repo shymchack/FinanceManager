@@ -8,7 +8,7 @@ namespace FinanceManager.DAL.UnitOfWork
     {
         int AddMoneyOperation(MoneyOperationDto moneyOperation);
         MoneyOperationDto GetMoneyOperationById(int id);
-        IEnumerable<MoneyOperationDto> GetMoneyOperationsByAccountsIDs(IEnumerable<int> accountsIds, DateTime date);
+        IEnumerable<MoneyOperationDto> GetMoneyOperationsByAccountsIDs(IEnumerable<int> accountsIds, DateTime beginDate, DateTime endDate);
         int AddMoneyOperationChange(MoneyOperationChangeDto moneyOperationChangeDto);
     }
 }

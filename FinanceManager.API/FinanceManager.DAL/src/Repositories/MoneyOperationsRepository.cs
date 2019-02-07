@@ -35,12 +35,14 @@ namespace FinanceManager.DAL.Repositories
             return Context.MoneyOperations.FirstOrDefault(mo => mo.ID == id);
         }
 
-        public IEnumerable<MoneyOperation> GetMoneyOperationsByAccountsIDs(IEnumerable<int> accountsIDs, DateTime date)
+
+        public IEnumerable<MoneyOperation> GetMoneyOperationsByAccountsIDs(IEnumerable<int> accountsIDs, DateTime beginDate, DateTime endDate)
         {
             return Context.MoneyOperations
-                .Where(mo => accountsIDs.Contains(mo.AccountID.Value) && mo.ValidityBeginDate <= date)
+                .Where(mo => accountsIDs.Contains(mo.AccountID.Value) && mo.ValidityBeginDate <= endDate && mo.ValidityEndDate >= beginDate)
                 .Include(mo => mo.Account)
-                .Include(mo => mo.MoneyOperationChanges);
+                .Include(mo => mo.MoneyOperationChanges)
+                .Include(mo => mo.OperationSetting);
         }
 
         public MoneyOperationChange CreateMoneyOperationChange(MoneyOperation moneyOperation)

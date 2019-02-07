@@ -41,14 +41,32 @@ namespace FinanceManager.API.Services
             return viewData;
         }
 
-        public IEnumerable<MoneyOperationStatusModel> GetMoneyOperationsByAccountsIds(IEnumerable<int> accountsIds, DateTime date)
+        public IEnumerable<MoneyOperationStatusModel> GetMoneyOperationsByAccountsIds(IEnumerable<int> accountsIds, PeriodInfo periodInfo)
         {
-            IEnumerable<MoneyOperationDto> moneyOperationDtos = _moneyOperationUOW.GetMoneyOperationsByAccountsIDs(accountsIds, date);
+            IEnumerable<MoneyOperationDto> moneyOperationDtos = _moneyOperationUOW.GetMoneyOperationsByAccountsIDs(accountsIds, periodInfo.BeginDate, periodInfo.EndDate);
             List<MoneyOperationStatusModel> moneyOperationStatuses = new List<MoneyOperationStatusModel>();
 
-            foreach(MoneyOperationDto moneyOperationDto in moneyOperationDtos)
+            //TODO refactor this
+
+            var budgetedMoneyOperations = moneyOperationDtos.Where(mo => _moneyOperationLogic.IsOperationBudgeted(mo));
+            var cyclicMoneyOperations = moneyOperationDtos.Where(mo => _moneyOperationLogic.IsOperationCyclic(mo));
+            var singleMOneyOperations = moneyOperationDtos.Where(mo => _moneyOperationLogic.IsOperationSingle(mo));
+
+            foreach (MoneyOperationDto moneyOperationDto in budgetedMoneyOperations)
             {
-                MoneyOperationStatusModel status = GetMoneyOperationStatusFromDto(moneyOperationDto, date);
+                MoneyOperationStatusModel status = GetMoneyOperationStatusFromDto(moneyOperationDto, periodInfo);
+                if (status != null)
+                    moneyOperationStatuses.Add(status);
+            }
+            foreach (MoneyOperationDto moneyOperationDto in cyclicMoneyOperations)
+            {
+                MoneyOperationStatusModel status = GetMoneyOperationStatusFromDto(moneyOperationDto, periodInfo);
+                if (status != null)
+                    moneyOperationStatuses.Add(status);
+            }
+            foreach (MoneyOperationDto moneyOperationDto in singleMOneyOperations)
+            {
+                MoneyOperationStatusModel status = GetMoneyOperationStatusFromDto(moneyOperationDto, periodInfo);
                 if (status != null)
                     moneyOperationStatuses.Add(status);
             }
@@ -73,9 +91,9 @@ namespace FinanceManager.API.Services
         }
 
 
-        private MoneyOperationStatusModel GetMoneyOperationStatusFromDto(MoneyOperationDto moneyOperationDto, DateTime date)
+        private MoneyOperationStatusModel GetMoneyOperationStatusFromDto(MoneyOperationDto moneyOperationDto, PeriodInfo periodInfo)
         {
-            MoneyOperationStatusModel status = _moneyOperationLogic.PrepareMoneyOperationStatus(moneyOperationDto, date);
+            MoneyOperationStatusModel status = _moneyOperationLogic.PrepareMoneyOperationStatus(moneyOperationDto, periodInfo);
 
             return status;
         }

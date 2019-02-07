@@ -76,7 +76,7 @@ class MoneyAllocationItemsModelGrid extends React.Component {
                 React.createElement('div', { className: 'col-sm-1' }, this.props.moneyAllocationItemsModel.TotalAmountLabel),
                 React.createElement('div', { className: 'col-sm-1' }, this.props.moneyAllocationItemsModel.FinishDateLabel),
                 React.createElement('div', { className: 'col-sm-1' }, this.props.moneyAllocationItemsModel.PaymentLeftLabel),
-                React.createElement('div', { className: 'col-sm-1' }, this.props.moneyAllocationItemsModel.ALreadyPayedLabel),
+                React.createElement('div', { className: 'col-sm-1' }, this.props.moneyAllocationItemsModel.AlreadyPayedLabel),
                 React.createElement('div', { className: 'col-sm-1' }, this.props.moneyAllocationItemsModel.CurrentPeriodEndAmountLabel),
                 React.createElement('div', { className: 'col-sm-1' }, this.props.moneyAllocationItemsModel.CurrentPeriodBudgetedAmountLabel),
                 React.createElement('div', { className: 'col-sm-1' }, this.props.moneyAllocationItemsModel.CurrentPeriodPayedAmountLabel),

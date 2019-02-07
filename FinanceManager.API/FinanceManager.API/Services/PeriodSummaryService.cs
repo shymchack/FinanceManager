@@ -14,19 +14,22 @@ namespace FinanceManager.API.Services
     public class PeriodSummaryService : IPeriodSummaryService
     {
         IMoneyOperationsService _moneyOperationsService;
+        IPeriodicityLogic _periodictyLogic;
         IUserAccountsUnitOfWork _userAccountsUnitOfWork;
 
         //TODO maybe should use only Services, no UOWs
-        public PeriodSummaryService(IMoneyOperationsService moneyOperationsService, IUserAccountsUnitOfWork userAccountsUnitOfWork)
+        public PeriodSummaryService(IMoneyOperationsService moneyOperationsService, IUserAccountsUnitOfWork userAccountsUnitOfWork, IPeriodicityLogic periodicityLogic)
         {
             _moneyOperationsService = moneyOperationsService;
             _userAccountsUnitOfWork = userAccountsUnitOfWork;
+            _periodictyLogic = periodicityLogic;
         }
 
         public PeriodSummaryModel GetPeriodSummary(DateTime dateFromPeriod, int userId, PeriodUnit periodUnit = PeriodUnit.Month)
         {
             IEnumerable<AccountDto> accounts = _userAccountsUnitOfWork.GetAccountsByUserId(userId);
-            IEnumerable<MoneyOperationStatusModel> moneyOperations = _moneyOperationsService.GetMoneyOperationsByAccountsIds(accounts.Select(a => a.ID), dateFromPeriod);
+            var periodInfo = _periodictyLogic.GetPeriodInfo(dateFromPeriod, periodUnit);
+            IEnumerable<MoneyOperationStatusModel> moneyOperations = _moneyOperationsService.GetMoneyOperationsByAccountsIds(accounts.Select(a => a.ID), periodInfo);
 
             //TODO implement periodUnit
             PeriodSummaryModel model = new PeriodSummaryModel();
