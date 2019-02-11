@@ -81,6 +81,11 @@ namespace FinanceManager.Importer
                             var operation = ReadCommitmentData(sheet, oko, rowCollection);
                             operation.RepetitionUnit = PeriodUnit.Month;
                             operation.RepetitionUnitQuantity = 0;
+                            operation.OperationSetting = new MoneyOperationSetting()
+                            {
+                                ReservePeriodQuantity = 0,
+                                ReservePeriodUnit = PeriodUnit.Month
+                            };
                             singleOperations.Add(operation);
                         }
                         catch (Exception ex)
@@ -124,7 +129,7 @@ namespace FinanceManager.Importer
                             operation.RepetitionUnitQuantity = 1;
                             operation.OperationSetting = new MoneyOperationSetting()
                             {
-                                ReservePeriodQuantity = 1,
+                                ReservePeriodQuantity = 0,
                                 ReservePeriodUnit = PeriodUnit.Month
                             };
                             cyclicOperations.Add(operation);
@@ -174,7 +179,11 @@ namespace FinanceManager.Importer
                     newMoneyOperation.ValidityEndDate = validityEndDate;
                     newMoneyOperation.NextOperationExecutionDate = commonOperationDataSource.NextOperationExecutionDate;
                     newMoneyOperation.InitialAmount = initialAmount;
-                    newMoneyOperation.OperationSettingID = 1;
+                    newMoneyOperation.OperationSetting = new MoneyOperationSetting()
+                    {
+                        ReservePeriodQuantity = commonOperationDataSource.OperationSetting.ReservePeriodQuantity,
+                        ReservePeriodUnit = PeriodUnit.Month
+                    };
                     newMoneyOperation.AccountID = 3;
                     newMoneyOperation.RepetitionUnit = commonOperationDataSource.RepetitionUnit;
                     newMoneyOperation.RepetitionUnitQuantity = commonOperationDataSource.RepetitionUnitQuantity;
@@ -205,8 +214,12 @@ namespace FinanceManager.Importer
                     newMoneyOperation.ValidityEndDate = validityEndDate;
                     newMoneyOperation.NextOperationExecutionDate = commonOperationDataSource.NextOperationExecutionDate;
                     newMoneyOperation.InitialAmount = initialAmount;
-                    newMoneyOperation.OperationSettingID = 1;
                     newMoneyOperation.AccountID = 3;
+                    newMoneyOperation.OperationSetting = new MoneyOperationSetting()
+                    {
+                        ReservePeriodQuantity = 0,
+                        ReservePeriodUnit = PeriodUnit.Month
+                    };
                     newMoneyOperation.MoneyOperationChanges.AddRange(operationChanges);
                     newCyclicOperations.Add(newMoneyOperation);
                     Parallel.ForEach(sameInitialAmountOps, (budOp) =>
@@ -235,7 +248,6 @@ namespace FinanceManager.Importer
             operation.ValidityEndDate = DateTime.Parse(sheet.EndDate, CultureInfo.CurrentCulture.DateTimeFormat);
             operation.InitialAmount = Convert.ToDecimal(rowCollection[totalAmountColumnIndex]);
             operation.Name = (string)rowCollection[nameColumnIndex];
-            operation.OperationSettingID = 1;
             operation.AccountID = 3;
             operation.NextOperationExecutionDate = operation.ValidityEndDate;
             var operationChange = new MoneyOperationChange();
