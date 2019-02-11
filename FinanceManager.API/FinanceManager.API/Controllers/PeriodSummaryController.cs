@@ -20,7 +20,7 @@ namespace FinanceManager.API.Controllers
 
         public PeriodSummaryModel GetPeriodSummary(int userId)
         {
-            return _periodSummaryService.GetPeriodSummary(new DateTime(2018,12,10), userId); //TODO: Should use server date
+            return _periodSummaryService.GetPeriodSummary(new DateTime(2018,11,10), userId); //TODO: Should use server date
         }
     }
 }

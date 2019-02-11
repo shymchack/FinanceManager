@@ -30,7 +30,8 @@ namespace FinanceManager.BL
 
         public MoneyOperationStatusModel PrepareMoneyOperationStatus(MoneyOperationDto moneyOperationDto, PeriodInfo periodInfo)
         {
-            if (periodInfo.BeginDate > moneyOperationDto.ValidityEndDate || periodInfo.EndDate < moneyOperationDto.ValidityBeginDate) return null; //TODO: maybe should return new()? but this should not happen probably
+            var shouldOperationGetAlreadyCleared = periodInfo.BeginDate > moneyOperationDto.ValidityEndDate;
+            if (periodInfo.EndDate < moneyOperationDto.ValidityBeginDate) return null; //TODO: maybe should return new()? but this should not happen probably
 
             var initialAmount = moneyOperationDto.InitialAmount;
 
@@ -51,9 +52,8 @@ namespace FinanceManager.BL
             decimal periodBeginningAmountCandidate = initialAmount;
             decimal alreadyPayedAmountBeforeCurrentCandidate = 0;
             decimal currentAmountCandidate = initialAmount;
-            decimal currentPeriodEndAmountCandidate = currentAmountCandidate;
             decimal currentPeriodBudgetedAmountCandidate = 0;
-
+            //TODO refactoring!
             var periodsLeftToPayIncludingNow = periodMetadata.TotalPaymentsNumber - periodMetadata.NowPaymentNumber + 1;
             alreadyPayedAmountBeforeCurrentCandidate = moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate < periodInfo.BeginDate && moc.ChangeDate >= moneyOperationDto.ValidityBeginDate).Sum(moc => -moc.ChangeAmount);
             periodBeginningAmountCandidate -= alreadyPayedAmountBeforeCurrentCandidate;
@@ -61,11 +61,16 @@ namespace FinanceManager.BL
             currentAmountCandidate -= (alreadyPayedAmountBeforeCurrentCandidate + currentPeriodPayedAmount);
             currentPeriodBudgetedAmountCandidate = periodsLeftToPayIncludingNow > 0 ? Math.Max(0, (periodBeginningAmountCandidate / periodsLeftToPayIncludingNow)) : 0;
             currentPeriodBudgetedAmountCandidate -= currentPeriodPayedAmount;
+            decimal currentPeriodEndAmountCandidate = currentAmountCandidate;
             currentPeriodEndAmountCandidate -= currentPeriodBudgetedAmountCandidate;
 
+            var operationAlreadyCleared = currentAmountCandidate == 0;
+
+            if (shouldOperationGetAlreadyCleared && operationAlreadyCleared)
+                return null;
 
             status.CurrentAmount = currentAmountCandidate;
-            status.AlreadyPayedAmount = alreadyPayedAmountBeforeCurrentCandidate;
+            status.AlreadyPayedAmount = alreadyPayedAmountBeforeCurrentCandidate + currentPeriodPayedAmount;
             status.CurrentPeriodPayedAmount = currentPeriodPayedAmount;
             status.CurrentPeriodBudgetedAmount = currentPeriodBudgetedAmountCandidate;
             status.CurrentPeriodEndAmount = currentPeriodEndAmountCandidate;
@@ -171,7 +176,7 @@ namespace FinanceManager.BL
         {
             MoneyOperationPeriodMetadata metadata = new MoneyOperationPeriodMetadata();
 
-            //no periodicity - no period metadata
+            //no budgeted amount - no period metadata
             if (moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity == 0)
             {
                 return metadata;
@@ -181,18 +186,16 @@ namespace FinanceManager.BL
             short currentPaymentNumber = 0;
             short totalPaymentsNumber = 0;
             //TODO: Write some helper that would check only to repetitionUnit precision, for example reject minutes and seconds if unit is hour
-            while (CompareWithRepetitionUnitPrecision(currentDate, moneyOperationDto))
+            while (currentDate <= moneyOperationDto.ValidityEndDate)
             {
                 totalPaymentsNumber++;
                 if (currentDate <= periodInfo.EndDate)
                 {
                     currentPaymentNumber++;
-                }
-                if (currentDate <= periodInfo.EndDate)
-                {
                     metadata.NowPaymentNumber = totalPaymentsNumber;
                 }
-                currentDate = RepetitionUnitCalculator.CalculateNextRepetitionDate(currentDate, moneyOperationDto.MoneyOperationSetting.ReservationPeriodUnit, (short)moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity);
+                //TODO fix this short casting shit
+                currentDate = RepetitionUnitCalculator.CalculateNextRepetitionDate(currentDate, moneyOperationDto.MoneyOperationSetting.ReservationPeriodUnit);
             }
 
             metadata.CurrentPaymentNumber = currentPaymentNumber;
@@ -272,13 +275,13 @@ namespace FinanceManager.BL
 
         public bool IsOperationBudgeted(MoneyOperationDto mo)
         {
-            //TODO think about making operation that is budgeted and cyclic at once.
-            return (mo.MoneyOperationSetting?.ReservationPeriodQuantity ?? 0) > 0 && mo.RepetitionUnitQuantity == 0;
+            //TODO think about making operation that is budgeted and cyclic at once. Remember to not break only cyclic operations
+            return (mo.MoneyOperationSetting?.ReservationPeriodQuantity ?? 0) > 0 && mo.RepetitionUnitQuantity == 1;
         }
 
         public bool IsOperationCyclic(MoneyOperationDto mo)
         {
-            return mo.MoneyOperationSetting == null && mo.RepetitionUnitQuantity > 0;
+            return mo.MoneyOperationSetting?.ReservationPeriodQuantity == 0 && mo.RepetitionUnitQuantity > 0;
         }
 
         public bool IsOperationSingle(MoneyOperationDto mo)
