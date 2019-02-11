@@ -8,7 +8,8 @@ namespace FinanceManager.BL
         public PeriodInfo GetPeriodInfo(DateTime targetDate, PeriodUnit periodUnit)
         {
             var periodBeginDate = RepetitionUnitCalculator.ClearMinorDateTimePart(targetDate, periodUnit);
-            var periodEndDate = RepetitionUnitCalculator.CalculateNextRepetitionDate(periodBeginDate, periodUnit, 1);
+            var periodEndDate = RepetitionUnitCalculator.CalculateNextRepetitionDate(periodBeginDate, periodUnit, 1).AddSeconds(-1);
+            
             return new PeriodInfo(periodBeginDate, periodEndDate, periodUnit);
         }
 

@@ -35,11 +35,19 @@ namespace FinanceManager.DAL.Repositories
             return Context.MoneyOperations.FirstOrDefault(mo => mo.ID == id);
         }
 
-
-        public IEnumerable<MoneyOperation> GetMoneyOperationsByAccountsIDs(IEnumerable<int> accountsIDs, DateTime beginDate, DateTime endDate)
+        /// <summary>
+        /// Get all money operations that have beginning date before the given endDate. Validity end date is not used here because we also need to 
+        /// get all money operations that have not been cleared yet (incomes != expenses).
+        /// </summary>
+        /// <param name="accountsIDs"></param>
+        /// <param name="beginDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns></returns>
+        public IEnumerable<MoneyOperation> GetMoneyOperationsByAccountsIDs(IEnumerable<int> accountsIDs, DateTime endDate)
         {
+            //TODO optimize - prevent getting old operations (end of validity less than beginDate) that are clear (incomes == expenses)
             return Context.MoneyOperations
-                .Where(mo => accountsIDs.Contains(mo.AccountID.Value) && mo.ValidityBeginDate <= endDate && mo.ValidityEndDate >= beginDate)
+                .Where(mo => accountsIDs.Contains(mo.AccountID.Value) && mo.ValidityBeginDate <= endDate)
                 .Include(mo => mo.Account)
                 .Include(mo => mo.MoneyOperationChanges)
                 .Include(mo => mo.OperationSetting);

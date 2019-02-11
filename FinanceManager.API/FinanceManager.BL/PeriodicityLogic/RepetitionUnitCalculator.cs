@@ -5,7 +5,7 @@ namespace FinanceManager.BL
 {
     public class RepetitionUnitCalculator
     {
-        public static DateTime CalculateNextRepetitionDate(DateTime targetDateTime, PeriodUnit repetitionUnit, short repetitionUnitQuantity)
+        public static DateTime CalculateNextRepetitionDate(DateTime targetDateTime, PeriodUnit repetitionUnit, short repetitionUnitQuantity = 1)
         {
             switch (repetitionUnit)
             {

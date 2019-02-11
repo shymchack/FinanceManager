@@ -47,9 +47,9 @@ namespace FinanceManager.DAL.UnitOfWork
             return moneyOperationDto;
         }
 
-        public IEnumerable<MoneyOperationDto> GetMoneyOperationsByAccountsIDs(IEnumerable<int> accountsIds, DateTime beginDate, DateTime endDate)
+        public IEnumerable<MoneyOperationDto> GetMoneyOperationsByAccountsIDs(IEnumerable<int> accountsIds, DateTime endDate)
         {
-            IEnumerable<MoneyOperation> moneyOperations = _moneyOperationsRepository.GetMoneyOperationsByAccountsIDs(accountsIds, beginDate, endDate);
+            IEnumerable<MoneyOperation> moneyOperations = _moneyOperationsRepository.GetMoneyOperationsByAccountsIDs(accountsIds, endDate);
             List<MoneyOperationDto> moneyOperationsDtos = new List<MoneyOperationDto>();
             foreach (MoneyOperation moneyOperation in moneyOperations)
             {
