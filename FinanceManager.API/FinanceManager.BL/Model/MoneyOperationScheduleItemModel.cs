@@ -3,10 +3,10 @@
     public class MoneyOperationScheduleItemModel
     {
         public string PeriodName { get; set; }
-        public double BudgetedAmount { get; set; }
-        public double PayedAmount { get; set; }
-        public double ItemBalance { get; set; }
-        public double ItemBudgetedBalance { get; set; }
+        public double CurrentBudgetedAmount { get; set; }
+        public double CurrentPayedAmount { get; set; }
+        public double TotalAmount { get; set; }
+        public double LeftBudgetedAmount => TotalBudgetedAmount - CurrentBudgetedAmount;
         public double TotalBudgetedAmount { get; set; }
     }
 }

@@ -64,11 +64,11 @@ namespace FinanceManager.API.Services
 
         }
 
-        public MoneyOperationScheduleModel GetMoneyOperationSchedule(int moneyOperationId)
+        public MoneyOperationScheduleModel GetMoneyOperationSchedule(int moneyOperationId, DateTime referenceDate)
         {
             MoneyOperationDto moneyOperation = _moneyOperationUOW.GetMoneyOperationById(moneyOperationId);
             
-            MoneyOperationScheduleModel model = GetMoneyOperationScheduleFromDto(moneyOperation);
+            MoneyOperationScheduleModel model = GetMoneyOperationScheduleFromDto(moneyOperation, referenceDate);
             return model;
         }
 
@@ -86,9 +86,9 @@ namespace FinanceManager.API.Services
             return status;
         }
 
-        private MoneyOperationScheduleModel GetMoneyOperationScheduleFromDto(MoneyOperationDto moneyOperationDto)
+        private MoneyOperationScheduleModel GetMoneyOperationScheduleFromDto(MoneyOperationDto moneyOperationDto, DateTime referenceDate)
         {
-            MoneyOperationScheduleModel model = _moneyOperationLogic.GetMoneyOperationSchedule(moneyOperationDto);
+            MoneyOperationScheduleModel model = _moneyOperationLogic.GetMoneyOperationSchedule(moneyOperationDto, referenceDate);
             model.PayedAmountLabel = "Payed amount";
             //model.PaymentLeftLabel = "Payment left";
             //model.TotalAmountLabel = "Total amoun";

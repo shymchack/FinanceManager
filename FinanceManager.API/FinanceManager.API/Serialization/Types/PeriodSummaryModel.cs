@@ -17,7 +17,7 @@ namespace FinanceManager.API.Serialization.Types
         public string PeriodTitle { get; set; }
 
         public double CurrentTotalBalance { get; set; }
-        public double PeriodBeginningTotalBalance { get { return CurrentTotalBalance + (double)OperationsModel.PeriodOperations.Sum(om => om.CurrentPeriodPayedAmount); } }
+        public double PeriodBeginningTotalBalance { get { return CurrentTotalBalance + (double)OperationsModel.PeriodOperations.Sum(om => om.CurrentPeriodChangeAmount); } }
         public double TotalBalanceDifference { get { return CurrentTotalBalance - PeriodBeginningTotalBalance; } }
 
 

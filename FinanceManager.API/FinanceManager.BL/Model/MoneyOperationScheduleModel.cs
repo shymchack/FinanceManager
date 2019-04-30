@@ -21,7 +21,6 @@ namespace FinanceManager.BL //TODO should I move it away from BL?
         public string Name { get; set; }
         public double InitialAmount { get; set; }
         public double TotalAmount { get; set; }
-        public double PaymentLeft { get; set; }
         public IEnumerable<MoneyOperationScheduleItemModel> ScheduleItem { get; set; }
     }
 }
