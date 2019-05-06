@@ -11,7 +11,7 @@ using System.Data.Entity.Infrastructure;
 
 namespace FinanceManager.API.Tests
 {
-    public class FakeFinanceManagerContext : IFinanceManagerContext
+    public class FakeFinanceManagerContext : DbContext, IFinanceManagerContext
     {
         //TODO: Make tests not dependent from FinanceManager.Database namespace
         public IDbSet<Account> Accounts { get; set; }
@@ -52,7 +52,7 @@ namespace FinanceManager.API.Tests
 
         public DbEntityEntry Entry(object entity)
         {
-            throw new NotImplementedException();
+            return base.Entry(entity);
         }
     }
 }

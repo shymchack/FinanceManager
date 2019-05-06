@@ -130,13 +130,13 @@ namespace FinanceManager.BL
                 scheduleItem.TotalAmount = amount;
                 scheduleItem.TotalBudgetedAmount = Math.Max(0, totalBudgetedAmount);
                 scheduleItem.CurrentBudgetedAmount = budgetedAmount;
-                scheduleItem.CurrentPayedAmount = payedAmount;
+                scheduleItem.CurrentChangeAmount = payedAmount;
                 scheduleItem.PeriodName = GetPeriodName(date);
                 date = RepetitionUnitCalculator.CalculateNextRepetitionDate(date, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity);
 
                 scheduleItems.Add(scheduleItem);
             }
-            moneyOperationScheduleModel.TotalAmount = moneyOperationScheduleModel.InitialAmount + (double)moneyOperationDto.MoneyOperationChanges.Sum(moc => moc.ChangeAmount);
+            moneyOperationScheduleModel.TotalAmount = moneyOperationScheduleModel.InitialAmount + (double)moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate <= referenceDate).Sum(moc => moc.ChangeAmount);
             moneyOperationScheduleModel.ScheduleItem = scheduleItems;
             return moneyOperationScheduleModel;
         }
