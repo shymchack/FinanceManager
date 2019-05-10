@@ -72,17 +72,20 @@ namespace FinanceManager.BL
             sumChangedAmountBeforeCurrentCandidate = moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate < periodInfo.BeginDate && moc.ChangeDate >= moneyOperationDto.ValidityBeginDate).Sum(moc => moc.ChangeAmount);
             periodBeginningAmountCandidate += sumChangedAmountBeforeCurrentCandidate;
             currentAmountCandidate += (sumChangedAmountBeforeCurrentCandidate + currentPeriodChangeAmount);
-            if (moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity > 0)
+            if (moneyOperationDto.ValidityBeginDate <= periodInfo.EndDate && moneyOperationDto.ValidityEndDate >= periodInfo.BeginDate)
             {
-                var periodsLeftToPayIncludingNow = periodMetadata.TotalPaymentsNumber - periodMetadata.NowPaymentNumber + 1;
-                //TODO should I round the date up to end of current period? Think about periodMetadata.NowPaymentNumber usage below
-                currentPeriodBudgetedAmountCandidate = periodsLeftToPayIncludingNow > 0 ? Math.Max(0, (periodBeginningAmountCandidate / periodsLeftToPayIncludingNow)) : 0;
+                if (moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity > 0)
+                {
+                    var periodsLeftToPayIncludingNow = periodMetadata.TotalPaymentsNumber - periodMetadata.NowPaymentNumber + 1;
+                    //TODO should I round the date up to end of current period? Think about periodMetadata.NowPaymentNumber usage below
+                    currentPeriodBudgetedAmountCandidate = periodsLeftToPayIncludingNow > 0 ? Math.Max(0, (periodBeginningAmountCandidate / periodsLeftToPayIncludingNow)) : 0;
+                }
+                else
+                {
+                    currentPeriodBudgetedAmountCandidate = periodBeginningAmountCandidate;
+                }
+                currentPeriodBudgetedAmountCandidate += currentPeriodChangeAmount;
             }
-            else
-            {
-                currentPeriodBudgetedAmountCandidate = periodBeginningAmountCandidate;
-            }
-            currentPeriodBudgetedAmountCandidate += currentPeriodChangeAmount;
             decimal currentPeriodEndAmountCandidate = currentAmountCandidate;
             currentPeriodEndAmountCandidate -= currentPeriodBudgetedAmountCandidate;
 
@@ -104,7 +107,7 @@ namespace FinanceManager.BL
             return moneyOperationChanges.Where(moc => moc.ChangeDate >= periodInfo.BeginDate);
         }
 
-        public MoneyOperationScheduleModel GetMoneyOperationSchedule(MoneyOperationDto moneyOperationDto, DateTime referenceDate)
+        public MoneyOperationScheduleModel GetMoneyOperationSchedule(MoneyOperationDto moneyOperationDto, DateTime executiveReferenceDate)
         {
             MoneyOperationScheduleModel moneyOperationScheduleModel = new MoneyOperationScheduleModel();
             //TODO should not allow default dates in DTO
@@ -113,10 +116,13 @@ namespace FinanceManager.BL
             DateTime date = moneyOperationDto.ValidityBeginDate;
             var scheduleItems = new List<MoneyOperationScheduleItemModel>();
             var totalBudgetedAmount = 0d;
+            if (date <= moneyOperationDto.ValidityEndDate)
+            {
+                moneyOperationScheduleModel.InitialAmount = (double)moneyOperationDto.InitialAmount;
+            }
+
             while (date <= moneyOperationDto.ValidityEndDate)
             {
-                moneyOperationScheduleModel.InitialAmount += (double)moneyOperationDto.InitialAmount;
-
                 var periodInfo = _periodicityLogic.GetPeriodInfo(date, moneyOperationDto.RepetitionUnit);
                 var moneyOperationStatus = PrepareMoneyOperationStatus(moneyOperationDto, periodInfo);
                 var amount = (double)moneyOperationStatus.CurrentAmount;
@@ -124,7 +130,7 @@ namespace FinanceManager.BL
                 var payedAmount = (double)moneyOperationStatus.CurrentPeriodChangeAmount;
                 if (moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity == 0)
                     totalBudgetedAmount = budgetedAmount;
-                if (moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity > 0 || date < referenceDate)
+                if (moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity > 0 || date < executiveReferenceDate)
                     totalBudgetedAmount = Math.Max(0, amount);
                 MoneyOperationScheduleItemModel scheduleItem = new MoneyOperationScheduleItemModel();
                 scheduleItem.TotalAmount = amount;
@@ -134,9 +140,38 @@ namespace FinanceManager.BL
                 scheduleItem.PeriodName = GetPeriodName(date);
                 date = RepetitionUnitCalculator.CalculateNextRepetitionDate(date, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity);
 
+                if (date <= moneyOperationDto.ValidityEndDate && moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity == 0)
+                    moneyOperationScheduleModel.InitialAmount += (double)moneyOperationDto.InitialAmount;
+
                 scheduleItems.Add(scheduleItem);
             }
-            moneyOperationScheduleModel.TotalAmount = moneyOperationScheduleModel.InitialAmount + (double)moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate <= referenceDate).Sum(moc => moc.ChangeAmount);
+
+            var lastScheduledItem = scheduleItems.Last();
+            
+            var isPastOperation = moneyOperationDto.ValidityEndDate < executiveReferenceDate;
+
+            if (isPastOperation)
+            {
+                //this is to prevent leaving unpayed amount in the past; it should be payed in the presence
+                lastScheduledItem.CurrentBudgetedAmount = 0;
+            }
+            if (isPastOperation && lastScheduledItem.LeftBudgetedAmount != 0)
+            {
+                //this is to include unpayed amount from past to let user pay it in the presence
+                var periodInfo = _periodicityLogic.GetPeriodInfo(executiveReferenceDate, moneyOperationDto.RepetitionUnit);
+                var moneyOperations = ExtractMoneyOperationChanges(moneyOperationDto, periodInfo);
+                var periodMoneyOperations = ExtractPeriodMoneyOperationChanges(moneyOperations, periodInfo);
+                MoneyOperationScheduleItemModel scheduleItem = new MoneyOperationScheduleItemModel();
+                scheduleItem.TotalAmount = lastScheduledItem.TotalAmount;
+                scheduleItem.TotalBudgetedAmount = lastScheduledItem.TotalBudgetedAmount;
+                scheduleItem.CurrentBudgetedAmount = lastScheduledItem.LeftBudgetedAmount;
+                scheduleItem.CurrentChangeAmount = (double)periodMoneyOperations.Sum(mo => mo.ChangeAmount);
+                scheduleItem.PeriodName = GetPeriodName(executiveReferenceDate);
+
+                scheduleItems.Add(scheduleItem);
+            }
+
+            moneyOperationScheduleModel.TotalAmount = moneyOperationScheduleModel.InitialAmount + (double)moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate <= executiveReferenceDate).Sum(moc => moc.ChangeAmount);
             moneyOperationScheduleModel.ScheduleItem = scheduleItems;
             return moneyOperationScheduleModel;
         }
