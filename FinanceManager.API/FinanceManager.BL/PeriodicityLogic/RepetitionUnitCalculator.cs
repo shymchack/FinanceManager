@@ -7,32 +7,39 @@ namespace FinanceManager.BL
     {
         public static DateTime CalculateNextRepetitionDate(DateTime targetDateTime, PeriodUnit repetitionUnit, short repetitionUnitQuantity = 1)
         {
+            //using constructor is for preventing any ticks and milliseconds being inherited from changeDate
+            var newDate = new DateTime(targetDateTime.Year, targetDateTime.Month, targetDateTime.Day, targetDateTime.Hour, targetDateTime.Minute, targetDateTime.Second);
+
             switch (repetitionUnit)
             {
                 case PeriodUnit.Day:
-                    return targetDateTime.AddDays(repetitionUnitQuantity);
+                    return newDate.AddDays(repetitionUnitQuantity);
                 case PeriodUnit.Hour:
-                    return targetDateTime.AddHours(repetitionUnitQuantity);
+                    return newDate.AddHours(repetitionUnitQuantity);
                 case PeriodUnit.Minute:
-                    return targetDateTime.AddMinutes(repetitionUnitQuantity);
+                    return newDate.AddMinutes(repetitionUnitQuantity);
                 case PeriodUnit.Month:
-                    return targetDateTime.AddMonths(repetitionUnitQuantity);
+                    return newDate.AddMonths(repetitionUnitQuantity);
                 case PeriodUnit.Second:
-                    return targetDateTime.AddSeconds(repetitionUnitQuantity);
+                    return newDate.AddSeconds(repetitionUnitQuantity);
                 case PeriodUnit.Week:
-                    return targetDateTime.AddDays(7 * repetitionUnitQuantity);
+                    return newDate.AddDays(7 * repetitionUnitQuantity);
                 case PeriodUnit.Year:
-                    return targetDateTime.AddYears(repetitionUnitQuantity);
+                    return newDate.AddYears(repetitionUnitQuantity);
                 case PeriodUnit.Default:
-                    return targetDateTime;
+                    return newDate;
                 default:
-                    return targetDateTime;
+                    return newDate;
 
             }
         }
 
         public static TimeSpan CalculateRepetitionTimeStamp(DateTime date, PeriodUnit repetitionUnit, short repetitionUnitQuantity)
         {
+            //TODO extract method for gathering this
+            //using constructor is for preventing any ticks and milliseconds being inherited from changeDate
+            var newDate = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second);
+
             switch (repetitionUnit)
             {
                 case PeriodUnit.Day:
@@ -42,13 +49,13 @@ namespace FinanceManager.BL
                 case PeriodUnit.Minute:
                     return new TimeSpan(0, 0, repetitionUnitQuantity, 0);
                 case PeriodUnit.Month:
-                    return date.AddMonths(repetitionUnitQuantity) - date;
+                    return newDate.AddMonths(repetitionUnitQuantity) - newDate;
                 case PeriodUnit.Second:
                     return new TimeSpan(0, 0, 0, repetitionUnitQuantity);
                 case PeriodUnit.Week:
-                    return date.AddDays(repetitionUnitQuantity * 7) - date;
+                    return newDate.AddDays(repetitionUnitQuantity * 7) - newDate;
                 case PeriodUnit.Year:
-                    return date.AddYears(repetitionUnitQuantity) - date;
+                    return newDate.AddYears(repetitionUnitQuantity) - newDate;
                 case PeriodUnit.Default:
                     return new TimeSpan();
                 default:
@@ -59,7 +66,8 @@ namespace FinanceManager.BL
 
         public static DateTime ClearMinorDateTimePart(DateTime changeDate, PeriodUnit repetitionUnit)
         {
-            var newDate = changeDate;
+            //using constructor is for preventing any ticks and milliseconds being inherited from changeDate
+            var newDate = new DateTime(changeDate.Year, changeDate.Month, changeDate.Day, changeDate.Hour, changeDate.Minute, changeDate.Second);
 
             if (repetitionUnit > PeriodUnit.Second) { newDate = newDate.AddSeconds(-newDate.Second); }
             if (repetitionUnit > PeriodUnit.Minute) { newDate = newDate.AddMinutes(-newDate.Minute); }

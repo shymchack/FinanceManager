@@ -148,7 +148,8 @@ namespace FinanceManager.BL
 
             var lastScheduledItem = scheduleItems.Last();
             
-            var isPastOperation = moneyOperationDto.ValidityEndDate < executiveReferenceDate;
+            var referenceDatePeriodInfo = _periodicityLogic.GetPeriodInfo(executiveReferenceDate, moneyOperationDto.RepetitionUnit);
+            var isPastOperation = moneyOperationDto.ValidityEndDate < referenceDatePeriodInfo.BeginDate;
 
             if (isPastOperation)
             {

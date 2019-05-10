@@ -903,7 +903,7 @@ namespace FinanceManager.API.Tests.Services
             var moneyOperation = new MoneyOperation();
             moneyOperation.ID = 1;
             moneyOperation.ValidityBeginDate = new DateTime(testDate.Year, testDate.Month-1, 1);
-            moneyOperation.ValidityEndDate = new DateTime(testDate.Year, testDate.Month, 1).AddMilliseconds(-1);
+            moneyOperation.ValidityEndDate = new DateTime(testDate.Year, testDate.Month, 1).AddSeconds(-1);
             moneyOperation.RepetitionUnit = PeriodUnit.Month;
             moneyOperation.RepetitionUnitQuantity = 1;
             moneyOperation.InitialAmount = 40;
@@ -932,6 +932,7 @@ namespace FinanceManager.API.Tests.Services
             Assert.AreEqual(0, scheduleItem.CurrentChangeAmount);
         }
 
+        [Test]
         public void GetMoneyOperation_One_Budgeted_NoOperationChanges_OneMonthDuration_PastPlusOneDay()
         {
             var testDate = DateTime.UtcNow;
@@ -939,8 +940,8 @@ namespace FinanceManager.API.Tests.Services
             var newContext = new FakeFinanceManagerContext();
             var moneyOperation = new MoneyOperation();
             moneyOperation.ID = 1;
-            moneyOperation.ValidityBeginDate = new DateTime(testDate.Year, testDate.Month - 2, 1);
-            moneyOperation.ValidityEndDate = new DateTime(testDate.Year, testDate.Month -1, 1);
+            moneyOperation.ValidityBeginDate = new DateTime(testDate.Year, testDate.Month -1, 1);
+            moneyOperation.ValidityEndDate = new DateTime(testDate.Year, testDate.Month, 1);
             moneyOperation.RepetitionUnit = PeriodUnit.Month;
             moneyOperation.RepetitionUnitQuantity = 1;
             moneyOperation.InitialAmount = 40;
@@ -975,8 +976,8 @@ namespace FinanceManager.API.Tests.Services
             var newContext = new FakeFinanceManagerContext();
             var moneyOperation = new MoneyOperation();
             moneyOperation.ID = 1;
-            moneyOperation.ValidityBeginDate = new DateTime(testDate.Year, testDate.Month - 2, 1).AddMilliseconds(-1);
-            moneyOperation.ValidityEndDate = new DateTime(testDate.Year, testDate.Month, 1).AddMilliseconds(-1);
+            moneyOperation.ValidityBeginDate = new DateTime(testDate.Year, testDate.Month - 2, 1).AddSeconds(-1);
+            moneyOperation.ValidityEndDate = new DateTime(testDate.Year, testDate.Month, 1).AddSeconds(-1);
             moneyOperation.RepetitionUnit = PeriodUnit.Month;
             moneyOperation.RepetitionUnitQuantity = 1;
             moneyOperation.InitialAmount = 40;
@@ -1013,7 +1014,7 @@ namespace FinanceManager.API.Tests.Services
             var moneyOperation = new MoneyOperation();
             moneyOperation.ID = 1;
             moneyOperation.ValidityBeginDate = new DateTime(testDate.Year, testDate.Month, 1);
-            moneyOperation.ValidityEndDate = new DateTime(testDate.Year, testDate.Month+1, 1).AddMilliseconds(-1);
+            moneyOperation.ValidityEndDate = new DateTime(testDate.Year, testDate.Month+1, 1).AddSeconds(-1);
             moneyOperation.RepetitionUnit = PeriodUnit.Month;
             moneyOperation.RepetitionUnitQuantity = 1;
             moneyOperation.InitialAmount = 40;
@@ -1088,7 +1089,7 @@ namespace FinanceManager.API.Tests.Services
             var newContext = new FakeFinanceManagerContext();
             var moneyOperation = new MoneyOperation();
             moneyOperation.ID = 1;
-            moneyOperation.ValidityBeginDate = new DateTime(testDate.Year, testDate.Month, 1).AddMilliseconds(-1);
+            moneyOperation.ValidityBeginDate = new DateTime(testDate.Year, testDate.Month, 1).AddSeconds(-1);
             moneyOperation.ValidityEndDate = new DateTime(testDate.Year, testDate.Month + 1, 1);
             moneyOperation.RepetitionUnit = PeriodUnit.Month;
             moneyOperation.RepetitionUnitQuantity = 1;
@@ -1127,7 +1128,7 @@ namespace FinanceManager.API.Tests.Services
             var moneyOperation = new MoneyOperation();
             moneyOperation.ID = 1;
             moneyOperation.ValidityBeginDate = new DateTime(testDate.Year, testDate.Month+1, 1);
-            moneyOperation.ValidityEndDate = new DateTime(testDate.Year, testDate.Month + 2, 1).AddMilliseconds(-1);
+            moneyOperation.ValidityEndDate = new DateTime(testDate.Year, testDate.Month + 2, 1).AddSeconds(-1);
             moneyOperation.RepetitionUnit = PeriodUnit.Month;
             moneyOperation.RepetitionUnitQuantity = 1;
             moneyOperation.InitialAmount = 40;
