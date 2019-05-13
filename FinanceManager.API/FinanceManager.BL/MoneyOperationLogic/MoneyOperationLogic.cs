@@ -156,23 +156,25 @@ namespace FinanceManager.BL
                 //this is to prevent leaving unpayed amount in the past; it should be payed in the presence
                 lastScheduledItem.CurrentBudgetedAmount = 0;
             }
+
+            var allOperationChangesSum = (double)moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate <= executiveReferenceDate).Sum(moc => moc.ChangeAmount);
+            moneyOperationScheduleModel.TotalAmount = moneyOperationScheduleModel.InitialAmount + allOperationChangesSum;
+
+            //this is to include unpayed amount from past to let user pay it in the presence
             if (isPastOperation && lastScheduledItem.LeftBudgetedAmount != 0)
             {
-                //this is to include unpayed amount from past to let user pay it in the presence
-                var periodInfo = _periodicityLogic.GetPeriodInfo(executiveReferenceDate, moneyOperationDto.RepetitionUnit);
-                var moneyOperations = ExtractMoneyOperationChanges(moneyOperationDto, periodInfo);
-                var periodMoneyOperations = ExtractPeriodMoneyOperationChanges(moneyOperations, periodInfo);
+                //this is because changes from validity period are already included in schedule items but no future changes were included
+                var postValidityPeriodOperationsSum = (double)moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate > moneyOperationDto.ValidityEndDate && moc.ChangeDate <= executiveReferenceDate).Sum(moc => moc.ChangeAmount);
                 MoneyOperationScheduleItemModel scheduleItem = new MoneyOperationScheduleItemModel();
-                scheduleItem.TotalAmount = lastScheduledItem.TotalAmount;
-                scheduleItem.TotalBudgetedAmount = lastScheduledItem.TotalBudgetedAmount;
-                scheduleItem.CurrentBudgetedAmount = lastScheduledItem.LeftBudgetedAmount;
-                scheduleItem.CurrentChangeAmount = (double)periodMoneyOperations.Sum(mo => mo.ChangeAmount);
+                scheduleItem.TotalAmount = moneyOperationScheduleModel.TotalAmount;
+                scheduleItem.TotalBudgetedAmount = lastScheduledItem.TotalBudgetedAmount + postValidityPeriodOperationsSum;
+                scheduleItem.CurrentBudgetedAmount = lastScheduledItem.LeftBudgetedAmount + postValidityPeriodOperationsSum; //TODO think about notification for user that some amount can come from future but have to be included
+                scheduleItem.CurrentChangeAmount = postValidityPeriodOperationsSum; //TODO think about notification for user that some amount can come from future but have to be included
                 scheduleItem.PeriodName = GetPeriodName(executiveReferenceDate);
 
                 scheduleItems.Add(scheduleItem);
             }
 
-            moneyOperationScheduleModel.TotalAmount = moneyOperationScheduleModel.InitialAmount + (double)moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate <= executiveReferenceDate).Sum(moc => moc.ChangeAmount);
             moneyOperationScheduleModel.ScheduleItem = scheduleItems;
             return moneyOperationScheduleModel;
         }

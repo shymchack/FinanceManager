@@ -1432,6 +1432,7 @@ namespace FinanceManager.API.Tests.Services
             Assert.IsNull(scheduleItem);
         }
 
+        [Test]
         public void GetMoneyOperation_One_Budgeted_OneOperationChangeInPast_MultipleMonthsDuration_AlreadyFinishedInPastMonth()
         {
             var testDate = DateTime.UtcNow;
@@ -1439,8 +1440,8 @@ namespace FinanceManager.API.Tests.Services
             var newContext = new FakeFinanceManagerContext();
             var moneyOperation = new MoneyOperation();
             moneyOperation.ID = 1;
-            moneyOperation.ValidityBeginDate = testDate.AddMonths(-1);
-            moneyOperation.ValidityEndDate = testDate.AddMonths(1);
+            moneyOperation.ValidityBeginDate = new DateTime(testDate.Year, testDate.Month -4, 1);
+            moneyOperation.ValidityEndDate = new DateTime(testDate.Year, testDate.Month, 1).AddSeconds(-1);
             moneyOperation.RepetitionUnit = PeriodUnit.Month;
             moneyOperation.RepetitionUnitQuantity = 1;
             moneyOperation.InitialAmount = 40;
@@ -1449,14 +1450,14 @@ namespace FinanceManager.API.Tests.Services
             moneyOperation.OperationSetting = new MoneyOperationSetting()
             {
                 ID = 1,
-                ReservePeriodQuantity = 0,
+                ReservePeriodQuantity = 4,
                 ReservePeriodUnit = PeriodUnit.Month
             };
             moneyOperation.OperationSettingID = moneyOperation.OperationSetting.ID;
             moneyOperation.MoneyOperationChanges.Add(new MoneyOperationChange
             {
                 ID = 1,
-                ChangeAmount = -50,
+                ChangeAmount = -30,
                 ChangeDate = moneyOperation.ValidityBeginDate.AddDays(1),
                 MoneyOperationID = moneyOperation.ID
             });
@@ -1467,17 +1468,145 @@ namespace FinanceManager.API.Tests.Services
             var operationSchedule = _moneyOperationsService.GetMoneyOperationSchedule(1, testDate);
             var scheduleItem = operationSchedule.ScheduleItem.FirstOrDefault(si => si.PeriodName == _moOpLogic.GetPeriodName(testDate));
             Assert.NotNull(operationSchedule);
-            Assert.AreEqual(40 * 3, operationSchedule.InitialAmount);
-            Assert.AreEqual(70, operationSchedule.TotalAmount);
-            Assert.AreEqual(30, scheduleItem.TotalBudgetedAmount);
-            Assert.AreEqual(30, scheduleItem.CurrentBudgetedAmount);
-            Assert.AreEqual(30, scheduleItem.TotalAmount);
-            Assert.AreEqual(0, scheduleItem.LeftBudgetedAmount); //0 because it is not budgeted operation so only current period gets budgeted
+            Assert.AreEqual(40, operationSchedule.InitialAmount);
+            Assert.AreEqual(10, operationSchedule.TotalAmount);
+            Assert.AreEqual(10, scheduleItem.TotalBudgetedAmount);
+            Assert.AreEqual(10, scheduleItem.CurrentBudgetedAmount);
+            Assert.AreEqual(10, scheduleItem.TotalAmount);
+            Assert.AreEqual(0, scheduleItem.LeftBudgetedAmount);
             Assert.AreEqual(0, scheduleItem.CurrentChangeAmount);
         }
-        public void GetMoneyOperation_One_Budgeted_OneOperationChangeInPast_MultipleMonthsDuration_GettingFinishedInCurrentMonth() { }
-        public void GetMoneyOperation_One_Budgeted_OneOperationChangeInPast_MultipleMonthsDuration_StartedInCurrentMonth() { }
-        public void GetMoneyOperation_One_Budgeted_OneOperationChangeInPast_OneMonthDuration_StartedInFutureMonth() { }
+
+        [Test]
+        public void GetMoneyOperation_One_Budgeted_OneOperationChangeInPast_MultipleMonthsDuration_GettingFinishedInCurrentMonth()
+        {
+            var testDate = DateTime.UtcNow;
+            //Setup
+            var newContext = new FakeFinanceManagerContext();
+            var moneyOperation = new MoneyOperation();
+            moneyOperation.ID = 1;
+            moneyOperation.ValidityBeginDate = new DateTime(testDate.Year, testDate.Month - 3, 1);
+            moneyOperation.ValidityEndDate = new DateTime(testDate.Year, testDate.Month + 1, 1).AddSeconds(-1);
+            moneyOperation.RepetitionUnit = PeriodUnit.Month;
+            moneyOperation.RepetitionUnitQuantity = 1;
+            moneyOperation.InitialAmount = 40;
+            moneyOperation.IsActive = true;
+            moneyOperation.IsReal = true;
+            moneyOperation.OperationSetting = new MoneyOperationSetting()
+            {
+                ID = 1,
+                ReservePeriodQuantity = 4,
+                ReservePeriodUnit = PeriodUnit.Month
+            };
+            moneyOperation.OperationSettingID = moneyOperation.OperationSetting.ID;
+            moneyOperation.MoneyOperationChanges.Add(new MoneyOperationChange
+            {
+                ID = 1,
+                ChangeAmount = -30,
+                ChangeDate = moneyOperation.ValidityBeginDate.AddDays(1),
+                MoneyOperationID = moneyOperation.ID
+            });
+
+            newContext.MoneyOperations.Add(moneyOperation);
+
+            SetContext(newContext);
+            var operationSchedule = _moneyOperationsService.GetMoneyOperationSchedule(1, testDate);
+            var scheduleItem = operationSchedule.ScheduleItem.FirstOrDefault(si => si.PeriodName == _moOpLogic.GetPeriodName(testDate));
+            Assert.NotNull(operationSchedule);
+            Assert.AreEqual(40, operationSchedule.InitialAmount);
+            Assert.AreEqual(10, operationSchedule.TotalAmount);
+            Assert.AreEqual(10, scheduleItem.TotalBudgetedAmount);
+            Assert.AreEqual(10, scheduleItem.CurrentBudgetedAmount);
+            Assert.AreEqual(10, scheduleItem.TotalAmount);
+            Assert.AreEqual(0, scheduleItem.LeftBudgetedAmount);
+            Assert.AreEqual(0, scheduleItem.CurrentChangeAmount);
+        }
+
+        [Test]
+        public void GetMoneyOperation_One_Budgeted_OneOperationChangeInPast_MultipleMonthsDuration_StartedInCurrentMonth()
+        {
+            var testDate = DateTime.UtcNow;
+            //Setup
+            var newContext = new FakeFinanceManagerContext();
+            var moneyOperation = new MoneyOperation();
+            moneyOperation.ID = 1;
+            moneyOperation.ValidityBeginDate = new DateTime(testDate.Year, testDate.Month, 1);
+            moneyOperation.ValidityEndDate = new DateTime(testDate.Year, testDate.Month + 4, 1).AddSeconds(-1);
+            moneyOperation.RepetitionUnit = PeriodUnit.Month;
+            moneyOperation.RepetitionUnitQuantity = 1;
+            moneyOperation.InitialAmount = 40;
+            moneyOperation.IsActive = true;
+            moneyOperation.IsReal = true;
+            moneyOperation.OperationSetting = new MoneyOperationSetting()
+            {
+                ID = 1,
+                ReservePeriodQuantity = 4,
+                ReservePeriodUnit = PeriodUnit.Month
+            };
+            moneyOperation.OperationSettingID = moneyOperation.OperationSetting.ID;
+            moneyOperation.MoneyOperationChanges.Add(new MoneyOperationChange
+            {
+                ID = 1,
+                ChangeAmount = -10,
+                ChangeDate = moneyOperation.ValidityBeginDate.AddDays(1),
+                MoneyOperationID = moneyOperation.ID
+            });
+
+            newContext.MoneyOperations.Add(moneyOperation);
+
+            SetContext(newContext);
+            var operationSchedule = _moneyOperationsService.GetMoneyOperationSchedule(1, testDate);
+            var scheduleItem = operationSchedule.ScheduleItem.FirstOrDefault(si => si.PeriodName == _moOpLogic.GetPeriodName(testDate));
+            Assert.NotNull(operationSchedule);
+            Assert.AreEqual(40, operationSchedule.InitialAmount);
+            Assert.AreEqual(30, operationSchedule.TotalAmount);
+            Assert.AreEqual(30, scheduleItem.TotalBudgetedAmount);
+            Assert.AreEqual(0, scheduleItem.CurrentBudgetedAmount);
+            Assert.AreEqual(30, scheduleItem.TotalAmount);
+            Assert.AreEqual(30, scheduleItem.LeftBudgetedAmount);
+            Assert.AreEqual(-10, scheduleItem.CurrentChangeAmount);
+        }
+
+        [Test]
+        public void GetMoneyOperation_One_Budgeted_OneOperationChangeInPast_OneMonthDuration_StartedInFutureMonth()
+        {
+            var testDate = DateTime.UtcNow;
+            //Setup
+            var newContext = new FakeFinanceManagerContext();
+            var moneyOperation = new MoneyOperation();
+            moneyOperation.ID = 1;
+            moneyOperation.ValidityBeginDate = new DateTime(testDate.Year, testDate.Month + 1, 1);
+            moneyOperation.ValidityEndDate = new DateTime(testDate.Year, testDate.Month + 2, 1).AddSeconds(-1);
+            moneyOperation.RepetitionUnit = PeriodUnit.Month;
+            moneyOperation.RepetitionUnitQuantity = 1;
+            moneyOperation.InitialAmount = 40;
+            moneyOperation.IsActive = true;
+            moneyOperation.IsReal = true;
+            moneyOperation.OperationSetting = new MoneyOperationSetting()
+            {
+                ID = 1,
+                ReservePeriodQuantity = 1,
+                ReservePeriodUnit = PeriodUnit.Month
+            };
+            moneyOperation.OperationSettingID = moneyOperation.OperationSetting.ID;
+            moneyOperation.MoneyOperationChanges.Add(new MoneyOperationChange
+            {
+                ID = 1,
+                ChangeAmount = -10,
+                ChangeDate = testDate.AddMonths(-1),
+                MoneyOperationID = moneyOperation.ID
+            });
+
+            newContext.MoneyOperations.Add(moneyOperation);
+
+            SetContext(newContext);
+            var operationSchedule = _moneyOperationsService.GetMoneyOperationSchedule(1, testDate);
+            var scheduleItem = operationSchedule.ScheduleItem.FirstOrDefault(si => si.PeriodName == _moOpLogic.GetPeriodName(testDate));
+            Assert.NotNull(operationSchedule);
+            Assert.AreEqual(40, operationSchedule.InitialAmount);
+            Assert.AreEqual(30, operationSchedule.TotalAmount);
+            Assert.IsNull(scheduleItem);
+        }
 
         [Test]
         public void GetMoneyOperation_One_Budgeted_OneOperationChangeInCurrent_OneMonthDuration_Past()
@@ -1487,8 +1616,8 @@ namespace FinanceManager.API.Tests.Services
             var newContext = new FakeFinanceManagerContext();
             var moneyOperation = new MoneyOperation();
             moneyOperation.ID = 1;
-            moneyOperation.ValidityBeginDate = testDate.AddMonths(-1);
-            moneyOperation.ValidityEndDate = testDate.AddMonths(1);
+            moneyOperation.ValidityBeginDate = new DateTime(testDate.Year, testDate.Month - 1, 1);
+            moneyOperation.ValidityEndDate = new DateTime(testDate.Year, testDate.Month, 1).AddSeconds(-1);
             moneyOperation.RepetitionUnit = PeriodUnit.Month;
             moneyOperation.RepetitionUnitQuantity = 1;
             moneyOperation.InitialAmount = 40;
@@ -1497,14 +1626,15 @@ namespace FinanceManager.API.Tests.Services
             moneyOperation.OperationSetting = new MoneyOperationSetting()
             {
                 ID = 1,
-                ReservePeriodQuantity = 0
+                ReservePeriodQuantity = 1,
+                ReservePeriodUnit = PeriodUnit.Month
             };
             moneyOperation.OperationSettingID = moneyOperation.OperationSetting.ID;
             moneyOperation.MoneyOperationChanges.Add(new MoneyOperationChange
             {
                 ID = 1,
-                ChangeAmount = -50,
-                ChangeDate = moneyOperation.ValidityBeginDate.AddDays(1),
+                ChangeAmount = -10,
+                ChangeDate = testDate.AddMonths(-1),
                 MoneyOperationID = moneyOperation.ID
             });
 
@@ -1514,16 +1644,102 @@ namespace FinanceManager.API.Tests.Services
             var operationSchedule = _moneyOperationsService.GetMoneyOperationSchedule(1, testDate);
             var scheduleItem = operationSchedule.ScheduleItem.FirstOrDefault(si => si.PeriodName == _moOpLogic.GetPeriodName(testDate));
             Assert.NotNull(operationSchedule);
-            Assert.AreEqual(40 * 3, operationSchedule.InitialAmount);
-            Assert.AreEqual(70, operationSchedule.TotalAmount);
+            Assert.AreEqual(40, operationSchedule.InitialAmount);
+            Assert.AreEqual(30, operationSchedule.TotalAmount);
             Assert.AreEqual(30, scheduleItem.TotalBudgetedAmount);
             Assert.AreEqual(30, scheduleItem.CurrentBudgetedAmount);
             Assert.AreEqual(30, scheduleItem.TotalAmount);
-            Assert.AreEqual(0, scheduleItem.LeftBudgetedAmount); //0 because it is not budgeted operation so only current period gets budgeted
+            Assert.AreEqual(0, scheduleItem.LeftBudgetedAmount);
             Assert.AreEqual(0, scheduleItem.CurrentChangeAmount);
         }
-        public void GetMoneyOperation_One_Budgeted_OneOperationChangeInCurrent_OneMonthDuration_Current() { }
-        public void GetMoneyOperation_One_Budgeted_OneOperationChangeInCurrent_OneMonthDuration_Future() { }
+
+        [Test]
+        public void GetMoneyOperation_One_Budgeted_OneOperationChangeInCurrent_OneMonthDuration_Current()
+        {
+            var testDate = DateTime.UtcNow;
+            //Setup
+            var newContext = new FakeFinanceManagerContext();
+            var moneyOperation = new MoneyOperation();
+            moneyOperation.ID = 1;
+            moneyOperation.ValidityBeginDate = new DateTime(testDate.Year, testDate.Month, 1);
+            moneyOperation.ValidityEndDate = new DateTime(testDate.Year, testDate.Month + 1, 1).AddSeconds(-1);
+            moneyOperation.RepetitionUnit = PeriodUnit.Month;
+            moneyOperation.RepetitionUnitQuantity = 1;
+            moneyOperation.InitialAmount = 40;
+            moneyOperation.IsActive = true;
+            moneyOperation.IsReal = true;
+            moneyOperation.OperationSetting = new MoneyOperationSetting()
+            {
+                ID = 1,
+                ReservePeriodQuantity = 1,
+                ReservePeriodUnit = PeriodUnit.Month
+            };
+            moneyOperation.OperationSettingID = moneyOperation.OperationSetting.ID;
+            moneyOperation.MoneyOperationChanges.Add(new MoneyOperationChange
+            {
+                ID = 1,
+                ChangeAmount = -10,
+                ChangeDate = testDate,
+                MoneyOperationID = moneyOperation.ID
+            });
+
+            newContext.MoneyOperations.Add(moneyOperation);
+
+            SetContext(newContext);
+            var operationSchedule = _moneyOperationsService.GetMoneyOperationSchedule(1, testDate);
+            var scheduleItem = operationSchedule.ScheduleItem.FirstOrDefault(si => si.PeriodName == _moOpLogic.GetPeriodName(testDate));
+            Assert.NotNull(operationSchedule);
+            Assert.AreEqual(40, operationSchedule.InitialAmount);
+            Assert.AreEqual(30, operationSchedule.TotalAmount);
+            Assert.AreEqual(30, scheduleItem.TotalBudgetedAmount);
+            Assert.AreEqual(30, scheduleItem.CurrentBudgetedAmount);
+            Assert.AreEqual(30, scheduleItem.TotalAmount);
+            Assert.AreEqual(0, scheduleItem.LeftBudgetedAmount);
+            Assert.AreEqual(-10, scheduleItem.CurrentChangeAmount);
+        }
+
+        [Test]
+        public void GetMoneyOperation_One_Budgeted_OneOperationChangeInCurrent_OneMonthDuration_Future()
+        {
+            var testDate = DateTime.UtcNow;
+            //Setup
+            var newContext = new FakeFinanceManagerContext();
+            var moneyOperation = new MoneyOperation();
+            moneyOperation.ID = 1;
+            moneyOperation.ValidityBeginDate = new DateTime(testDate.Year, testDate.Month + 1, 1);
+            moneyOperation.ValidityEndDate = new DateTime(testDate.Year, testDate.Month + 2, 1).AddSeconds(-1);
+            moneyOperation.RepetitionUnit = PeriodUnit.Month;
+            moneyOperation.RepetitionUnitQuantity = 1;
+            moneyOperation.InitialAmount = 40;
+            moneyOperation.IsActive = true;
+            moneyOperation.IsReal = true;
+            moneyOperation.OperationSetting = new MoneyOperationSetting()
+            {
+                ID = 1,
+                ReservePeriodQuantity = 1,
+                ReservePeriodUnit = PeriodUnit.Month
+            };
+            moneyOperation.OperationSettingID = moneyOperation.OperationSetting.ID;
+            moneyOperation.MoneyOperationChanges.Add(new MoneyOperationChange
+            {
+                ID = 1,
+                ChangeAmount = -10,
+                ChangeDate = testDate,
+                MoneyOperationID = moneyOperation.ID
+            });
+
+            newContext.MoneyOperations.Add(moneyOperation);
+
+            SetContext(newContext);
+            var operationSchedule = _moneyOperationsService.GetMoneyOperationSchedule(1, testDate);
+            var scheduleItem = operationSchedule.ScheduleItem.FirstOrDefault(si => si.PeriodName == _moOpLogic.GetPeriodName(testDate));
+            Assert.NotNull(operationSchedule);
+            Assert.AreEqual(40, operationSchedule.InitialAmount);
+            Assert.AreEqual(30, operationSchedule.TotalAmount);
+            Assert.IsNull(scheduleItem);
+        }
+
+        [Test]
         public void GetMoneyOperation_One_Budgeted_OneOperationChangeInCurrent_MultipleMonthsDuration_AlreadyFinishedInPastMonth()
         {
             var testDate = DateTime.UtcNow;
@@ -1531,8 +1747,8 @@ namespace FinanceManager.API.Tests.Services
             var newContext = new FakeFinanceManagerContext();
             var moneyOperation = new MoneyOperation();
             moneyOperation.ID = 1;
-            moneyOperation.ValidityBeginDate = testDate.AddMonths(-1);
-            moneyOperation.ValidityEndDate = testDate.AddMonths(1);
+            moneyOperation.ValidityBeginDate = new DateTime(testDate.Year, testDate.Month-4, 1);
+            moneyOperation.ValidityEndDate = new DateTime(testDate.Year, testDate.Month, 1).AddSeconds(-1);
             moneyOperation.RepetitionUnit = PeriodUnit.Month;
             moneyOperation.RepetitionUnitQuantity = 1;
             moneyOperation.InitialAmount = 40;
@@ -1541,14 +1757,15 @@ namespace FinanceManager.API.Tests.Services
             moneyOperation.OperationSetting = new MoneyOperationSetting()
             {
                 ID = 1,
-                ReservePeriodQuantity = 0
+                ReservePeriodQuantity = 4,
+                ReservePeriodUnit = PeriodUnit.Month
             };
             moneyOperation.OperationSettingID = moneyOperation.OperationSetting.ID;
             moneyOperation.MoneyOperationChanges.Add(new MoneyOperationChange
             {
                 ID = 1,
-                ChangeAmount = -50,
-                ChangeDate = moneyOperation.ValidityBeginDate.AddDays(1),
+                ChangeAmount = -10,
+                ChangeDate = testDate,
                 MoneyOperationID = moneyOperation.ID
             });
 
@@ -1558,14 +1775,15 @@ namespace FinanceManager.API.Tests.Services
             var operationSchedule = _moneyOperationsService.GetMoneyOperationSchedule(1, testDate);
             var scheduleItem = operationSchedule.ScheduleItem.FirstOrDefault(si => si.PeriodName == _moOpLogic.GetPeriodName(testDate));
             Assert.NotNull(operationSchedule);
-            Assert.AreEqual(40 * 3, operationSchedule.InitialAmount);
-            Assert.AreEqual(70, operationSchedule.TotalAmount);
+            Assert.AreEqual(40, operationSchedule.InitialAmount);
+            Assert.AreEqual(30, operationSchedule.TotalAmount);
             Assert.AreEqual(30, scheduleItem.TotalBudgetedAmount);
             Assert.AreEqual(30, scheduleItem.CurrentBudgetedAmount);
             Assert.AreEqual(30, scheduleItem.TotalAmount);
-            Assert.AreEqual(0, scheduleItem.LeftBudgetedAmount); //0 because it is not budgeted operation so only current period gets budgeted
-            Assert.AreEqual(0, scheduleItem.CurrentChangeAmount);
+            Assert.AreEqual(0, scheduleItem.LeftBudgetedAmount);
+            Assert.AreEqual(-10, scheduleItem.CurrentChangeAmount);
         }
+
         public void GetMoneyOperation_One_Budgeted_OneOperationChangeInCurrent_MultipleMonthsDuration_GettingFinishedInCurrentMonth() { }
         public void GetMoneyOperation_One_Budgeted_OneOperationChangeInCurrent_MultipleMonthsDuration_StartedInCurrentMonth() { }
         public void GetMoneyOperation_One_Budgeted_OneOperationChangeInCurrent_OneMonthDuration_StartedInFutureMonth() { }
