@@ -69,7 +69,7 @@ namespace FinanceManager.BL
             decimal currentAmountCandidate = initialAmount;
             decimal currentPeriodBudgetedAmountCandidate = 0;
             //TODO refactoring!
-            sumChangedAmountBeforeCurrentCandidate = moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate < periodInfo.BeginDate && moc.ChangeDate >= moneyOperationDto.ValidityBeginDate).Sum(moc => moc.ChangeAmount);
+            sumChangedAmountBeforeCurrentCandidate = moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate < periodInfo.BeginDate).Sum(moc => moc.ChangeAmount);
             periodBeginningAmountCandidate += sumChangedAmountBeforeCurrentCandidate;
             currentAmountCandidate += (sumChangedAmountBeforeCurrentCandidate + currentPeriodChangeAmount);
             if (moneyOperationDto.ValidityBeginDate <= periodInfo.EndDate && moneyOperationDto.ValidityEndDate >= periodInfo.BeginDate)
