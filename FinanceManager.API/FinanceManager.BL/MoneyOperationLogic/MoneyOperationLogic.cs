@@ -150,8 +150,8 @@ namespace FinanceManager.BL
 
             if (moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity == 0)
             {
-                var postReferenceExecutiveOperationsSum = (double)moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate > executiveReferenceDate).Sum(moc => moc.ChangeAmount);
-                moneyOperationScheduleModel.TotalAmount -= postReferenceExecutiveOperationsSum;
+                var postReferencePeriodExecutiveOperationsSum = (double)moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate > referenceDatePeriodInfo.EndDate).Sum(moc => moc.ChangeAmount);
+                moneyOperationScheduleModel.TotalAmount -= postReferencePeriodExecutiveOperationsSum;
             }
             //this is to include unpayed amount from past to let user pay it in the presence 
             if (isPastOperation && lastScheduledItem.CurrentBudgetedAmount != 0)
@@ -167,7 +167,7 @@ namespace FinanceManager.BL
                 //this is to prevent leaving unpayed amount in the past; it should be payed only in the presence
                 lastScheduledItem.CurrentBudgetedAmount = 0;
 
-                var postValidityPeriodExecutiveOperationsSum = (double)moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate > moneyOperationDto.ValidityEndDate && moc.ChangeDate <= executiveReferenceDate).Sum(moc => moc.ChangeAmount);
+                var postValidityPeriodExecutiveOperationsSum = (double)moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate > moneyOperationDto.ValidityEndDate && moc.ChangeDate <= referenceDatePeriodInfo.EndDate).Sum(moc => moc.ChangeAmount);
                 moneyOperationScheduleModel.TotalAmount += postValidityPeriodExecutiveOperationsSum;
 
                 scheduleItems.Add(notYetExecutedOperationChangesCorrectionScheduleItem);
