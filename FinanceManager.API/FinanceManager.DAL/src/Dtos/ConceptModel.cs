@@ -41,7 +41,7 @@ namespace FinanceManager.DAL.Dtos
         public decimal InitialAmount { get; set; }
         public string Description { get; set; }
         public string Name { get; set; }
-        public int OperationSettingID { get; set; }
+        public int? OperationSettingID { get; set; }
         public List<MoneyOperationChangeDto> MoneyOperationChanges { get; set; }
         public MoneyOperationSettingDto MoneyOperationSetting { get; set; }
         public DateTime LastOrFirstOperationExecutionDate

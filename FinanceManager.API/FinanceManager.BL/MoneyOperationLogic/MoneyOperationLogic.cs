@@ -5,6 +5,7 @@ using System.Linq;
 using System.Globalization;
 using FinanceManager.BL.Metadata;
 using FinanceManager.BL.UserInput;
+using FinanceManager.Types.Enums;
 
 namespace FinanceManager.BL
 {
@@ -30,18 +31,17 @@ namespace FinanceManager.BL
         public MoneyOperationStatusModel PrepareMoneyOperationStatus(MoneyOperationDto moneyOperationDto, PeriodInfo periodInfo)
         {
             if (periodInfo.EndDate < moneyOperationDto.ValidityBeginDate) return null; //TODO: maybe should return new()? but this should not happen probably
-
-            var periodMetadata = ReadPeriodMetadata(moneyOperationDto, periodInfo);
-
             var initialAmount = moneyOperationDto.InitialAmount;
-            
+
+            //TODO refactoring: period metadata reading to separate class and test it
+
             //This is to include unpayed amounts from past
             if (moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity == 0)
             {
                 var numberOfPreviousPeriods = 0;
                 var currentRepetitionDate = moneyOperationDto.ValidityBeginDate;
                 //TODO test boundary conditions of this and other while's
-                while(currentRepetitionDate < periodInfo.BeginDate)
+                while (currentRepetitionDate < periodInfo.BeginDate)
                 {
                     numberOfPreviousPeriods += 1;
                     var nextRepetitionDate = RepetitionUnitCalculator.CalculateNextRepetitionDate(currentRepetitionDate, moneyOperationDto.RepetitionUnit);
@@ -75,15 +75,16 @@ namespace FinanceManager.BL
             currentAmountCandidate += (sumChangedAmountBeforeCurrentCandidate + currentPeriodChangeAmount);
             if (moneyOperationDto.ValidityBeginDate <= periodInfo.EndDate)
             {
-                if (moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity > 0)
-                {
-                    var periodsLeftToPayIncludingNow = periodMetadata.TotalPaymentsNumber - periodMetadata.NowPaymentNumber + 1;
-                    //TODO should I round the date up to end of current period? Think about periodMetadata.NowPaymentNumber usage below
-                    currentPeriodBudgetedAmountCandidate = periodsLeftToPayIncludingNow > 0 ? Math.Max(0, (periodBeginningAmountCandidate / periodsLeftToPayIncludingNow)) : 0;
+                if (moneyOperationDto.MoneyOperationSetting == null || moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity == 0)
+                {                    
+                    currentPeriodBudgetedAmountCandidate = periodBeginningAmountCandidate;
                 }
                 else
                 {
-                    currentPeriodBudgetedAmountCandidate = periodBeginningAmountCandidate;
+                    var periodMetadata = ReadPeriodMetadata(moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity, moneyOperationDto.MoneyOperationSetting.ReservationPeriodUnit, moneyOperationDto.ValidityBeginDate, moneyOperationDto.ValidityEndDate, periodInfo.EndDate);
+                    var periodsLeftToPayIncludingNow = periodMetadata.TotalPaymentsNumber - periodMetadata.NowPaymentNumber + 1;
+                    //TODO should I round the date up to end of current period? Think about periodMetadata.NowPaymentNumber usage below
+                    currentPeriodBudgetedAmountCandidate = periodsLeftToPayIncludingNow > 0 ? Math.Max(0, (periodBeginningAmountCandidate / periodsLeftToPayIncludingNow)) : 0;
                 }
                 currentPeriodBudgetedAmountCandidate += currentPeriodChangeAmount;
             }
@@ -260,27 +261,28 @@ namespace FinanceManager.BL
             return moneyOperationViewData;
         }
 
-        private MoneyOperationPeriodMetadata ReadPeriodMetadata(MoneyOperationDto moneyOperationDto, PeriodInfo periodInfo)
+        private MoneyOperationPeriodMetadata ReadPeriodMetadata(int reservationPeriodQuantity, PeriodUnit reservationPeriodUnit, DateTime validityBeginDate, DateTime validityEndDate, DateTime targetEndDate)
         {
             MoneyOperationPeriodMetadata metadata = new MoneyOperationPeriodMetadata();
             
             //no budgeted amount - no period metadata
-            if (moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity == 0)
+            if (reservationPeriodQuantity == 0) //TODO move this if out of this method
             {
                 return metadata;
             }
 
-            DateTime currentDate = moneyOperationDto.ValidityBeginDate;
+            DateTime currentDate = validityBeginDate;
             short paymentNumber = 0;
             //TODO: Write some helper that would check only to repetitionUnit precision, for example reject minutes and seconds if unit is hour
-            while (currentDate <= periodInfo.EndDate || currentDate <= moneyOperationDto.ValidityEndDate)
+
+            while (currentDate <= targetEndDate || currentDate <= validityEndDate)
             {
                 paymentNumber++;
-                if (currentDate <= periodInfo.EndDate)
+                if (currentDate <= targetEndDate)
                 {
                     metadata.NowPaymentNumber = paymentNumber;
                 }
-                currentDate = RepetitionUnitCalculator.CalculateNextRepetitionDate(currentDate, moneyOperationDto.MoneyOperationSetting.ReservationPeriodUnit);
+                currentDate = RepetitionUnitCalculator.CalculateNextRepetitionDate(currentDate, reservationPeriodUnit);
             }
             
             metadata.TotalPaymentsNumber = paymentNumber;

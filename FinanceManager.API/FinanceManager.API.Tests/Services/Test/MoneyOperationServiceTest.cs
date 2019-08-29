@@ -2007,7 +2007,7 @@ namespace FinanceManager.API.Tests.Services
             var moneyOperation = new MoneyOperation();
             moneyOperation.ID = 1;
             moneyOperation.ValidityBeginDate = new DateTime(testDate.Year, testDate.Month + 1, 1);
-            moneyOperation.ValidityEndDate = new DateTime(testDate.Year, testDate.Month + 5, 1).AddSeconds(-1);
+            moneyOperation.ValidityEndDate = testDate.AddMonths(5).AddDays(-testDate.Day+1).AddHours(-testDate.Hour+1).AddSeconds(-testDate.Second);
             moneyOperation.RepetitionUnit = PeriodUnit.Month;
             moneyOperation.RepetitionUnitQuantity = 1;
             moneyOperation.InitialAmount = 40;
