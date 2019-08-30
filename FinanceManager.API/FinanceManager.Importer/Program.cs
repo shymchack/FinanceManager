@@ -81,11 +81,7 @@ namespace FinanceManager.Importer
                             var operation = ReadCommitmentData(sheet, oko, rowCollection);
                             operation.RepetitionUnit = PeriodUnit.Month;
                             operation.RepetitionUnitQuantity = 0;
-                            operation.OperationSetting = new MoneyOperationSetting()
-                            {
-                                ReservePeriodQuantity = 0,
-                                ReservePeriodUnit = PeriodUnit.Month
-                            };
+                            operation.OperationSetting = null;
                             singleOperations.Add(operation);
                         }
                         catch (Exception ex)
