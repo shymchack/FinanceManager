@@ -9,10 +9,11 @@ namespace FinanceManager.BL
         MoneyOperationDto ConvertUserInputToDto(MoneyOperationModel moneyOperation);
         MoneyOperationModel ConvertDtoToViewData(MoneyOperationDto moneyOperationDto);
         MoneyOperationStatusModel PrepareMoneyOperationStatus(MoneyOperationDto moneyOperationDto, PeriodInfo periodInfo);
-        MoneyOperationScheduleModel GetMoneyOperationSchedule(MoneyOperationDto moneyOperationDto);
+        MoneyOperationScheduleModel GetMoneyOperationSchedule(MoneyOperationDto moneyOperationDto, DateTime referenceDate);
         MoneyOperationChangeDto ConvertMoneyOperationChangeUserInputToDto(MoneyOperationChangeModel moneyOperationChange);
         bool IsOperationBudgeted(MoneyOperationDto mo);
         bool IsOperationCyclic(MoneyOperationDto mo);
         bool IsOperationSingle(MoneyOperationDto mo);
+        string GetPeriodName(DateTime date);
     }
 }

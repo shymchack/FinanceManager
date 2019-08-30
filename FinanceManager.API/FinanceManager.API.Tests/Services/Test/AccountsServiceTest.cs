@@ -1,12 +1,8 @@
 ﻿using FinanceManager.API.Services;
-using Moq;
 using NUnit.Framework;
 using FinanceManager.DAL.Repositories.Contracts;
 using FinanceManager.DAL;
-using FinanceManager.Database.Entities;
-using System.Linq;
 using FinanceManager.Database.Context;
-using System.Collections.Generic;
 using FinanceManager.DAL.Repositories;
 using FinanceManager.DAL.Dtos;
 

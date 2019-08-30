@@ -5,7 +5,7 @@ namespace FinanceManager.BL.UserInput
 {
     public class MoneyOperationModel
     {
-        public int OperationSettingID { get; set; }
+        public int? OperationSettingID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal InitialAmount { get; set; }

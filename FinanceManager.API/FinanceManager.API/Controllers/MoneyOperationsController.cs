@@ -22,7 +22,8 @@ namespace FinanceManager.API.Controllers
 
         public MoneyOperationScheduleModel GetMoneyOperationSchedule(int moneyOperationId)
         {
-            return _moneyOperationsService.GetMoneyOperationSchedule(moneyOperationId);
+            //TODO should i pass date here?
+            return _moneyOperationsService.GetMoneyOperationSchedule(moneyOperationId, DateTime.UtcNow);
         }
 
         public void AddMoneyOperation(MoneyOperationModel moneyOperation)

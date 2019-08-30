@@ -74,6 +74,10 @@
     <Compile Include="Migrations\201804061355574_AddAuthenticationToken.Designer.cs">
       <DependentUpon>201804061355574_AddAuthenticationToken.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908061411430_Nullable-setting-id.cs" />
+    <Compile Include="Migrations\201908061411430_Nullable-setting-id.Designer.cs">
+      <DependentUpon>201908061411430_Nullable-setting-id.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="src\Context\FinanceManagerContext.cs" />
     <Compile Include="src\Context\IFinanceManagerContext.cs" />
@@ -102,6 +106,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804061355574_AddAuthenticationToken.resx">
       <DependentUpon>201804061355574_AddAuthenticationToken.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908061411430_Nullable-setting-id.resx">
+      <DependentUpon>201908061411430_Nullable-setting-id.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

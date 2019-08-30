@@ -14,7 +14,7 @@ namespace FinanceManager.API.Services
         int AddMoneyOperation(MoneyOperationModel moneyOperation);
         MoneyOperationModel GetMoneyOperationById(int id);
         IEnumerable<MoneyOperationStatusModel> GetMoneyOperationsByAccountsIds(IEnumerable<int> enumerable, PeriodInfo periodInfo);
-        MoneyOperationScheduleModel GetMoneyOperationSchedule(int moneyOperationId);
+        MoneyOperationScheduleModel GetMoneyOperationSchedule(int moneyOperationId, DateTime referenceDate);
         void AddMoneyOperationChange(MoneyOperationChangeModel moneyOperationChange);
     }
 }
