@@ -36,7 +36,7 @@ namespace FinanceManager.BL
             //TODO refactoring: period metadata reading to separate class and test it
 
             //This is to include unpayed amounts from past
-            if (moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity == 0)
+            if (moneyOperationDto.MoneyOperationSetting != null && moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity == 0)
             {
                 var numberOfPreviousPeriods = 0;
                 var currentRepetitionDate = moneyOperationDto.ValidityBeginDate;
@@ -45,7 +45,7 @@ namespace FinanceManager.BL
                 {
                     numberOfPreviousPeriods += 1;
                     var nextRepetitionDate = RepetitionUnitCalculator.CalculateNextRepetitionDate(currentRepetitionDate, moneyOperationDto.RepetitionUnit);
-                    if (RepetitionUnitCalculator.ClearMinorDateTimePart(nextRepetitionDate, moneyOperationDto.RepetitionUnit) <= RepetitionUnitCalculator.ClearMinorDateTimePart(currentRepetitionDate, moneyOperationDto.RepetitionUnit))
+                    if (numberOfPreviousPeriods > 1 && RepetitionUnitCalculator.ClearMinorDateTimePart(nextRepetitionDate, moneyOperationDto.RepetitionUnit) <= RepetitionUnitCalculator.ClearMinorDateTimePart(currentRepetitionDate, moneyOperationDto.RepetitionUnit))
                         throw new Exception("Risk of infinite loop.");
 
                     currentRepetitionDate = nextRepetitionDate;

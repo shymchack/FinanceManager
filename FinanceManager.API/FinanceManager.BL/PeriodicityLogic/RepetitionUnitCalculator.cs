@@ -26,8 +26,6 @@ namespace FinanceManager.BL
                     return newDate.AddDays(7 * repetitionUnitQuantity);
                 case PeriodUnit.Year:
                     return newDate.AddYears(repetitionUnitQuantity);
-                case PeriodUnit.Default:
-                    return newDate;
                 default:
                     return newDate;
 
@@ -56,8 +54,6 @@ namespace FinanceManager.BL
                     return newDate.AddDays(repetitionUnitQuantity * 7) - newDate;
                 case PeriodUnit.Year:
                     return newDate.AddYears(repetitionUnitQuantity) - newDate;
-                case PeriodUnit.Default:
-                    return new TimeSpan();
                 default:
                     return new TimeSpan();
 
