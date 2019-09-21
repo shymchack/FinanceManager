@@ -36,7 +36,7 @@ namespace FinanceManager.BL
             //TODO refactoring: period metadata reading to separate class and test it
 
             //This is to include unpayed amounts from past
-            if (moneyOperationDto.MoneyOperationSetting != null && moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity == 0)
+            if (IsOperationCyclic(moneyOperationDto))
             {
                 var numberOfPreviousPeriods = 0;
                 var currentRepetitionDate = moneyOperationDto.ValidityBeginDate;
@@ -60,6 +60,7 @@ namespace FinanceManager.BL
             status.FinishDate = periodInfo.EndDate;
             status.BeginningDate = periodInfo.BeginDate;
             status.InitialAmount = initialAmount;
+            status.MoneyOperationID = moneyOperationDto.ID;
 
             var currentPeriodOperationChanges = ExtractPeriodMoneyOperationChanges(moneyOperationDto, periodInfo);
             //Yes, this should track also incomes, as we assume the income is just for purpose of modifying an outcome (for example when the price has changed)
@@ -75,16 +76,16 @@ namespace FinanceManager.BL
             currentAmountCandidate += (sumChangedAmountBeforeCurrentCandidate + currentPeriodChangeAmount);
             if (moneyOperationDto.ValidityBeginDate <= periodInfo.EndDate)
             {
-                if (moneyOperationDto.MoneyOperationSetting == null || moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity == 0)
-                {                    
-                    currentPeriodBudgetedAmountCandidate = periodBeginningAmountCandidate;
-                }
-                else
+                if (IsOperationBudgeted(moneyOperationDto))
                 {
                     var periodMetadata = ReadPeriodMetadata(moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity, moneyOperationDto.MoneyOperationSetting.ReservationPeriodUnit, moneyOperationDto.ValidityBeginDate, moneyOperationDto.ValidityEndDate, periodInfo.EndDate);
                     var periodsLeftToPayIncludingNow = periodMetadata.TotalPaymentsNumber - periodMetadata.NowPaymentNumber + 1;
                     //TODO should I round the date up to end of current period? Think about periodMetadata.NowPaymentNumber usage below
                     currentPeriodBudgetedAmountCandidate = periodsLeftToPayIncludingNow > 0 ? Math.Max(0, (periodBeginningAmountCandidate / periodsLeftToPayIncludingNow)) : 0;
+                }
+                else
+                {
+                    currentPeriodBudgetedAmountCandidate = periodBeginningAmountCandidate;
                 }
                 currentPeriodBudgetedAmountCandidate += currentPeriodChangeAmount;
             }
@@ -119,13 +120,12 @@ namespace FinanceManager.BL
             {
                 moneyOperationScheduleModel.InitialAmount = (double)moneyOperationDto.InitialAmount;
             }
-
-            while (date <= moneyOperationDto.ValidityEndDate)
+            while (date <= moneyOperationDto.ValidityEndDate && (!IsOperationSingle(moneyOperationDto) || scheduleItems.Count == 0))
             {
                 MoneyOperationScheduleItemModel scheduleItem = CreateScheduleItem(date, moneyOperationDto, executiveReferenceDate, ref totalBudgetedAmount);
                 date = RepetitionUnitCalculator.CalculateNextRepetitionDate(date, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity);
 
-                if (date <= moneyOperationDto.ValidityEndDate && moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity == 0)
+                if (date <= moneyOperationDto.ValidityEndDate && IsOperationCyclic(moneyOperationDto))
                     moneyOperationScheduleModel.InitialAmount += (double)moneyOperationDto.InitialAmount;
 
                 scheduleItems.Add(scheduleItem);
@@ -134,7 +134,7 @@ namespace FinanceManager.BL
             //this is to let user know that some periods got ommited by user in this money operation with some budgeted amount making it not resolved
             var executivePeriodBeginDate = RepetitionUnitCalculator.ClearMinorDateTimePart(executiveReferenceDate, moneyOperationDto.RepetitionUnit);
             if (date < executivePeriodBeginDate)
-                while (date <= executiveReferenceDate)
+                while (date <= executiveReferenceDate && (!IsOperationSingle(moneyOperationDto) || scheduleItems.Count == 0))
                 {
                     var ommitedScheduleItem = CreateScheduleItem(date, moneyOperationDto, executiveReferenceDate, ref totalBudgetedAmount);
                     date = RepetitionUnitCalculator.CalculateNextRepetitionDate(date, moneyOperationDto.RepetitionUnit, moneyOperationDto.RepetitionUnitQuantity);
@@ -149,7 +149,7 @@ namespace FinanceManager.BL
 
             moneyOperationScheduleModel.TotalAmount = lastScheduledItem.TotalAmount;
 
-            if (moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity == 0)
+            if (IsOperationCyclic(moneyOperationDto))
             {
                 var postReferencePeriodExecutiveOperationsSum = (double)moneyOperationDto.MoneyOperationChanges.Where(moc => moc.ChangeDate > referenceDatePeriodInfo.EndDate).Sum(moc => moc.ChangeAmount);
                 moneyOperationScheduleModel.TotalAmount -= postReferencePeriodExecutiveOperationsSum;
@@ -185,9 +185,9 @@ namespace FinanceManager.BL
             var amount = (double)moneyOperationStatus.CurrentAmount;
             var budgetedAmount = Math.Max(0, (double)moneyOperationStatus.CurrentPeriodBudgetedAmount);
             var payedAmount = (double)moneyOperationStatus.CurrentPeriodChangeAmount;
-            if (moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity == 0)
+            if (IsOperationCyclic(moneyOperationDto))
                 totalBudgetedAmount = budgetedAmount;
-            if (moneyOperationDto.MoneyOperationSetting.ReservationPeriodQuantity > 0 || date < executiveReferenceDate)
+            if (IsOperationBudgeted(moneyOperationDto) || date < executiveReferenceDate)
                 totalBudgetedAmount = Math.Max(0, amount);
             MoneyOperationScheduleItemModel scheduleItem = new MoneyOperationScheduleItemModel();
             scheduleItem.TotalAmount = amount;
@@ -225,6 +225,7 @@ namespace FinanceManager.BL
             if (IsValid(moneyOperation))
             {
                 MoneyOperationDto moneyOperationDto = new MoneyOperationDto();
+                moneyOperationDto.ID = moneyOperationDto.ID;
                 moneyOperationDto.AccountID = moneyOperation.AccountID;
                 moneyOperationDto.Description = moneyOperation.Description;
                 moneyOperationDto.InitialAmount = moneyOperation.InitialAmount;

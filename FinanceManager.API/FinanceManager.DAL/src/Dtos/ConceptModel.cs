@@ -20,6 +20,7 @@ namespace FinanceManager.DAL.Dtos
         {
             MoneyOperationChanges = new List<MoneyOperationChangeDto>();
         }
+        public int ID { get; set; }
         public int AccountID { get; set; }
         /// <summary>
         /// Determines whether the income should be processed or not.

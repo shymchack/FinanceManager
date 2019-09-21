@@ -5,6 +5,7 @@ namespace FinanceManager.BL
 {
     public class MoneyOperationStatusModel
     {
+        public int MoneyOperationID { get; set; }
         public string Name { get; set; }
         public decimal InitialAmount { get; set; }
         public decimal AlreadyPayedAmount { get; set; }

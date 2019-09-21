@@ -1,11 +1,6 @@
 ﻿using FinanceManager.API.Serialization.Types;
 using FinanceManager.API.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
 
 namespace FinanceManager.API.Controllers
 {
@@ -20,7 +15,8 @@ namespace FinanceManager.API.Controllers
 
         public PeriodSummaryModel GetPeriodSummary(int userId)
         {
-            return _periodSummaryService.GetPeriodSummary(new DateTime(2018,11,10), userId); //TODO: Should use server date
+            var periodSummary = _periodSummaryService.GetPeriodSummary(new DateTime(2018, 11, 10), userId); //TODO: Should use server date
+            return periodSummary;
         }
     }
 }
