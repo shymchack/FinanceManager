@@ -90,6 +90,7 @@ namespace FinanceManager.DAL.UnitOfWork
         {
             //TODO: automapper
             var targetMoneyOperationDto = new MoneyOperationDto();
+            targetMoneyOperationDto.ID = moneyOperation.ID;
             targetMoneyOperationDto.Description = moneyOperation.Description;
             targetMoneyOperationDto.InitialAmount = moneyOperation.InitialAmount;
             targetMoneyOperationDto.IsActive = moneyOperation.IsActive;

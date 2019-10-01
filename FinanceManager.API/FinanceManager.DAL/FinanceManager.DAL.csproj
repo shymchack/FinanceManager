@@ -79,6 +79,10 @@
       <HintPath>..\packages\Unity.WebAPI.5.2.3\lib\net45\Unity.WebApi.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Z.EntityFramework.Plus.QueryIncludeOptimized.EF6, Version=1.8.1.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Z.EntityFramework.Plus.QueryIncludeOptimized.EF6.1.8.1\lib\net45\Z.EntityFramework.Plus.QueryIncludeOptimized.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Dtos\ConceptModel.cs" />

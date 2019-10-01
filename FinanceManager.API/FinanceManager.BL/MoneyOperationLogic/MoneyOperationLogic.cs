@@ -225,7 +225,7 @@ namespace FinanceManager.BL
             if (IsValid(moneyOperation))
             {
                 MoneyOperationDto moneyOperationDto = new MoneyOperationDto();
-                moneyOperationDto.ID = moneyOperationDto.ID;
+                moneyOperationDto.ID = moneyOperation.ID;
                 moneyOperationDto.AccountID = moneyOperation.AccountID;
                 moneyOperationDto.Description = moneyOperation.Description;
                 moneyOperationDto.InitialAmount = moneyOperation.InitialAmount;
@@ -254,6 +254,7 @@ namespace FinanceManager.BL
             moneyOperationViewData.IsReal = moneyOperationDto.IsReal;
             moneyOperationViewData.Name = moneyOperationDto.Name;
             moneyOperationViewData.OperationSettingID = moneyOperationDto.OperationSettingID;
+            moneyOperationViewData.ID = moneyOperationDto.ID;
             moneyOperationViewData.RepetitionUnit = moneyOperationDto.RepetitionUnit;
             moneyOperationViewData.RepetitionUnitQuantity = moneyOperationDto.RepetitionUnitQuantity;
             moneyOperationViewData.ValidityBeginDate = moneyOperationDto.ValidityBeginDate;

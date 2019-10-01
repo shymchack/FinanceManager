@@ -5,6 +5,7 @@ using System.Linq;
 using FinanceManager.Database.Entities;
 using FinanceManager.Database.Context;
 using System.Data.Entity;
+using Z.EntityFramework.Plus;
 
 namespace FinanceManager.DAL.Repositories
 {
@@ -48,9 +49,9 @@ namespace FinanceManager.DAL.Repositories
             //TODO optimize - prevent getting old operations (end of validity less than beginDate) that are clear (incomes == expenses)
             return Context.MoneyOperations
                 .Where(mo => accountsIDs.Contains(mo.AccountID.Value) && mo.ValidityBeginDate <= endDate)
-                .Include(mo => mo.Account)
-                .Include(mo => mo.MoneyOperationChanges)
-                .Include(mo => mo.OperationSetting);
+                .IncludeOptimized(mo => mo.Account)
+                .IncludeOptimized(mo => mo.MoneyOperationChanges)
+                .IncludeOptimized(mo => mo.OperationSetting);
         }
 
         public MoneyOperationChange CreateMoneyOperationChange(MoneyOperation moneyOperation)
