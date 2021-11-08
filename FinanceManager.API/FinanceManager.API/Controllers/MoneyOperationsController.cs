@@ -26,7 +26,8 @@ namespace FinanceManager.API.Controllers
             return _moneyOperationsService.GetMoneyOperationSchedule(moneyOperationId, DateTime.UtcNow);
         }
 
-        public void AddMoneyOperation(MoneyOperationModel moneyOperation)
+        [HttpPost]
+        public void AddMoneyOperation([FromBody]MoneyOperationModel moneyOperation)
         {
             _moneyOperationsService.AddMoneyOperation(moneyOperation);
         }
